@@ -5,10 +5,11 @@ type InputProps = {
   placeholder: string;
   type: string;
 };
+
 export default function Input({ title, placeholder, type }: InputProps) {
   return (
-    <div className="py-4">
-      <label htmlFor="" className="text-sm font-bold text-gray-600 block">
+    <div className="pt-4">
+      <label htmlFor="" className="font-bold text-gray-600 block">
         {title}
       </label>
       <input
