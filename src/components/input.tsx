@@ -1,5 +1,7 @@
+import { Children } from "react";
+
 type InputProps = {
-  title: String;
+  title: string;
   placeholder: string;
   type: string;
 };

@@ -1,7 +1,7 @@
 import Card from "@/components/card";
 import Bacground from "@/components/background";
-import UserName from "@/components/username";
-import Password from "@/components/password";
+// import UserName from "@/components/username";
+// import Password from "@/components/password";
 import Button from "@/components/button";
 import Input from "@/components/input";
 export default function Login() {
