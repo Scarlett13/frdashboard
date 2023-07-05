@@ -13,7 +13,7 @@ export default function Login() {
           type={"text"}
         />
         <Input title={"Password"} placeholder={"Password"} type={"password"} />
-        <Button buttonname={"Login"} />
+        <Button buttonname={"Login"} style={"w-full"} />
       </Bacground>
     </Card>
   );
