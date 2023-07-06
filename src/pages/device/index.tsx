@@ -1,5 +1,6 @@
 import Card from "@/components/card";
 import Button from "@/components/button";
+import Modal from "@/components/modal";
 
 export default function Device() {
   const staffs = [
@@ -39,7 +40,7 @@ export default function Device() {
           <Card key={id}>
             <div className="w-full flex flex-row justify-between items-center">
               <h4 className="">{staffId}</h4>
-              <Button buttonname={"edit"} style={"w-1/4"} />
+              <Modal />
             </div>
             <div className="flex flex-row mt-4">
               <div>

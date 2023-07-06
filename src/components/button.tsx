@@ -1,8 +1,9 @@
 type ButtonProps = {
   buttonname: string;
   style: string;
+  onClick: any;
 };
-export default function Button({ buttonname, style }: ButtonProps) {
+export default function Button({ buttonname, style, onClick }: ButtonProps) {
   return (
     <button
       className={
@@ -10,6 +11,7 @@ export default function Button({ buttonname, style }: ButtonProps) {
         " " +
         style
       }
+      onClick={onClick}
     >
       {buttonname}
     </button>
