@@ -10,8 +10,8 @@ export default function Toggle() {
   return (
     <div>
       <button
-        className={`px-4 py-2 bg-red-500 text-white rounded ${
-          isToggled ? "bg-green-600" : ""
+        className={`px-4 py-2 text-white rounded ${
+          isToggled ? "bg-green-600" : "bg-red-600"
         }`}
         onClick={handleToggle}
       >
