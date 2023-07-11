@@ -19,6 +19,6 @@
       "@Images/*": ["./public/images/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/device"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/device", "src/pages/device/device1"],
   "exclude": ["node_modules"]
 }

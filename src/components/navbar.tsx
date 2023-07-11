@@ -9,14 +9,16 @@ export default function Navbar() {
           <Image alt="alt text." src={logo} className="ms-2 w-2/3" />
         </div>
         <div className="grid gap-2 grid-cols-4 items-center h-full px-4 text-center">
-          <a href="/home">Home</a>
-          <a href="/device" className="">
+          <a href="/home" className="hover:underline">
+            Home
+          </a>
+          <a href="/device" className="hover:underline">
             Device
           </a>
-          <a href="/staff" className="">
+          <a href="/staff" className="hover:underline">
             Staff
           </a>
-          <a href="/Log" className="">
+          <a href="/Log" className="hover:underline">
             Log
           </a>
         </div>

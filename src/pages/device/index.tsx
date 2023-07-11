@@ -1,12 +1,8 @@
+import ButtonDevice from "@/components/buttondevice";
+import Card from "@/components/card";
 import Layout from "@/components/layout";
-import SideBar from "@/components/sidebar";
+import { useRouter } from "next/router";
 
 export default function Device() {
-  return (
-    <Layout>
-      <div className="fixed top-20 bottom-0">
-        <SideBar />
-      </div>
-    </Layout>
-  );
+  return <Layout route={"Device"}>{""}</Layout>;
 }
