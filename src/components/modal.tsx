@@ -3,6 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import Button from "./button";
 import Input from "./input";
 import Toggle from "./toggleswitch";
+import logo from "@Images/logo.png";
 
 export default function Modal() {
   const [open, setOpen] = useState(false);
@@ -69,8 +70,8 @@ export default function Modal() {
                           </div>
                         </div>
                       </div>
-                      <div className="mt-10 mx-auto justify-center text-center">
-                        <p>Image</p>
+                      <div className="mt-10 mx-auto justify-center">
+                        <img src={"./images/logo.png"} />
                       </div>
                     </div>
                   </div>
