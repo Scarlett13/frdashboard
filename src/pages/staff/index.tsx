@@ -67,8 +67,8 @@ export default function Staff() {
   ];
 
   return (
-    <Layout route={"Staff"}>
-      <div className=" h-screen">
+    <Layout showSideBar={false}>
+      <div className="h-screen">
         <div className="ms-9">
           <h1 className="text-2xl font-bold pt-24">Staff List</h1>
         </div>

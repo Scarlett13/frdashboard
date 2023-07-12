@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 type layoutProps = {
   children: React.ReactNode;
-  route: string;
+  showSideBar: boolean;
 };
 
 const listdevices: Device[] = [
@@ -19,19 +19,13 @@ const listdevices: Device[] = [
   },
 ];
 
-export default function Layout({ children, route }: layoutProps) {
-  useEffect;
-
+export default function Layout({ children, showSideBar }: layoutProps) {
   return (
     <div className="h-screen">
       <Navbar />
-      {route === "Device" ? (
-        <SideBar listdevices={listdevices}></SideBar>
-      ) : (
-        <></>
-      )}
+      {showSideBar ? <SideBar listdevices={listdevices}></SideBar> : <></>}
 
-      <main className={`mt-20 ${route === "Device" ? "ms-72" : "ms-20"}`}>
+      <main className={`mt-20 ${showSideBar ? "ms-72" : "ms-2"}`}>
         {children}
       </main>
     </div>

@@ -18,7 +18,7 @@ export default function Navbar() {
           <a href="/staff" className="hover:underline">
             Staff
           </a>
-          <a href="/Log" className="hover:underline">
+          <a href="/log" className="hover:underline">
             Log
           </a>
         </div>

@@ -6,9 +6,9 @@ import { useRouter } from "next/router";
 export default function Device() {
   const router = useRouter();
   const { query } = router;
-  console.log(query);
+  console.log(query, "<<<<<<");
   return (
-    <Layout route={"Device"}>
+    <Layout showSideBar={true}>
       <div className="me-9 pt-6 text">
         <Card>
           <div>

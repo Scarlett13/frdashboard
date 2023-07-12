@@ -4,7 +4,7 @@ import Button from "./button";
 import Input from "./input";
 import Toggle from "./toggleswitch";
 
-export default function Example() {
+export default function Modal() {
   const [open, setOpen] = useState(false);
 
   const cancelButtonRef = useRef(null);
