@@ -1,9 +1,14 @@
 import logo from "@Images/logo.png";
 import Image from "next/image";
 
-export default function Navbar() {
+type NavBarProps = {
+  children: React.ReactNode;
+};
+
+export default function Navbar({ children }: NavBarProps) {
   return (
     <div className="flex flex-col">
+      {children}
       <div className="flex justify-between fixed w-full h-20 shadow-xl bg-white items-center">
         <div className="text-center">
           <Image alt="alt text." src={logo} className="ms-2 w-2/3" />

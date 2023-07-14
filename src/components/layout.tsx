@@ -2,6 +2,7 @@ import { Device } from "@/type/device";
 import Navbar from "./navbar";
 import SideBar from "./sidebar";
 import { useEffect, useState } from "react";
+import SideBarLog from "./sidebarlog";
 
 type layoutProps = {
   children: React.ReactNode;
@@ -22,12 +23,12 @@ const listdevices: Device[] = [
 export default function Layout({ children, showSideBar }: layoutProps) {
   return (
     <div className="h-screen">
-      <Navbar />
-      {showSideBar ? <SideBar listdevices={listdevices}></SideBar> : <></>}
-
-      <main className={`mt-20 ${showSideBar ? "ms-72" : "ms-2"}`}>
-        {children}
-      </main>
+      <Navbar>
+        {showSideBar ? <SideBar listdevices={listdevices}></SideBar> : <></>}
+        <main className={`mt-20 ${showSideBar ? "ms-72" : "ms-2"}`}>
+          {children}
+        </main>
+      </Navbar>
     </div>
   );
 }
