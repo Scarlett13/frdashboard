@@ -1,7 +1,7 @@
 type ButtonProps = {
   buttonname: string;
-  style: string;
-  onClick: any;
+  style?: string;
+  onClick?: any;
 };
 export default function Button({ buttonname, style, onClick }: ButtonProps) {
   return (

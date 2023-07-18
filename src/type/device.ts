@@ -1,4 +1,8 @@
 export type Device = {
-    devicename:string,
-    deviceid:number,
+    DeviceId: string,
+    DeviceName: string,
+    IsActive: boolean,
+    Roles: any,
+    Users: any,
+    Id: number
 }

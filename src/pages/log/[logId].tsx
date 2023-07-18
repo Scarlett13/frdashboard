@@ -1,14 +1,13 @@
-import Card from "@/components/card";
 import LogLayout from "@/components/layoutlog";
-import { TableLogAccess } from "@/components/tableaccesslog";
+import ModalLog from "@/components/modallog";
+import { useRouter } from "next/router";
 
 export default function Log() {
+  const router = useRouter();
   return (
     <LogLayout>
       <div className="mx-9 pt-24 text">
-        <Card>
-          <div>{<TableLogAccess />}</div>
-        </Card>
+        <ModalLog />
       </div>
     </LogLayout>
   );

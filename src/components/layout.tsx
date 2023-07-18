@@ -11,12 +11,20 @@ type layoutProps = {
 
 const listdevices: Device[] = [
   {
-    deviceid: 1,
-    devicename: "Device 1",
+    DeviceId: "1",
+    DeviceName: "Device 1",
+    IsActive: true,
+    Roles: "Infra",
+    Users: "",
+    Id: 1,
   },
   {
-    deviceid: 2,
-    devicename: "Device 2",
+    DeviceId: "2",
+    DeviceName: "Device 2",
+    IsActive: true,
+    Roles: "Infra",
+    Users: "",
+    Id: 2,
   },
 ];
 

@@ -1,5 +1,9 @@
 export type Log = {
-    logid: number,
-    logname: string,
-    path: string
+    AccessLog: string,
+    IdDevice: number,
+    IdStaff: number,
+    LogImage: string,
+    LogMessage: string,
+    LogTimeStamp: string,
+    Id: number
 }

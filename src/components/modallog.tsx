@@ -4,14 +4,14 @@ import Button from "./button";
 import Input from "./input";
 import Toggle from "./toggleswitch";
 
-export default function Modal() {
+export default function ModalLog() {
   const [open, setOpen] = useState(false);
 
   const cancelButtonRef = useRef(null);
 
   return (
     <div>
-      <Button buttonname="Edit" onClick={() => setOpen(true)} style="" />
+      <Button buttonname="View Detail" onClick={() => setOpen(true)} style="" />
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
@@ -43,34 +43,31 @@ export default function Modal() {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 w-full">
                     <div className="sm:flex sm:items-start">
-                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"></div>
-                      <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                      <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
                         <Dialog.Title
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Perubahan data staff
+                          Detail Log Access
                         </Dialog.Title>
-                        <div className="mt-2">
-                          <Input
-                            title="Nama Staff"
-                            placeholder="Nama"
-                            type="text"
-                          />
-                          <Input
-                            title="Department"
-                            placeholder="Role"
-                            type="text"
-                          />
-                          <div className="mt-3">
-                            <Toggle props1={"Active"} props2={"Deactive"} />
+                        <div className="mt-2 flex flex-row">
+                          <div className="me-5 w-1/3">
+                            <div className="">
+                              <label>Is Correct</label>
+                              <Toggle props1={"True"} props2={"False"} />
+                            </div>
+                            <div className="">
+                              <label>Is Clear</label>
+                              <Toggle props1={"True"} props2={"False"} />
+                            </div>
+                          </div>
+                          <div className="ml-4 w-2/3">
+                            <label>Massages</label>
+                            <p className=" h-full ">Test</p>
                           </div>
                         </div>
-                      </div>
-                      <div className="mt-10 mx-auto justify-center">
-                        <img src={"./images/logo.png"} />
                       </div>
                     </div>
                   </div>

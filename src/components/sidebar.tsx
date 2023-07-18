@@ -16,10 +16,10 @@ export default function SideBar({ listdevices }: DeviceProps) {
             return (
               <li className="py-2">
                 <a
-                  href={`/device/${device.deviceid}`}
+                  href={`/device/${device.DeviceId}`}
                   className="block text-white hover:underline"
                 >
-                  {device.devicename}
+                  {device.DeviceName}
                 </a>
               </li>
             );
