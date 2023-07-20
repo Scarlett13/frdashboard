@@ -1,97 +1,136 @@
 import Card from "@/components/card";
 import Layout from "@/components/layout";
 import Modal from "@/components/modal";
+import { Staff } from "@/type/staff";
 
 export default function Staff() {
-  const staffs = [
+  const staffs: Staff[] = [
     {
-      id: 1,
-      staffId: "A123",
-      name: "Test1",
-      status: "Active",
+      FaceFeature: 1,
+      IsActive: true,
+      Roles: 1,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test",
+      StaffSound: "",
+      Id: 1,
     },
     {
-      id: 2,
-      staffId: "A456",
-      name: "Test2",
-      status: "Active",
+      FaceFeature: 2,
+      IsActive: true,
+      Roles: 2,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test2",
+      StaffSound: "",
+      Id: 2,
     },
     {
-      id: 3,
-      staffId: "A789",
-      name: "Test3",
-      status: "Deactive",
+      FaceFeature: 3,
+      IsActive: true,
+      Roles: 3,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test3",
+      StaffSound: "",
+      Id: 3,
     },
     {
-      id: 4,
-      staffId: "b789",
-      name: "Test4",
-      status: "Deactive",
+      FaceFeature: 4,
+      IsActive: true,
+      Roles: 4,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test4",
+      StaffSound: "",
+      Id: 4,
     },
     {
-      id: 5,
-      staffId: "b789",
-      name: "Test4",
-      status: "Deactive",
+      FaceFeature: 5,
+      IsActive: true,
+      Roles: 5,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test5",
+      StaffSound: "",
+      Id: 5,
     },
     {
-      id: 6,
-      staffId: "A123",
-      name: "Test1",
-      status: "Active",
+      FaceFeature: 6,
+      IsActive: true,
+      Roles: 6,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test6",
+      StaffSound: "",
+      Id: 6,
     },
     {
-      id: 7,
-      staffId: "A456",
-      name: "Test2",
-      status: "Active",
+      FaceFeature: 7,
+      IsActive: true,
+      Roles: 7,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test7",
+      StaffSound: "",
+      Id: 7,
     },
     {
-      id: 8,
-      staffId: "A789",
-      name: "Test3",
-      status: "Deactive",
+      FaceFeature: 8,
+      IsActive: true,
+      Roles: 8,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test8",
+      StaffSound: "",
+      Id: 8,
     },
     {
-      id: 9,
-      staffId: "b789",
-      name: "Test4",
-      status: "Deactive",
+      FaceFeature: 9,
+      IsActive: true,
+      Roles: 9,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test9",
+      StaffSound: "",
+      Id: 9,
     },
     {
-      id: 10,
-      staffId: "b789",
-      name: "Test4",
-      status: "Deactive",
+      FaceFeature: 10,
+      IsActive: true,
+      Roles: 10,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test10",
+      StaffSound: "",
+      Id: 10,
     },
   ];
 
   return (
     <Layout showSideBar={false}>
-      <div className="h-screen">
-        <div className="ms-9">
-          <h1 className="text-2xl font-bold pt-24">Staff List</h1>
-        </div>
-        <div className="mx-9 grid grid-cols-4 gap-4 h-2/3 overflow-auto">
-          {staffs.map(({ id, staffId, name, status }) => (
-            <Card key={id}>
-              <div className="w-full flex flex-row justify-between items-center">
-                <h4 className="">{staffId}</h4>
-                <Modal />
+      <div className="ms-9">
+        <h1 className="text-2xl font-bold py-4">Staff List</h1>
+      </div>
+      <div className="mx-9 grid grid-cols-4 gap-4 overflow-auto h-[40rem] p-8">
+        {staffs.map(({ Id, FaceFeature, StaffName, StaffDepartment }) => (
+          <Card key={Id}>
+            <div className="w-full flex flex-row justify-between px-6 items-center">
+              <h4 className="">{FaceFeature}</h4>
+              <Modal />
+            </div>
+            <div className="flex flex-row mt-4 px-6">
+              <div>
+                <p>Staff Name</p>
+                <p>Staff Department</p>
               </div>
-              <div className="flex flex-row mt-4">
-                <div>
-                  <p>Name</p>
-                  <p>Status</p>
-                </div>
-                <div>
-                  <p>: {name}</p>
-                  <p>: {status}</p>
-                </div>
+              <div>
+                <p>: {StaffName}</p>
+                <p>: {StaffDepartment}</p>
               </div>
-            </Card>
-          ))}
-        </div>
+            </div>
+          </Card>
+        ))}
       </div>
     </Layout>
   );

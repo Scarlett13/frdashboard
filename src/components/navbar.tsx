@@ -11,12 +11,9 @@ export default function Navbar({ children }: NavBarProps) {
       {children}
       <div className="flex justify-between fixed w-full h-20 shadow-xl bg-white items-center">
         <div className="text-center">
-          <Image alt="alt text." src={logo} className="ms-2 w-1/3" />
+          <Image alt="alt text." src={logo} className="ms-2 w-2/3" />
         </div>
         <div className="grid gap-2 grid-cols-4 items-center h-full px-4 text-center">
-          <a href="/home" className="hover:underline">
-            Home
-          </a>
           <a href="/device" className="hover:underline">
             Device
           </a>
@@ -25,6 +22,9 @@ export default function Navbar({ children }: NavBarProps) {
           </a>
           <a href="/log" className="hover:underline">
             Log
+          </a>
+          <a href="/" className="hover:underline">
+            Log Out
           </a>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { Log } from "@/type/log";
-import Button from "./button";
 import ModalLog from "./modallog";
 
 function TableLogAccess() {

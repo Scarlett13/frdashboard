@@ -1,7 +1,6 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "./button";
-import Input from "./input";
 import Toggle from "./toggleswitch";
 
 export default function ModalLog() {

@@ -7,10 +7,11 @@ export default function Device() {
   const router = useRouter();
   const { query } = router;
   console.log(query);
+
   return (
     <Layout showSideBar={true}>
       <div className="me-9 pt-6 text">
-        <Card>
+        <Card style="p-8 border border-gray-300">
           <div>
             <p>Divisi:</p>
             <p>Jumlah: {query.deviceid}</p>

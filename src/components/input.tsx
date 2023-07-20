@@ -1,5 +1,3 @@
-import { Children } from "react";
-
 type InputProps = {
   title: string;
   placeholder: string;

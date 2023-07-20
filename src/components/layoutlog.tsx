@@ -1,6 +1,4 @@
-import { Log } from "@/type/log";
 import Navbar from "./navbar";
-import SideBarLog from "./sidebarlog";
 
 type LayoutLogProps = {
   children: React.ReactNode;

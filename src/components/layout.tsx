@@ -1,8 +1,6 @@
 import { Device } from "@/type/device";
 import Navbar from "./navbar";
 import SideBar from "./sidebar";
-import { useEffect, useState } from "react";
-import SideBarLog from "./sidebarlog";
 
 type layoutProps = {
   children: React.ReactNode;

@@ -1,7 +1,7 @@
 export type Staff = {
     FaceFeature: number,
     IsActive: boolean,
-    Roles: number [],
+    Roles: number,
     StaffDepartment: string,
     StaffImage: string,
     StaffName: string,
