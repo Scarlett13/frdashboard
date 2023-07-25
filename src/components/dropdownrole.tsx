@@ -26,16 +26,19 @@ export default function DropDownRole() {
     <div>
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="bg-sky-400 p-4 w-full flex items-center justify-between font-semibold rounded tracking-wider border-transparent active:border-black duration-300 active:text-white"
+        className=" bg- p-4 w-full flex items-center justify-between from-neutral-50 rounded tracking-wider border-transparent active:border-black duration-300 active:text-white"
       >
         Select Role
         {isOpen ? <AiFillCaretRight /> : <AiFillCaretLeft />}
       </button>
 
       {isOpen && (
-        <div className="bg-sky-400 absolute top-[140px] right-[140px] opacity-100 flex flex-col items-start rounded-lg p-2 w-fit">
+        <div className="bg-neutral-400 absolute top-[140px] right-[140px] opacity-100   flex flex-col items-start rounded-lg p-2 w-fit">
           {roles.map((role) => (
-            <div key={role.Id}>
+            <div
+              key={role.Id}
+              className="hover:bg-neutral-500 cursor-pointer rounded-r-lg rounded-l-lg"
+            >
               <h3>{role.RoleName}</h3>
             </div>
           ))}
