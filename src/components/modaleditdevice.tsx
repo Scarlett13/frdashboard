@@ -1,7 +1,6 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "./button";
-import Toggle from "./toggleswitch";
 import Input from "./input";
 
 export default function ModalEditDevice() {
@@ -11,7 +10,11 @@ export default function ModalEditDevice() {
 
   return (
     <div>
-      <Button buttonname="View Detail" onClick={() => setOpen(true)} style="" />
+      <Button
+        buttonname="Add New Device"
+        onClick={() => setOpen(true)}
+        style=""
+      />
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"

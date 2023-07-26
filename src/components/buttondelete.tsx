@@ -6,6 +6,7 @@ type ButtonDeleteProps = {
 export default function ButtonDelete({ onClick, children }: ButtonDeleteProps) {
   return (
     <button
+      type="button"
       className={"justify-self-end bg-red-600 hover:bg-red-700 rounded-md"}
       onClick={onClick}
     >

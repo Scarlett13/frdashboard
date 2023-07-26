@@ -54,7 +54,9 @@ export default function Layout({ children, showSideBar }: layoutProps) {
       <Navbar>
         {showSideBar ? (
           <SideBar listdevices={data}>
-            <ModalEditDevice />
+            <div className="m-14">
+              <ModalEditDevice />
+            </div>
           </SideBar>
         ) : (
           <></>
