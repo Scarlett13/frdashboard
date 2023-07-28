@@ -1,5 +1,5 @@
 import { Device } from "@/type/device";
-import ButtonDelete from "./buttondelete";
+import ButtonDelete from "./modaldelete";
 
 type DeviceProps = {
   listdevices?: Device[] | null;

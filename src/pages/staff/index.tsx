@@ -1,4 +1,4 @@
-import ButtonDelete from "@/components/buttondelete";
+import ButtonDelete from "@/components/modaldelete";
 import Card from "@/components/card";
 import Layout from "@/components/layout";
 import Modal from "@/components/modal";
@@ -159,7 +159,7 @@ export default function Staff() {
                 </div>
               </div>
               <div className="w-full flex flex-row mx-64">
-                <ButtonDelete onClick={""} />
+                <ButtonDelete/>
               </div>
             </Card>
           )
