@@ -4,5 +4,5 @@ export type Device = {
     IsActive: boolean,
     Roles: any,
     Users: any,
-    Id: number
+    id: number
 }

@@ -2,8 +2,14 @@ type ButtonProps = {
   buttonname: string;
   style?: string;
   onClick?: any;
+  children?: React.ReactNode;
 };
-export default function Button({ buttonname, style, onClick }: ButtonProps) {
+export default function Button({
+  buttonname,
+  style,
+  onClick,
+  children,
+}: ButtonProps) {
   return (
     <button
       className={
@@ -14,6 +20,7 @@ export default function Button({ buttonname, style, onClick }: ButtonProps) {
       onClick={onClick}
     >
       {buttonname}
+      {children}
     </button>
   );
 }

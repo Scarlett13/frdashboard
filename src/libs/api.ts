@@ -1,15 +1,15 @@
 const baseURL = "http://192.168.10.31:8000/"
 
-export function provideGetRequest(path: string){
+export function provideRequestOptions(path: string, method: string){
     const myHeaders = new Headers();
 
     myHeaders.append(
       "Authorization",
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MDM2MjU0OCwianRpIjoiYjI3MmYzMGUtMjNhZS00NjYwLWFlYTktOGY3MjQ1NzhmN2VkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTAzNjI1NDgsImV4cCI6MTY5MDM2NjE0OH0.wCU1I30BuWG1HBlAhfcSqRcYlAD5wbYV0seiIluIPak"
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MDc5NDE5NywianRpIjoiYjdjMzQ3ZWUtZDc5Mi00Yjc2LThiYjItNDc3ZmUwMDEzMjc2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTA3OTQxOTcsImV4cCI6MTY5MDc5Nzc5N30.eVLfrsZeJfNLrNW5kl7I7E6_aYp8bC5I6OpPeI_dckI"
     );
 
     const request = new Request(`${baseURL}${path}`, {
-    method: "GET",
+    method: method,
     headers: myHeaders,
   });
 

@@ -2,7 +2,7 @@ import { Device } from "@/type/device";
 import Navbar from "./navbar";
 import SideBar from "./sidebar";
 import { useEffect, useState } from "react";
-import { provideGetRequest } from "@/libs/api";
+import { provideGetRequest, provideRequestOptions } from "@/libs/api";
 import ModalEditDevice from "./modaleditdevice";
 
 type layoutProps = {
@@ -33,7 +33,7 @@ export default function Layout({ children, showSideBar }: layoutProps) {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
-  const request = provideGetRequest("device");
+  const request = provideRequestOptions("/device", "GET");
 
   useEffect(() => {
     setLoading(true);

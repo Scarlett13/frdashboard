@@ -6,23 +6,6 @@ import { Staff } from "@/type/staff";
 import { get } from "http";
 
 export default function Staff() {
-  var myHeaders = new Headers();
-  myHeaders.append(
-    "Authorization",
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MDE2Njc0MCwianRpIjoiYjIyOTBjZDItZmZjMC00MTAyLTg4ZGEtMjE2OTUwZmNmNjFmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTAxNjY3NDAsImV4cCI6MTY5MDE3MDM0MH0.9wqLLFmqyNaDPuMrC-dMF9eoTK8vAqEDRiT-_qrz1GY"
-  );
-
-  var requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow",
-  };
-
-  fetch("http://192.168.10.31:8000/staff")
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.log("error", error));
-
   const staffs: Staff[] = [
     {
       FaceFeature: 1,
@@ -159,7 +142,7 @@ export default function Staff() {
                 </div>
               </div>
               <div className="w-full flex flex-row mx-64">
-                <ButtonDelete/>
+                <ButtonDelete />
               </div>
             </Card>
           )
