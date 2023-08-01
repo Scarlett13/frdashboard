@@ -107,6 +107,36 @@ export default function Staff() {
       StaffSound: "",
       Id: 10,
     },
+    {
+      FaceFeature: 11,
+      IsActive: true,
+      Roles: 11,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test11",
+      StaffSound: "",
+      Id: 11,
+    },
+    {
+      FaceFeature: 12,
+      IsActive: true,
+      Roles: 12,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test12",
+      StaffSound: "",
+      Id: 12,
+    },
+    {
+      FaceFeature: 13,
+      IsActive: true,
+      Roles: 13,
+      StaffDepartment: "Infra",
+      StaffImage: "",
+      StaffName: "test13",
+      StaffSound: "",
+      Id: 13,
+    },
   ];
 
   return (
@@ -114,39 +144,41 @@ export default function Staff() {
       <div className="ms-9">
         <h1 className="text-2xl font-bold py-4">Staff List</h1>
       </div>
-      <div className="mx-9 grid grid-cols-4 gap-4 overflow-auto h-[40rem] p-8">
-        {staffs.map(
-          ({
-            FaceFeature,
-            IsActive,
-            Roles,
-            StaffDepartment,
-            StaffImage,
-            StaffName,
-            StaffSound,
-            Id,
-          }) => (
-            <Card key={Id}>
-              <div className="w-full flex flex-row justify-between px-6 items-center">
-                <h4 className="">{FaceFeature}</h4>
-                <Modal />
-              </div>
-              <div className="flex flex-row mt-4 px-6">
-                <div>
-                  <p>Staff Name</p>
-                  <p>Staff Department</p>
+      <div className="mx-4 md:mx-9 p-4 md:p-8">
+        <div className="grid grid-cols-4 gap-4 overflow-y-scroll max-h-[35rem] overflow-x-hidden">
+          {staffs.map(
+            ({
+              FaceFeature,
+              IsActive,
+              Roles,
+              StaffDepartment,
+              StaffImage,
+              StaffName,
+              StaffSound,
+              Id,
+            }) => (
+              <Card key={Id}>
+                <div className="w-full flex flex-row justify-between px-6 items-center">
+                  <h4 className="">{FaceFeature}</h4>
+                  <Modal />
                 </div>
-                <div>
-                  <p>: {StaffName}</p>
-                  <p>: {StaffDepartment}</p>
+                <div className="flex flex-row mt-4 px-6">
+                  <div>
+                    <p>Staff Name</p>
+                    <p>Staff Department</p>
+                  </div>
+                  <div>
+                    <p>: {StaffName}</p>
+                    <p>: {StaffDepartment}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="w-full flex flex-row mx-64">
-                <ButtonDelete />
-              </div>
-            </Card>
-          )
-        )}
+                <div className="w-full flex flex-row mx-64">
+                  <ButtonDelete />
+                </div>
+              </Card>
+            )
+          )}
+        </div>
       </div>
     </Layout>
   );

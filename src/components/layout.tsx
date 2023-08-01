@@ -2,7 +2,7 @@ import { Device } from "@/type/device";
 import Navbar from "./navbar";
 import SideBar from "./sidebar";
 import { useEffect, useState } from "react";
-import { provideGetRequest, provideRequestOptions } from "@/libs/api";
+import { provideRequestOptions } from "@/libs/api";
 import ModalEditDevice from "./modaleditdevice";
 
 type layoutProps = {

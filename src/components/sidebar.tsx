@@ -21,11 +21,13 @@ export default function SideBar({ listdevices, children }: DeviceProps) {
                   <div className="grid grid-cols-2 justify-between">
                     <a
                       href={`/device/${device.DeviceID}`}
-                      className="block text-white hover:underline"
+                      className="flex text-white hover:underline items-center"
                     >
                       {device.DeviceName}
                     </a>
-                    <ButtonDelete onClick={onclick} />
+                    <div className="w-full mx-10">
+                      <ButtonDelete />
+                    </div>
                   </div>
                 </li>
               );

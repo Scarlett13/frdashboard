@@ -16,7 +16,7 @@ export default function ButtonDelete({ children }: ButtonDeleteProps) {
   }
 
   return (
-    <div className="">
+    <div className="w-full items-end">
       <Button
         buttonname={""}
         onClick={() => setOpen(true)}
