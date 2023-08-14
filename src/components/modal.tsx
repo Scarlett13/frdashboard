@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import Button from "./button";
 import Input from "./input";
 import Toggle from "./toggleswitch";
-import DropDownRole from "./selectrole";
+import SideBarRole from "./selectrole";
 
 export default function Modal() {
   const [open, setOpen] = useState(false);
@@ -61,7 +61,7 @@ export default function Modal() {
                             type="text"
                           />
                           <div className="">
-                            <DropDownRole />
+                            <SideBarRole />
                           </div>
                           <div className="mt-3">
                             <Toggle props1={"Active"} props2={"Deactive"} />

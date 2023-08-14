@@ -3,7 +3,7 @@ import Navbar from "./navbar";
 import SideBar from "./sidebar";
 import { useEffect, useState } from "react";
 import { provideRequestOptions } from "@/libs/api";
-import ModalEditDevice from "./modaleditdevice";
+import ModalAddDevice from "./modaladddevice";
 
 type layoutProps = {
   children: React.ReactNode;
@@ -55,7 +55,7 @@ export default function Layout({ children, showSideBar }: layoutProps) {
         {showSideBar ? (
           <SideBar listdevices={data}>
             <div className="m-14">
-              <ModalEditDevice />
+              <ModalAddDevice />
             </div>
           </SideBar>
         ) : (

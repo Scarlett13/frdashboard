@@ -1,5 +1,6 @@
 import { Device } from "@/type/device";
 import ButtonDelete from "./modaldelete";
+import PopOver from "./popover";
 
 type DeviceProps = {
   listdevices?: Device[] | null;
@@ -25,8 +26,9 @@ export default function SideBar({ listdevices, children }: DeviceProps) {
                     >
                       {device.DeviceName}
                     </a>
-                    <div className="w-full mx-10">
-                      <ButtonDelete />
+                    <div className="w-full mx-16">
+                      {/* <ButtonDelete path={`/device/${device.id}`} /> */}
+                      <PopOver />
                     </div>
                   </div>
                 </li>

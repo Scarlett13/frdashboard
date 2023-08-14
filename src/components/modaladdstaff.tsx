@@ -1,59 +1,26 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "./button";
-import { provideRequestOptions } from "@/libs/api";
-import { useRouter } from "next/router";
+import Input from "./input";
+import Toggle from "./toggleswitch";
+import SideBarRole from "./selectrole";
+import { PiUserPlusBold } from "react-icons/pi";
 
-type ButtonDeleteProps = {
-  children?: React.ReactNode;
-  path: string;
-};
-
-export default function ButtonDelete({ children, path }: ButtonDeleteProps) {
+export default function ModalAddStaff() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+
   const cancelButtonRef = useRef(null);
 
-  async function Delete() {
-    const request = provideRequestOptions(path, "DELETE");
-    try {
-      fetch(request)
-        .then((res) => res.json())
-        .then((deviceApi) => {
-          console.log(deviceApi);
-        });
-      router.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // async function test() {
-  //   const response = await getapi();
-  // }
   return (
     <div>
-      {/* <Button
-        buttonname={""}
-        onClick={() => setOpen(true)}
-        style="bg-red-600 hover:bg-red-700 rounded-md"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-          />
-        </svg>
-      </Button> */}
+      <Button buttonname="" onClick={() => setOpen(true)} style="">
+        {open ? (
+          <PiUserPlusBold style={{ fontSize: "24px" }} />
+        ) : (
+          <PiUserPlusBold style={{ fontSize: "24px" }} />
+        )}
+      </Button>
+
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
@@ -87,26 +54,40 @@ export default function ButtonDelete({ children, path }: ButtonDeleteProps) {
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                   <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                     <div className="sm:flex sm:items-start">
+                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"></div>
                       <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                         <Dialog.Title
                           as="h3"
-                          className="text-base font-semibold leading-6 text-gray-900 items-center"
+                          className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Apakah anda ingin menghapus data ini?
+                          Penambahan Staff
                         </Dialog.Title>
+                        <div className="mt-2">
+                          <Input
+                            title="Nama Staff"
+                            placeholder="Nama"
+                            type="text"
+                          />
+                          <div className="">
+                            <SideBarRole />
+                          </div>
+                          <div className="mt-3">
+                            <Toggle props1={"Active"} props2={"Deactive"} />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="mt-10 mx-auto justify-center">
+                        <img src={"./images/logo.png"} />
                       </div>
                     </div>
                   </div>
                   <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <button
                       type="button"
-                      className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                      onClick={() => {
-                        setOpen(false);
-                        Delete();
-                      }}
+                      className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                      onClick={() => setOpen(false)}
                     >
-                      Delete
+                      Tambahkan
                     </button>
                     <button
                       type="button"
@@ -123,7 +104,6 @@ export default function ButtonDelete({ children, path }: ButtonDeleteProps) {
           </div>
         </Dialog>
       </Transition.Root>
-      {children}
     </div>
   );
 }

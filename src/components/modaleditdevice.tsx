@@ -10,11 +10,7 @@ export default function ModalEditDevice() {
 
   return (
     <div>
-      <Button
-        buttonname="Add New Device"
-        onClick={() => setOpen(true)}
-        style=""
-      />
+      {/* <Button buttonname="Edit" onClick={() => setOpen(true)} style="" /> */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
@@ -53,13 +49,13 @@ export default function ModalEditDevice() {
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Add Device
+                          Edit Device
                         </Dialog.Title>
                         <div className="mt-2 flex flex-row">
                           <div className="me-5 w-full">
                             <Input
-                              title="New Device"
-                              placeholder="Nama Device"
+                              title="New Device Name"
+                              placeholder=""
                               type="text"
                             />
                           </div>

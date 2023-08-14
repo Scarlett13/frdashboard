@@ -1,17 +1,27 @@
-const baseURL = "http://192.168.10.31:8000"
+const baseURL = "http://192.168.10.31:5000"
 
-export function provideRequestOptions(path: string, method: string){
+export function provideRequestOptions(path: string, method: string, body?: any){
     const myHeaders = new Headers();
+    const options:any = {};
 
     myHeaders.append(
       "Authorization",
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MDg4MjA0OSwianRpIjoiZTgwMTM4YmMtYWEyNi00ODUwLThhNTAtYTU1N2U3ZWQxNzY2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTA4ODIwNDksImV4cCI6MTY5MDg4NTY0OX0.HyZJWV8yx7Kg4caJ8RL2IhtLHIdHSMYCutA4DP6I8zg"
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MTk4MTMzNiwianRpIjoiNzg5NWM5NWYtODYyYS00MWI1LWI0ZmMtODk5YjEyZTRhYmI4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTE5ODEzMzYsImV4cCI6MTY5MjE1NDEzNn0.uwQGJaiBqxEs7SKhzHrGYQsKchyhG0RX1rX2Vrp2vu0"
     );
 
-    const request = new Request(`${baseURL}${path}`, {
-    method: method,
-    headers: myHeaders,
-  });
+    options.method = method;
+    options.headers = myHeaders;
+    
+    if(body){
+      options.body = body;
+    }
+
+    // const Test = "yudha"
+    // const tests = "visi"
+    // const plus1 = Test+ "/" +tests
+    // const plus2 = `Test/${tests}`
+
+    const request = new Request(`${baseURL}${path}`, options);
 
     return request;
     

@@ -2,6 +2,7 @@ type ButtonProps = {
   buttonname: string;
   style?: string;
   onClick?: any;
+  isLoading?: boolean;
   children?: React.ReactNode;
 };
 export default function Button({
@@ -9,17 +10,19 @@ export default function Button({
   style,
   onClick,
   children,
+  isLoading,
 }: ButtonProps) {
   return (
     <button
       className={
-        "py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded-md text-white text-sm mt-4" +
-        " " +
-        style
+        `py-2 px-4 bg-blue-600 hover:bg-blue-700 rounded-md text-white text-sm mt-4 ${
+          isLoading ? "animate-pulse" : ""
+        }` + ` ${style}`
       }
-      onClick={onClick}
+      onClick={isLoading ? undefined : onClick}
+      disabled={isLoading}
     >
-      {buttonname}
+      {isLoading ? "Loading..." : buttonname}
       {children}
     </button>
   );
