@@ -1,22 +1,33 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import Button from "./button";
+import { BiEdit } from "react-icons/bi";
 import Input from "./input";
 
 export default function ModalEditDevice() {
   const [open, setOpen] = useState(false);
 
+  const test = () => {
+    console.log("test");
+  };
+
   const cancelButtonRef = useRef(null);
 
   return (
     <div>
-      {/* <Button buttonname="Edit" onClick={() => setOpen(true)} style="" /> */}
+      <div
+        className="flex flex-row justify-between gap-9 items-center cursor-pointer text-black hover:text-black hover:underline"
+        onClick={() => setOpen(true)}
+      >
+        <p>Edit</p>
+        <BiEdit />
+      </div>
+
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-10"
           initialFocus={cancelButtonRef}
-          onClose={setOpen}
+          onClose={() => setOpen(false)}
         >
           <Transition.Child
             as={Fragment}

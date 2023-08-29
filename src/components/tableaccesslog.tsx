@@ -34,9 +34,9 @@ function TableLogAccess() {
   return (
     <div className="grid grid-cols-1 gap-4 w-full justify-center">
       <h1 className="text-2xl font-bold py-4 ms-8">Log</h1>
-      <div className="">
+      <div className="overflow-auto h-[45rem] mt-8">
         <table className="min-w-full border-collapse border-black border-2 text-center">
-          <thead className="border-black border-2">
+          <thead className="border-black border-2 sticky top-0 bg-gray-200 z-10">
             <tr>
               <th
                 className={`py-2 px-4 bg-gray-200 ${
@@ -71,13 +71,6 @@ function TableLogAccess() {
                   isLoading ? "animate-pulse bg-gray-300" : ""
                 }`}
               >
-                Access Log
-              </th>
-              <th
-                className={`py-2 px-4 bg-gray-200 ${
-                  isLoading ? "animate-pulse bg-gray-300" : ""
-                }`}
-              >
                 Id Device
               </th>
               <th
@@ -97,7 +90,7 @@ function TableLogAccess() {
           {isLoading ? (
             <tbody>
               <tr>
-                <td colSpan={8} className="py-4">
+                <td colSpan={8} className="py-4 px-4">
                   <div className="animate-pulse bg-gray-300 h-5 w-full"></div>
                 </td>
               </tr>
@@ -105,15 +98,13 @@ function TableLogAccess() {
           ) : (
             <tbody className="border-black border-2">
               {logs?.map((log: Log) => (
-                <tr key={log.Id}>
-                  <td className="py-2 px-4 border">{log.Id}</td>
+                <tr key={log.id}>
+                  <td className="py-2 px-4 border">{log.id}</td>
                   <td className="py-2 px-4 border">{log.LogTimeStamp}</td>
                   <td className="py-2 px-4 border">{log.LogMessage}</td>
                   <td className="py-2 px-4 border">{log.LogImage}</td>
-                  <td className="py-2 px-4 border">{log.AccessLog}</td>
                   <td className="py-2 px-4 border">{log.IdDevice}</td>
                   <td className="py-2 px-4 border">{log.IdStaff}</td>
-
                   <td className="py-2 px-4 border">
                     <ModalLog />
                   </td>

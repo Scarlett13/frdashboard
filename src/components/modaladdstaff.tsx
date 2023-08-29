@@ -5,6 +5,7 @@ import Input from "./input";
 import Toggle from "./toggleswitch";
 import SideBarRole from "./selectrole";
 import { PiUserPlusBold } from "react-icons/pi";
+import UploadImage from "./uploadimage";
 
 export default function ModalAddStaff() {
   const [open, setOpen] = useState(false);
@@ -14,11 +15,7 @@ export default function ModalAddStaff() {
   return (
     <div>
       <Button buttonname="" onClick={() => setOpen(true)} style="">
-        {open ? (
-          <PiUserPlusBold style={{ fontSize: "24px" }} />
-        ) : (
-          <PiUserPlusBold style={{ fontSize: "24px" }} />
-        )}
+        {open ? "" : <PiUserPlusBold style={{ fontSize: "24px" }} />}
       </Button>
 
       <Transition.Root show={open} as={Fragment}>
@@ -54,7 +51,6 @@ export default function ModalAddStaff() {
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                   <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                     <div className="sm:flex sm:items-start">
-                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"></div>
                       <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                         <Dialog.Title
                           as="h3"
@@ -77,7 +73,7 @@ export default function ModalAddStaff() {
                         </div>
                       </div>
                       <div className="mt-10 mx-auto justify-center">
-                        <img src={"./images/logo.png"} />
+                        <UploadImage />
                       </div>
                     </div>
                   </div>

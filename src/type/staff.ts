@@ -6,5 +6,5 @@ export type Staff = {
     StaffImage: string,
     StaffName: string,
     StaffSound: any,
-    id: number
+    id: number,
 }

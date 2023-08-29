@@ -2,6 +2,7 @@ import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Button from "./button";
 import Toggle from "./toggleswitch";
+import CheckBoxLog from "./checkboxlog";
 
 export default function ModalLog() {
   const [open, setOpen] = useState(false);
@@ -62,9 +63,9 @@ export default function ModalLog() {
                               <Toggle props1={"True"} props2={"False"} />
                             </div>
                           </div>
-                          <div className="ml-4 w-2/3">
-                            <label>Massages</label>
-                            <p className=" h-full ">Test</p>
+                          <div className="grid grid-cols-2 w-full items-center py-9">
+                            <CheckBoxLog checkboxName={"Success"} />
+                            <CheckBoxLog checkboxName={"Unrecognized"} />
                           </div>
                         </div>
                       </div>

@@ -1,8 +1,8 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import Button from "./button";
 import { provideRequestOptions } from "@/libs/api";
 import { useRouter } from "next/router";
+import { LiaTrashAltSolid } from "react-icons/lia";
 
 type ButtonDeleteProps = {
   children?: React.ReactNode;
@@ -27,33 +27,16 @@ export default function ButtonDelete({ children, path }: ButtonDeleteProps) {
       console.log(error);
     }
   }
-
-  // async function test() {
-  //   const response = await getapi();
-  // }
   return (
     <div>
-      {/* <Button
-        buttonname={""}
+      <div
+        className="inline-flex w-full justify-between gap-4 items-center cursor-pointer text-red-500 hover:text-red-600 hover:underline"
         onClick={() => setOpen(true)}
-        style="bg-red-600 hover:bg-red-700 rounded-md"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-6 h-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-          />
-        </svg>
-      </Button> */}
+        <p>Delete</p>
+        <LiaTrashAltSolid />
+      </div>
+
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"

@@ -1,10 +1,20 @@
+import { MutableRefObject } from "react";
+
 type InputProps = {
   title: string;
   placeholder: string;
   type: string;
+  value?: string;
+  valueRef?: MutableRefObject<string>;
 };
 
-export default function Input({ title, placeholder, type }: InputProps) {
+export default function Input({
+  title,
+  placeholder,
+  type,
+  value,
+  valueRef,
+}: InputProps) {
   return (
     <div className="pt-4">
       <label htmlFor="" className="font-bold text-gray-600 block">
@@ -14,6 +24,12 @@ export default function Input({ title, placeholder, type }: InputProps) {
         type={type}
         placeholder={placeholder}
         className="w-full p-2 border border-gray-300 rounded mt-1"
+        defaultValue={value}
+        onChange={(e) => {
+          if (valueRef) {
+            valueRef.current = e.target.value;
+          }
+        }}
       />
     </div>
   );

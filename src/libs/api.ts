@@ -6,8 +6,14 @@ export function provideRequestOptions(path: string, method: string, body?: any){
 
     myHeaders.append(
       "Authorization",
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MTk4MTMzNiwianRpIjoiNzg5NWM5NWYtODYyYS00MWI1LWI0ZmMtODk5YjEyZTRhYmI4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTE5ODEzMzYsImV4cCI6MTY5MjE1NDEzNn0.uwQGJaiBqxEs7SKhzHrGYQsKchyhG0RX1rX2Vrp2vu0"
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MzE4OTk0MywianRpIjoiZjA0ZmZiNTctODMwYS00ZDAzLWFlNjItZDgyYTFhOTk2YmRkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTMxODk5NDMsImV4cCI6MTY5MzM2Mjc0M30.lJVfguO1d7Lfz5_-7dBQqQMkHFMycFURwNWu1VNy3J8"
     );
+
+    myHeaders.append(
+      "Content-Type",
+      "application/json"
+
+    )
 
     options.method = method;
     options.headers = myHeaders;

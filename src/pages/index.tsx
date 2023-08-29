@@ -37,7 +37,7 @@ export default function Login() {
 
   return (
     <Card>
-      <Bacground title={"Login"}>
+      <Bacground title={"Welcome"}>
         <div className="flex flex-col gap-4">
           <Input
             title={"Username/Email"}

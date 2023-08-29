@@ -1,18 +1,55 @@
-import { Fragment, useRef, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import Button from "./button";
+import { LiaUserEditSolid } from "react-icons/lia";
 import Input from "./input";
 import Toggle from "./toggleswitch";
 import SideBarRole from "./selectrole";
+import { Staff } from "@/type/staff";
+import { provideRequestOptions } from "@/libs/api";
+import { useRouter } from "next/router";
+import UploadImage from "./uploadimage";
 
-export default function Modal() {
+interface staffModalProps {
+  staff: Staff;
+  setSuccess: Dispatch<SetStateAction<boolean>>;
+}
+export default function Modal({ staff, setSuccess }: staffModalProps) {
+  const refName = useRef(staff.StaffName);
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const cancelButtonRef = useRef(null);
 
+  async function submitData() {
+    console.log(refName.current);
+    const url = `/staff/${staff.id}`;
+    const method = "PUT";
+    const body = {
+      StaffName: refName.current,
+    };
+    const request = provideRequestOptions(url, method, JSON.stringify(body));
+
+    try {
+      fetch(request).then((res) => {
+        {
+          res.json();
+          setSuccess(res.ok);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <div>
-      <Button buttonname="Edit" onClick={() => setOpen(true)} style="" />
+      <div
+        className="inline-flex justify-between gap-9 items-center cursor-pointer text-black hover:underline"
+        onClick={() => setOpen(true)}
+      >
+        <p>Edit</p>
+        <LiaUserEditSolid />
+      </div>
+
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
@@ -46,7 +83,6 @@ export default function Modal() {
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                   <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                     <div className="sm:flex sm:items-start">
-                      <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10"></div>
                       <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                         <Dialog.Title
                           as="h3"
@@ -57,7 +93,9 @@ export default function Modal() {
                         <div className="mt-2">
                           <Input
                             title="Nama Staff"
-                            placeholder="Nama"
+                            placeholder=""
+                            value={staff.StaffName}
+                            valueRef={refName}
                             type="text"
                           />
                           <div className="">
@@ -69,7 +107,8 @@ export default function Modal() {
                         </div>
                       </div>
                       <div className="mt-10 mx-auto justify-center">
-                        <img src={"./images/logo.png"} />
+                        {/* <img src={"./images/logo.png"} /> */}
+                        <UploadImage />
                       </div>
                     </div>
                   </div>
@@ -77,7 +116,10 @@ export default function Modal() {
                     <button
                       type="button"
                       className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                      onClick={() => setOpen(false)}
+                      onClick={() => {
+                        setOpen(false);
+                        submitData();
+                      }}
                     >
                       Save
                     </button>
