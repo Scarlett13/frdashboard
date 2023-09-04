@@ -80,11 +80,12 @@ export default function ModalAddStaff() {
     // eslint-disable-next-line no-console
     // console.log({ data });
 
-    setIsLoading(true);
+    // setIsLoading(true);
 
     //prepare for upload image
+    /* TODO: update filename ngikutin sanitised fullname ditambah .png*/
     let fd = new FormData();
-    fd.append("image", data.staff_image);
+    fd.append("image", data.staff_image[0]);
 
     //provide request options for upload data
     const uploadFileRequest = provideRequestOptions({
@@ -98,8 +99,10 @@ export default function ModalAddStaff() {
     try {
       const uploadDataResponse = await fetch(uploadFileRequest);
       const uploadData = await uploadDataResponse.json();
+
       console.log(uploadData);
     } catch (error) {
+      console.log("error");
       console.log(error);
     }
 
@@ -182,7 +185,7 @@ export default function ModalAddStaff() {
                                   validation={{
                                     required: "Staff role must be filled",
                                   }}
-                                  options={defaultRole.map((role) => ({
+                                  options={roles.map((role) => ({
                                     value: role.id.toString(),
                                     label: role.RoleName,
                                   }))}

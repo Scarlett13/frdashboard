@@ -18,7 +18,7 @@ export function provideRequestOptions({
 
   myHeaders.append(
     "Authorization",
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MzE4OTk0MywianRpIjoiZjA0ZmZiNTctODMwYS00ZDAzLWFlNjItZDgyYTFhOTk2YmRkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTMxODk5NDMsImV4cCI6MTY5MzM2Mjc0M30.lJVfguO1d7Lfz5_-7dBQqQMkHFMycFURwNWu1VNy3J8"
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MzgxMDQxNCwianRpIjoiN2RlMzFjMzctYjhhMy00ZGVjLWJiMzctYjE3Mjg2ZGNkZGY3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTM4MTA0MTQsImV4cCI6MTY5Mzk4MzIxNH0.OLS2l9hjx8LhLCmbWv0m18NRrCaVw_AERh8zts-wX8A"
   );
 
   if (isUpload) {
@@ -27,12 +27,15 @@ export function provideRequestOptions({
     myHeaders.append("Content-Type", "application/json");
   }
 
+  options.redirect = 'follow'
   options.method = method;
   options.headers = myHeaders;
 
   if (body) {
     options.body = body;
   }
+
+  console.log(options)
 
   // const Test = "yudha"
   // const tests = "visi"
