@@ -5,7 +5,11 @@ import ButtonDelete from "./modaldelete";
 import ModalEditDevice from "./modaleditdevice";
 import { Device } from "@/type/device";
 
-export default function PopOverDevice() {
+type PopOverDeviceProps = {
+  deviceid: string;
+};
+
+export default function PopOverDevice({ deviceid }: PopOverDeviceProps) {
   return (
     <div className="">
       <Popover className="relative">
@@ -32,7 +36,7 @@ export default function PopOverDevice() {
                 <div className="w-full bg-white">
                   <div className="gap-1 divide-y-2 divide-solid flex flex-col justify-center items-center rounded-lg p-2">
                     <ModalEditDevice />
-                    <ButtonDelete path={""} />
+                    <ButtonDelete path={`/device/${deviceid}`} />
                   </div>
                 </div>
               </Popover.Panel>

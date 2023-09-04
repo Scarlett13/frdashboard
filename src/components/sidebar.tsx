@@ -18,17 +18,17 @@ export default function SideBar({ listdevices, children }: DeviceProps) {
           {listdevices &&
             listdevices.map((device) => {
               return (
-                <li className="py-2">
+                <li className="py-2" key={device.id}>
                   <div className="grid grid-cols-2 justify-between">
                     <a
                       href={`/device/${device.DeviceID}`}
                       className="flex text-white hover:underline items-center"
                     >
-                      {device.DeviceName}
+                      {device.DeviceName || "Unknown"}
                     </a>
                     <div className="mx-16">
                       {/* <ButtonDelete path={`/device/${device.id}`} /> */}
-                      <PopOverDevice />
+                      <PopOverDevice deviceid={device.id.toString()} />
                     </div>
                   </div>
                 </li>

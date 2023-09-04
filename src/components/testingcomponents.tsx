@@ -46,7 +46,7 @@ export default function SideBar({ listdevices, children }: DeviceProps) {
                     </a>
                     <div className="mx-16">
                       {/* <ButtonDelete path={`/device/${device.id}`} /> */}
-                      <PopOverDevice />
+                      <PopOverDevice deviceid={device.id.toString()} />
                     </div>
                   </div>
                 </li>

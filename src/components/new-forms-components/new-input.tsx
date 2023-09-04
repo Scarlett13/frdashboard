@@ -82,9 +82,9 @@ export default function NewInput({
           readOnly={readOnly}
           disabled={disabled}
           className={clsx(
-            "flex w-full rounded-none shadow-sm",
+            "flex w-full rounded-sm shadow-none px-2",
             "min-h-[2.25rem] py-0 md:min-h-[2.5rem]",
-            "border-blue-500 focus:border-gray-800 focus:ring-gray-800",
+            "border-gray-500 ring-gray-500 focus:border-gray-800 focus:ring-gray-800",
             (readOnly || disabled) &&
               "cursor-not-allowed border-gray-300 bg-gray-100 focus:border-gray-300 focus:ring-0",
             error && "border-red-500 focus:border-red-500 focus:ring-red-500",
