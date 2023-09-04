@@ -19,7 +19,10 @@ export default function Device() {
     setLoading(true);
 
     if (query.deviceid) {
-      const request = provideRequestOptions(`/device/${deviceid}`, "GET");
+      const request = provideRequestOptions({
+        path: `/device/${deviceid}`,
+        method: "GET",
+      });
 
       try {
         fetch(request)

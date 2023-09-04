@@ -15,7 +15,7 @@ export default function SideBarRole() {
     params?: string,
     body?: string
   ) {
-    const request = provideRequestOptions(url, method);
+    const request = provideRequestOptions({ path: url, method });
 
     try {
       const response = await fetch(request);

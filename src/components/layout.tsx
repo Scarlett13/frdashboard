@@ -33,7 +33,7 @@ export default function Layout({ children, showSideBar }: layoutProps) {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
-  const request = provideRequestOptions("/device", "GET");
+  const request = provideRequestOptions({ path: "/device", method: "GET" });
 
   useEffect(() => {
     setLoading(true);

@@ -12,7 +12,7 @@ export default function TestingApi() {
     params?: string,
     body?: string
   ) {
-    const request = provideRequestOptions(url, method);
+    const request = provideRequestOptions({ path: url, method });
 
     try {
       fetch(request)

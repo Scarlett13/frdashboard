@@ -13,7 +13,7 @@ export default function testingDeviceApi() {
     params?: string,
     body?: string
   ) {
-    const request = provideRequestOptions(url, method);
+    const request = provideRequestOptions({ path: url, method });
 
     try {
       fetch(request)

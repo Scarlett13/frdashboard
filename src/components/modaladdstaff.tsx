@@ -33,6 +33,7 @@ export default function ModalAddStaff() {
   const [open, setOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const cancelButtonRef = useRef(null);
 
@@ -51,7 +52,7 @@ export default function ModalAddStaff() {
   //useeffect hook untuk dapatkan staff roles, kalau lagi error untuk fetch, pakai variable default staff role diatas
   useEffect(() => {
     async function getRoles(url: string, method: string) {
-      const request = provideRequestOptions(url, method);
+      const request = provideRequestOptions({ path: url, method });
 
       try {
         const response = await fetch(request);
@@ -74,10 +75,33 @@ export default function ModalAddStaff() {
   //#endregion  //*======== Form ===========
 
   //#region  //*=========== Form Submit ===========
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     // !STARTERCONF Remove console log, use logger instead
     // eslint-disable-next-line no-console
     // console.log({ data });
+
+    setIsLoading(true);
+
+    //prepare for upload image
+    let fd = new FormData();
+    fd.append("image", data.staff_image);
+
+    //provide request options for upload data
+    const uploadFileRequest = provideRequestOptions({
+      path: "/file/image",
+      method: "post",
+      isUpload: true,
+      body: fd,
+    });
+
+    //trycatch upload data
+    try {
+      const uploadDataResponse = await fetch(uploadFileRequest);
+      const uploadData = await uploadDataResponse.json();
+      console.log(uploadData);
+    } catch (error) {
+      console.log(error);
+    }
 
     const bodyData = {
       StaffName: data.name,
@@ -104,7 +128,7 @@ export default function ModalAddStaff() {
           className="relative z-10"
           initialFocus={cancelButtonRef}
           onClose={() => {
-            closeModal();
+            isLoading ? null : closeModal();
           }}
         >
           <Transition.Child
@@ -148,6 +172,7 @@ export default function ModalAddStaff() {
                                 label="Name"
                                 validation={{ required: "Name must be filled" }}
                                 placeholder="Enter staff name"
+                                disabled={isLoading}
                               />
                               <div className="min-w-[220px] mt-4">
                                 <SelectInput
@@ -161,6 +186,7 @@ export default function ModalAddStaff() {
                                     value: role.id.toString(),
                                     label: role.RoleName,
                                   }))}
+                                  disabled={isLoading}
                                 />
                               </div>
                               <div className="mt-4">
@@ -178,22 +204,27 @@ export default function ModalAddStaff() {
                                       value: "false",
                                     },
                                   ]}
+                                  disabled={isLoading}
                                 />
                               </div>
 
                               <div className="mt-4">
-                                <DropzoneInput
-                                  id="staff_image"
-                                  label="Staff Image"
-                                  setImageSource={setImageSrc}
-                                  validation={{
-                                    required: "Photo must be filled",
-                                  }}
-                                  accept={{
-                                    "image/*": [".png", ".jpg", ".jpeg"],
-                                  }}
-                                  helperText="You can upload file with .png, .jpg, atau .jpeg extension."
-                                />
+                                {isLoading ? (
+                                  "Uploading..."
+                                ) : (
+                                  <DropzoneInput
+                                    id="staff_image"
+                                    label="Staff Image"
+                                    setImageSource={setImageSrc}
+                                    validation={{
+                                      required: "Photo must be filled",
+                                    }}
+                                    accept={{
+                                      "image/*": [".png", ".jpg", ".jpeg"],
+                                    }}
+                                    helperText="You can upload file with .png, .jpg, atau .jpeg extension."
+                                  />
+                                )}
                               </div>
                             </div>
                           </div>
@@ -215,18 +246,20 @@ export default function ModalAddStaff() {
                       <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                         <button
                           type="submit"
-                          className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                          disabled={isLoading}
+                          className="disabled:cursor-not-allowed disabled:bg-blue-300 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
                           // onClick={() => setOpen(false)}
                         >
-                          Tambahkan
+                          {isLoading ? "Mohon Tunggu" : "Tambahkan"}
                         </button>
                         <button
                           type="button"
-                          className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                          className="disabled:cursor-not-allowed disabled:bg-gray-300 mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                           onClick={() => {
                             closeModal();
                           }}
                           ref={cancelButtonRef}
+                          disabled={isLoading}
                         >
                           Cancel
                         </button>

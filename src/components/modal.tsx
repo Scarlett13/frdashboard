@@ -27,7 +27,11 @@ export default function Modal({ staff, setSuccess }: staffModalProps) {
     const body = {
       StaffName: refName.current,
     };
-    const request = provideRequestOptions(url, method, JSON.stringify(body));
+    const request = provideRequestOptions({
+      path: url,
+      method,
+      body: JSON.stringify(body),
+    });
 
     try {
       fetch(request).then((res) => {

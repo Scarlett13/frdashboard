@@ -15,7 +15,7 @@ export default function ButtonDelete({ children, path }: ButtonDeleteProps) {
   const cancelButtonRef = useRef(null);
 
   async function Delete() {
-    const request = provideRequestOptions(path, "DELETE");
+    const request = provideRequestOptions({ path, method: "DELETE" });
     try {
       fetch(request)
         .then((res) => res.json())
