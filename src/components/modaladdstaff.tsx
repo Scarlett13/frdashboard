@@ -36,6 +36,19 @@ export default function ModalAddStaff() {
 
   const cancelButtonRef = useRef(null);
 
+  //function close modal untuk clear form dan tutup modal add staff
+  function closeModal() {
+    setOpen(false);
+    reset({
+      name: "",
+      staff_role: "",
+      staff_status: "",
+      staff_image: "",
+    });
+    setImageSrc("");
+  }
+
+  //useeffect hook untuk dapatkan staff roles, kalau lagi error untuk fetch, pakai variable default staff role diatas
   useEffect(() => {
     async function getRoles(url: string, method: string) {
       const request = provideRequestOptions(url, method);
@@ -53,10 +66,11 @@ export default function ModalAddStaff() {
     getRoles("/role", "GET");
   }, []);
 
+  //#region  //*=========== Form ===========
   const methods = useForm({
     mode: "onTouched",
   });
-  const { handleSubmit } = methods;
+  const { handleSubmit, reset } = methods;
   //#endregion  //*======== Form ===========
 
   //#region  //*=========== Form Submit ===========
@@ -72,6 +86,8 @@ export default function ModalAddStaff() {
     };
 
     console.log({ bodyData });
+    /** BUKA DISINI BUAT CLOSE MODAL */
+    // closeModal();
     return;
   };
   //#endregion  //*======== Form Submit ===========
@@ -87,7 +103,9 @@ export default function ModalAddStaff() {
           as="div"
           className="relative z-10"
           initialFocus={cancelButtonRef}
-          onClose={setOpen}
+          onClose={() => {
+            closeModal();
+          }}
         >
           <Transition.Child
             as={Fragment}
@@ -205,7 +223,9 @@ export default function ModalAddStaff() {
                         <button
                           type="button"
                           className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-                          onClick={() => setOpen(false)}
+                          onClick={() => {
+                            closeModal();
+                          }}
                           ref={cancelButtonRef}
                         >
                           Cancel
