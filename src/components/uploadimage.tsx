@@ -23,6 +23,7 @@ export default function UploadImage() {
     const file = event.dataTransfer.files?.[0];
     if (file) {
       displayImage(file);
+      setImageSrc(URL.createObjectURL(file));
     }
   };
 
