@@ -93,7 +93,7 @@ export default function Modal({ staff, setSuccess }: staffModalProps) {
                         <div className="mt-2">
                           <Input
                             title="Nama Staff"
-                            placeholder=""
+                            placeholder="Staff Name"
                             value={staff.StaffName}
                             valueRef={refName}
                             type="text"

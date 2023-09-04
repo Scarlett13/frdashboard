@@ -59,7 +59,7 @@ export default function ModalAddDevice() {
                           <div className="me-5 w-full">
                             <Input
                               title="New Device"
-                              placeholder="Nama Device"
+                              placeholder="Device"
                               type="text"
                             />
                           </div>

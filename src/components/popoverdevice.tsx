@@ -1,11 +1,18 @@
 import { Popover, Transition } from "@headlessui/react";
 import { BsThreeDots } from "react-icons/bs";
-import { Fragment, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import ButtonDelete from "./modaldelete";
 import ModalEditDevice from "./modaleditdevice";
 import { Device } from "@/type/device";
 
-export default function PopOverDevice() {
+interface popoverDeviceProps {
+  popoverdevice: Device;
+  setSuccess: Dispatch<SetStateAction<boolean>>;
+}
+export default function PopOverDevice({
+  popoverdevice,
+  setSuccess,
+}: popoverDeviceProps) {
   return (
     <div className="">
       <Popover className="relative">
@@ -31,7 +38,10 @@ export default function PopOverDevice() {
               <Popover.Panel className="absolute top-0 left-5">
                 <div className="w-full bg-white">
                   <div className="gap-1 divide-y-2 divide-solid flex flex-col justify-center items-center rounded-lg p-2">
-                    <ModalEditDevice />
+                    <ModalEditDevice
+                      device={popoverdevice}
+                      setSuccess={setSuccess}
+                    />
                     <ButtonDelete path={""} />
                   </div>
                 </div>

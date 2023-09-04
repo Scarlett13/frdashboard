@@ -6,7 +6,7 @@ export function provideRequestOptions(path: string, method: string, body?: any){
 
     myHeaders.append(
       "Authorization",
-      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MzE4OTk0MywianRpIjoiZjA0ZmZiNTctODMwYS00ZDAzLWFlNjItZDgyYTFhOTk2YmRkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTMxODk5NDMsImV4cCI6MTY5MzM2Mjc0M30.lJVfguO1d7Lfz5_-7dBQqQMkHFMycFURwNWu1VNy3J8"
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MzgwMDk1OSwianRpIjoiY2JmZWEzNTYtZmExNC00MDZjLTk1YzYtNjBmY2U3Y2JiNmI4IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTM4MDA5NTksImV4cCI6MTY5Mzk3Mzc1OX0.J5Q61qeNCj2UekmN7k2KiQjdUiKUgYXjGZDZ_8hUSXA"
     );
 
     myHeaders.append(

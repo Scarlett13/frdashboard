@@ -1,16 +1,50 @@
-import { Fragment, useRef, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { BiEdit } from "react-icons/bi";
 import Input from "./input";
+import { Device } from "@/type/device";
+import { useRouter } from "next/router";
+import { provideRequestOptions } from "@/libs/api";
 
-export default function ModalEditDevice() {
+interface deviceModalProps {
+  device: Device;
+  setSuccess: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function ModalEditDevice({
+  device,
+  setSuccess,
+}: deviceModalProps) {
+  const refDeviceName = useRef(device.DeviceName);
   const [open, setOpen] = useState(false);
-
-  const test = () => {
-    console.log("test");
-  };
+  const router = useRouter();
 
   const cancelButtonRef = useRef(null);
+
+  async function submitDeviceName() {
+    console.log(refDeviceName.current);
+    const url = `/device/${device.id}`;
+    const method = "PUT";
+    const body = {
+      deviceName: refDeviceName.current,
+    };
+    const request = provideRequestOptions(url, method, JSON.stringify(body));
+
+    try {
+      fetch(request).then((res) => {
+        {
+          res.json();
+          setSuccess(res.ok);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // const test = () => {
+  //   console.log("test");
+  // };
 
   return (
     <div>
@@ -66,7 +100,9 @@ export default function ModalEditDevice() {
                           <div className="me-5 w-full">
                             <Input
                               title="New Device Name"
-                              placeholder=""
+                              placeholder="Device"
+                              value={device.DeviceName}
+                              valueRef={refDeviceName}
                               type="text"
                             />
                           </div>
@@ -78,7 +114,10 @@ export default function ModalEditDevice() {
                     <button
                       type="button"
                       className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                      onClick={() => setOpen(false)}
+                      onClick={() => {
+                        setOpen(false);
+                        submitDeviceName();
+                      }}
                     >
                       Save
                     </button>
