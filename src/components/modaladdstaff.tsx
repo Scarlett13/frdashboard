@@ -58,6 +58,9 @@ export default function ModalAddStaff() {
       try {
         const response = await fetch(request);
         const rolesData = await response.json();
+        if (rolesData.serialized_items) {
+          setRoles(rolesData.serialized_items);
+
         if (response.ok) {
           setRoles(defaultRole);
         } else {

@@ -1,118 +1,150 @@
 import { Log } from "@/type/log";
-import ModalLog from "./modallog";
 import { useEffect, useState } from "react";
-import { provideRequestOptions } from "@/libs/api";
+import { providePaginatedOptions, provideRequestOptions } from "@/libs/api";
+import useServerTable from "@/hooks/useServerTable";
+import React from "react";
+import { PaginatedApiResponse } from "@/type/api-type";
+import { ColumnDef } from "@tanstack/react-table";
+import IconButton from "./new-forms-components/icon-button";
+import { FiEye } from "react-icons/fi";
+import ServerTable from "./new-forms-components/table/server-table";
 
 function TableLogAccess() {
-  const [logs, setLogs] = useState<any>();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [queryData, setQueryData] = useState<PaginatedApiResponse<Log>>();
+  const [filteredData, setFiltredData] = useState<Log[] | null>(null);
 
-  async function getLogs(
-    url: string,
-    method: string,
-    params?: string,
-    body?: string
-  ) {
-    const request = provideRequestOptions({ path: url, method });
+  //#region  //*=========== Table Definition ===========
+  const { tableState, setTableState } = useServerTable<Log>();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(10);
 
-    try {
-      fetch(request)
-        .then((res) => res.json())
-        .then((logs) => {
-          setLogs(logs.serialized_items);
-          setIsLoading(false);
-          console.log(logs);
-        });
-    } catch (error) {
-      console.log(error);
+  /**
+   * Behavior:
+   * - If no size set, text won't truncate and will take as much space as the content needs
+   *      creating an overflow if needed
+   * - If size is set, it will be truncated to the pixel specified
+   */
+  const columns: ColumnDef<Log>[] = [
+    {
+      accessorKey: "id",
+      header: "Id",
+      // To set size, add size in pixel
+      size: 200,
+    },
+    {
+      accessorKey: "AccuracyLog",
+      header: "Accuracy Log",
+    },
+    {
+      accessorKey: "IdDevice",
+      header: "Device Id",
+    },
+    {
+      accessorKey: "IdStaff",
+      header: "Staff Id",
+    },
+    {
+      accessorKey: "LogImage",
+      header: "Log Image",
+    },
+    {
+      accessorKey: "LogMessage",
+      header: "Log Message",
+    },
+    {
+      accessorKey: "LogTimeStamp",
+      header: "Timestamp",
+    },
+    {
+      id: "actions",
+      header: "Action",
+      cell: () => <IconButton variant="outline" icon={FiEye} />,
+    },
+  ];
+  //#endregion  //*======== Table Definition ===========
+
+  //#region  //*=========== Fetch Data ===========
+  React.useEffect(() => {
+    async function fetchApiData() {
+      const url = providePaginatedOptions({ path: "/access_log", tableState });
+
+      if (!url) {
+        return;
+      }
+
+      const response = await fetch(url); // Replace with your API URL
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const test = await response.json();
+
+      setQueryData(test);
+
+      console.log(test.serialized_items);
     }
-  }
+
+    if (
+      tableState.pagination.pageIndex != currentPage ||
+      tableState.pagination.pageSize != pageSize
+    ) {
+      setCurrentPage(tableState.pagination.pageIndex);
+      setPageSize(tableState.pagination.pageSize);
+      fetchApiData();
+    }
+  }, [tableState, currentPage, pageSize]);
 
   useEffect(() => {
-    getLogs("/access_log", "GET");
-  }, []);
+    if (tableState.globalFilter) {
+      const filteredArray: Log[] = [];
+
+      queryData?.serialized_items.forEach((item) => {
+        let found = false; // Flag to track if the search keyword is found in any key
+        // Iterate through the keys of each object
+        Object.keys(item).forEach((key) => {
+          if (
+            item[key as keyof typeof item] &&
+            item[key as keyof typeof item]
+              .toString()
+              .toLowerCase()
+              .includes(tableState.globalFilter.toLowerCase())
+          ) {
+            found = true;
+          }
+        });
+
+        if (found) {
+          filteredArray.push(item);
+        }
+      });
+
+      setFiltredData(filteredArray);
+    } else {
+      setFiltredData(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tableState.globalFilter]);
+
+  //#endregion  //*======== Fetch Data ===========
   return (
-    <div className="grid grid-cols-1 gap-4 w-full justify-center">
+    <div className="grid grid-cols-1 gap-4 w-full justify-center h-full text-gray-900">
       <h1 className="text-2xl font-bold py-4 ms-8">Log</h1>
-      <div className="overflow-auto h-[45rem] mt-8">
-        <table className="min-w-full border-collapse border-black border-2 text-center">
-          <thead className="border-black border-2 sticky top-0 bg-gray-200 z-10">
-            <tr>
-              <th
-                className={`py-2 px-4 bg-gray-200 ${
-                  isLoading ? "animate-pulse bg-gray-300" : ""
-                }`}
-              >
-                ID
-              </th>
-              <th
-                className={`py-2 px-4 bg-gray-200 ${
-                  isLoading ? "animate-pulse bg-gray-300" : ""
-                }`}
-              >
-                Date
-              </th>
-              <th
-                className={`py-2 px-4 bg-gray-200 ${
-                  isLoading ? "animate-pulse bg-gray-300" : ""
-                }`}
-              >
-                Message
-              </th>
-              <th
-                className={`py-2 px-4 bg-gray-200 ${
-                  isLoading ? "animate-pulse bg-gray-300" : ""
-                }`}
-              >
-                Image
-              </th>
-              <th
-                className={`py-2 px-4 bg-gray-200 ${
-                  isLoading ? "animate-pulse bg-gray-300" : ""
-                }`}
-              >
-                Id Device
-              </th>
-              <th
-                className={`py-2 px-4 bg-gray-200 ${
-                  isLoading ? "animate-pulse bg-gray-300" : ""
-                }`}
-              >
-                Id Staff
-              </th>
-              <th
-                className={`py-2 px-4 bg-gray-200 ${
-                  isLoading ? "animate-pulse bg-gray-300" : ""
-                }`}
-              />
-            </tr>
-          </thead>
-          {isLoading ? (
-            <tbody>
-              <tr>
-                <td colSpan={8} className="py-4 px-4">
-                  <div className="animate-pulse bg-gray-300 h-5 w-full"></div>
-                </td>
-              </tr>
-            </tbody>
-          ) : (
-            <tbody className="border-black border-2">
-              {logs?.map((log: Log) => (
-                <tr key={log.id}>
-                  <td className="py-2 px-4 border">{log.id}</td>
-                  <td className="py-2 px-4 border">{log.LogTimeStamp}</td>
-                  <td className="py-2 px-4 border">{log.LogMessage}</td>
-                  <td className="py-2 px-4 border">{log.LogImage}</td>
-                  <td className="py-2 px-4 border">{log.IdDevice}</td>
-                  <td className="py-2 px-4 border">{log.IdStaff}</td>
-                  <td className="py-2 px-4 border">
-                    <ModalLog />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          )}
-        </table>
+      <div className="overflow-auto h-[45rem] mt-8 text-gray-900">
+        <ServerTable
+          columns={columns}
+          data={filteredData ? filteredData : queryData?.serialized_items ?? []}
+          totalPage={queryData?.total_page}
+          // header={
+          //   <PopupFilter
+          //     filterOption={filterOption}
+          //     setFilterQuery={setFilterQuery}
+          //   />
+          // }
+          // isLoading={isLoading}
+          tableState={tableState}
+          setTableState={setTableState}
+          className="mt-8"
+          withFilter={true}
+        />
       </div>
     </div>
   );

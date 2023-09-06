@@ -41,7 +41,10 @@ export default function Layout({ children, showSideBar }: layoutProps) {
       fetch(request)
         .then((res) => res.json())
         .then((data) => {
-          setData(data);
+          if (data.serialized_items) {
+            setData(data.serialized_items);
+          }
+
           setLoading(false);
           console.log(data);
         });

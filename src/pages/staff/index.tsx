@@ -22,7 +22,10 @@ export default function Staff() {
       fetch(request)
         .then((res) => res.json())
         .then((staff) => {
-          setListStaff(staff);
+          if (staff) {
+            setListStaff(staff);
+          }
+
           setSuccess(false);
           console.log(staff);
         });
