@@ -1,6 +1,7 @@
 import { Device } from "@/type/device";
-import ButtonDelete from "./modaldelete";
 import PopOverDevice from "./popoverdevice";
+import { useEffect, useState } from "react";
+import { VscThreeBars } from "react-icons/vsc";
 
 type DeviceProps = {
   listdevices?: Device[] | null;
@@ -8,8 +9,13 @@ type DeviceProps = {
 };
 
 export default function SideBar({ listdevices, children }: DeviceProps) {
+  const [collapsed, setSidebarCollapsed] = useState(false);
+  console.log(listdevices);
+  useEffect(() => {
+    console.log(collapsed);
+  }, [collapsed]);
   return (
-    <div className="bg-gray-800 fixed mt-20 text-white w-64 h-screen flex flex-col">
+    <div className="fixed mt-20 text-white h-screen flex flex-col">
       <div className="p-4">
         <h2 className="text-xl font-bold">Device</h2>
       </div>
@@ -17,6 +23,7 @@ export default function SideBar({ listdevices, children }: DeviceProps) {
         <ul className="p-4">
           {listdevices &&
             listdevices.map((device) => {
+              console.log(device);
               return (
                 <li className="py-2" key={device.id}>
                   <div className="grid grid-cols-2 justify-between">

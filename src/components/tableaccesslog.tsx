@@ -128,7 +128,7 @@ function TableLogAccess() {
   return (
     <div className="grid grid-cols-1 gap-4 w-full justify-center h-full text-gray-900">
       <h1 className="text-2xl font-bold py-4 ms-8">Log</h1>
-      <div className="overflow-auto h-[45rem] mt-8 text-gray-900">
+      <div className="overflow-auto h-[45rem] mt-1 text-gray-900">
         <ServerTable
           columns={columns}
           data={filteredData ? filteredData : queryData?.serialized_items ?? []}

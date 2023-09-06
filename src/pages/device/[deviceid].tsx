@@ -28,7 +28,7 @@ export default function Device() {
         fetch(request)
           .then((res) => res.json())
           .then((data) => {
-            setData(data);
+            setData(data.serialized_items);
             setLoading(false);
             console.log(data);
           });

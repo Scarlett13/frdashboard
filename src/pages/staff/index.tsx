@@ -22,10 +22,7 @@ export default function Staff() {
       fetch(request)
         .then((res) => res.json())
         .then((staff) => {
-          if (staff) {
-            setListStaff(staff);
-          }
-
+          setListStaff(staff.serialized_items);
           setSuccess(false);
           console.log(staff);
         });

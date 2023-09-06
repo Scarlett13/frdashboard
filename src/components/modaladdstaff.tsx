@@ -61,10 +61,11 @@ export default function ModalAddStaff() {
         if (rolesData.serialized_items) {
           setRoles(rolesData.serialized_items);
 
-        if (response.ok) {
-          setRoles(defaultRole);
-        } else {
-          setRoles(defaultRole);
+          if (response.ok) {
+            setRoles(defaultRole);
+          } else {
+            setRoles(defaultRole);
+          }
         }
       } catch (error) {
         setRoles(defaultRole);

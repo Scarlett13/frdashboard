@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 type NavBarProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export default function Navbar({ children }: NavBarProps) {
