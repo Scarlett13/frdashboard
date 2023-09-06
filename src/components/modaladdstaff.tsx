@@ -13,6 +13,7 @@ import SelectInput from "./new-forms-components/select-input";
 import Image from "next/image";
 import { provideRequestOptions } from "@/libs/api";
 import { Role } from "@/type/role";
+import { BsCloudUploadFill } from "react-icons/bs";
 
 const defaultRole = [
   {
@@ -57,7 +58,11 @@ export default function ModalAddStaff() {
       try {
         const response = await fetch(request);
         const rolesData = await response.json();
-        setRoles(rolesData);
+        if (response.ok) {
+          setRoles(defaultRole);
+        } else {
+          setRoles(defaultRole);
+        }
       } catch (error) {
         setRoles(defaultRole);
         console.log(error);
@@ -85,7 +90,11 @@ export default function ModalAddStaff() {
     //prepare for upload image
     /* TODO: update filename ngikutin sanitised fullname ditambah .png*/
     let fd = new FormData();
-    fd.append("image", data.staff_image[0]);
+    fd.append(
+      "image",
+      data.staff_image[0],
+      "/C:/Users/visi2/Downloads/yudha.png"
+    );
 
     //provide request options for upload data
     const uploadFileRequest = provideRequestOptions({
@@ -97,6 +106,7 @@ export default function ModalAddStaff() {
 
     //trycatch upload data
     try {
+      console.log(uploadFileRequest.body);
       const uploadDataResponse = await fetch(uploadFileRequest);
       const uploadData = await uploadDataResponse.json();
 

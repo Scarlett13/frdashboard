@@ -19,7 +19,7 @@ function TableLogAccess() {
       fetch(request)
         .then((res) => res.json())
         .then((logs) => {
-          setLogs(logs);
+          setLogs(logs.serialized_items);
           setIsLoading(false);
           console.log(logs);
         });

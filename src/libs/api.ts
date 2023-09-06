@@ -18,11 +18,11 @@ export function provideRequestOptions({
 
   myHeaders.append(
     "Authorization",
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5MzgxMDQxNCwianRpIjoiN2RlMzFjMzctYjhhMy00ZGVjLWJiMzctYjE3Mjg2ZGNkZGY3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTM4MTA0MTQsImV4cCI6MTY5Mzk4MzIxNH0.OLS2l9hjx8LhLCmbWv0m18NRrCaVw_AERh8zts-wX8A"
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5Mzk3MjI0NiwianRpIjoiYTVkNWRiYjYtZmE4OC00YjU4LTg2YjgtY2U3N2ExOTI4NTM3IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTM5NzIyNDYsImV4cCI6MTY5NDE0NTA0Nn0.MVWrSsehDUioaALtN4H-XooSUg1ttctdYcv7KR78bL4"
   );
 
   if (isUpload) {
-    myHeaders.append("Content-Type", "multipart/form-data");
+    // myHeaders.append("Content-Type", "multipart/form-data");
   } else {
     myHeaders.append("Content-Type", "application/json");
   }

@@ -2,7 +2,9 @@
 // import Layout from "@/components/layout";
 // import { TableLogAccess } from "@/components/tableaccesslog";
 
-import SideBar from "@/components/testingcomponents";
+import TestingLayoutSideBar from "@/components/testingcomponents";
+import { provideRequestOptions } from "@/libs/api";
+import { useEffect, useState } from "react";
 
 // export default function Testing() {
 //   return (
@@ -30,6 +32,29 @@ import SideBar from "@/components/testingcomponents";
 //   );
 // }
 
-export default function testingSideBar() {
-  return <SideBar>{""}</SideBar>;
+export default function testingLayoutSideBar() {
+  const [data, setData] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+
+  const request = provideRequestOptions({ path: "/device", method: "GET" });
+
+  useEffect(() => {
+    setLoading(true);
+    try {
+      fetch(request)
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data.serialized_items);
+          setLoading(false);
+          console.log(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+  return (
+    <div className="h-screen">
+      <TestingLayoutSideBar listdevices={data}>{""}</TestingLayoutSideBar>
+    </div>
+  );
 }
