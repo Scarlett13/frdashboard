@@ -40,7 +40,7 @@ export default function Device() {
   }, [query]);
   return (
     <Layout showSideBar={true}>
-      <div className="me-9 pt-6 text">
+      <div className="me-9 ms-9 pt-40">
         {data ? (
           <Card style="p-8 border border-gray-300">
             <div className="ms-9 flex flex-col items-start">

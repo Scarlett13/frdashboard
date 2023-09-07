@@ -8,8 +8,8 @@ import clsxm from "@/libs/clsxm";
 import { VscThreeBars } from "react-icons/vsc";
 
 type layoutProps = {
-  children: React.ReactNode;
-  showSideBar: boolean;
+  children?: React.ReactNode;
+  showSideBar?: boolean | null;
 };
 
 // const listdevices: Device[] = [
@@ -78,9 +78,9 @@ export default function Layout({ children, showSideBar }: layoutProps) {
               {!collapsed && (
                 <div>
                   <SideBar listdevices={data}>
-                    <div className="m-14">
+                    {/* <div className="m-14">
                       <ModalAddDevice />
-                    </div>
+                    </div> */}
                   </SideBar>
                 </div>
               )}
@@ -89,9 +89,12 @@ export default function Layout({ children, showSideBar }: layoutProps) {
         ) : (
           <></>
         )}
-        <main className={`mt-20 h-screen${showSideBar ? "ms-72" : "ms-2"}`}>
-          {children}
-        </main>
+        {/* <div className="h-screen w-full">
+          <main className={`mt-20${showSideBar ? "m-72" : "m-72"}`}>
+            {children}
+          </main>
+        </div> */}
+        <main>{children}</main>
       </div>
     </Navbar>
   );

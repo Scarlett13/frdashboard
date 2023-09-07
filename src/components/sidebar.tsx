@@ -9,13 +9,9 @@ type DeviceProps = {
 };
 
 export default function SideBar({ listdevices, children }: DeviceProps) {
-  const [collapsed, setSidebarCollapsed] = useState(false);
   console.log(listdevices);
-  useEffect(() => {
-    console.log(collapsed);
-  }, [collapsed]);
   return (
-    <div className="fixed mt-20 text-white h-screen flex flex-col">
+    <div className="fixed mt-2 text-white h-screen flex flex-col">
       <div className="p-4">
         <h2 className="text-xl font-bold">Device</h2>
       </div>
