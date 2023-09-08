@@ -6,7 +6,7 @@ type LayoutLogProps = {
 
 export default function LogLayout({ children }: LayoutLogProps) {
   return (
-    <div className="h-screen">
+    <div className="h-screen overflow-y-hidden">
       <Navbar>
         <main>{children}</main>
       </Navbar>

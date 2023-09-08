@@ -47,6 +47,7 @@ export default function PaginationControl<T extends RowData>({
           leftIcon={HiChevronLeft}
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.previousPage()}
+          className="hover:bg-slate-500"
         >
           Prev
         </Button>
@@ -56,8 +57,9 @@ export default function PaginationControl<T extends RowData>({
             variant="ghost"
             size="sm"
             className={clsxm(
-              currentPage === page && "bg-primary-400",
-              "min-w-[2rem]"
+              currentPage === page && "bg-slate-400",
+              "min-w-[2rem]",
+              "hover:bg-slate-500"
             )}
             onClick={() => handlePageControlClick(page)}
           >
@@ -73,6 +75,7 @@ export default function PaginationControl<T extends RowData>({
             data.length < table.getState().pagination.pageSize
           }
           onClick={() => table.nextPage()}
+          className="hover:bg-slate-500"
         >
           Next
         </Button>

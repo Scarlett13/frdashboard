@@ -81,7 +81,7 @@ export default function ServerTable<T extends object>({
       <div
         className={clsx(
           "flex flex-col items-stretch gap-3 sm:flex-row",
-          withFilter ? "sm:justify-between" : "sm:justify-end"
+          withFilter ? "sm:justify-between mx-3" : "sm:justify-end"
         )}
       >
         {withFilter && <Filter table={table} />}
@@ -104,7 +104,7 @@ export default function ServerTable<T extends object>({
       </div>
       <div className="-my-2 -mx-4 mt-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-          <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+          <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
             <table className="min-w-full divide-y divide-gray-300">
               <THead table={table} omitSort={omitSort} />
               <TBody table={table} isLoading={isLoading} />

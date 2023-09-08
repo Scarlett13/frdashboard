@@ -2,7 +2,7 @@ import { buildPaginatedTableURL } from "./table";
 
 const baseURL = "http://192.168.10.31:5000";
 const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5Mzk4NjM5MywianRpIjoiYzFhN2VhZGItZTkzOS00YTNjLWE1NDItNTQyMDdmM2IzNjNhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTM5ODYzOTMsImV4cCI6MTY5NDE1OTE5M30.ZpulVsu9YlfQjSX4lANJS0QKYomzVG0M-UxSn12SLm4";
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NDE0MDMzNSwianRpIjoiZjdjNmIxMmYtMDljYy00ZTA3LWJhZGItNWFiYzg1NjE3M2U5IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTQxNDAzMzUsImV4cCI6MTY5NDMxMzEzNX0.fG3DI25dW7nB14upA_-8Rcm9O2loOKGRVyVm8SZaiXQ";
 
 type RequestOptionsProps = {
   path: string;

@@ -20,7 +20,7 @@ export default function SideBarRole() {
     try {
       const response = await fetch(request);
       const rolesData = await response.json();
-      setRoles(rolesData);
+      setRoles(rolesData.serialized_items);
       console.log(rolesData);
     } catch (error) {
       console.log(error);
@@ -67,7 +67,7 @@ export default function SideBarRole() {
       {isOpen && (
         <div
           ref={sidebarRef}
-          className="bg-neutral-400 absolute top-[140px] right-[140px] opacity-100 flex flex-col items-start rounded-lg p-2 w-fit"
+          className="bg-neutral-400 absolute top-[140px] right-[140px] mx-16 my-1 opacity-100 flex flex-col items-start rounded-lg p-2 w-fit"
         >
           {roles.map((role) => (
             <div
