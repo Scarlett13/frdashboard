@@ -8,6 +8,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import IconButton from "./new-forms-components/icon-button";
 import { FiEye } from "react-icons/fi";
 import ServerTable from "./new-forms-components/table/server-table";
+import Typography from "./new-forms-components/typography";
 
 function TableLogAccess() {
   const [queryData, setQueryData] = useState<PaginatedApiResponse<Log>>();
@@ -26,26 +27,27 @@ function TableLogAccess() {
    */
   const columns: ColumnDef<Log>[] = [
     {
-      accessorKey: "id",
+      accessorKey: "Id",
       header: "Id",
       // To set size, add size in pixel
-      size: 200,
+      size: 100,
+    },
+    // {
+    //   accessorKey: "AccuracyLog",
+    //   header: "Accuracy Log",
+    // },
+    {
+      accessorKey: "DeviceName",
+      header: "Device Name",
     },
     {
-      accessorKey: "AccuracyLog",
-      header: "Accuracy Log",
-    },
-    {
-      accessorKey: "IdDevice",
-      header: "Device Id",
-    },
-    {
-      accessorKey: "IdStaff",
-      header: "Staff Id",
+      accessorKey: "StaffName",
+      header: "Staff Name",
     },
     {
       accessorKey: "LogImage",
       header: "Log Image",
+      size: 200,
     },
     {
       accessorKey: "LogMessage",
@@ -54,11 +56,20 @@ function TableLogAccess() {
     {
       accessorKey: "LogTimeStamp",
       header: "Timestamp",
+      size: 250,
     },
     {
       id: "actions",
       header: "Action",
-      cell: () => <IconButton variant="outline" icon={FiEye} />,
+      cell: (props) => (
+        <IconButton
+          onClick={() => {
+            console.log("clicked, ", props.cell.row.original);
+          }}
+          variant="outline"
+          icon={FiEye}
+        />
+      ),
     },
   ];
   //#endregion  //*======== Table Definition ===========
@@ -130,6 +141,7 @@ function TableLogAccess() {
       <h1 className="text-2xl font-bold py-4 ms-8">Log</h1>
       <div className="overflow-auto h-[45rem] mt-1 text-gray-900">
         <ServerTable
+          //@ts-ignore
           columns={columns}
           data={filteredData ? filteredData : queryData?.serialized_items ?? []}
           totalPage={queryData?.total_page}

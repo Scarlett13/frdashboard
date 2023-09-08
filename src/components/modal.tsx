@@ -45,9 +45,9 @@ export default function Modal({ staff, setSuccess }: staffModalProps) {
     }
   }
   return (
-    <div>
+    <div className="w-full flex justify-between items-center">
       <div
-        className="inline-flex justify-between gap-9 items-center cursor-pointer text-black hover:underline"
+        className="inline-flex px-2 w-full justify-between gap-9 items-center cursor-pointer text-black hover:underline mt-2"
         onClick={() => setOpen(true)}
       >
         <p>Edit</p>

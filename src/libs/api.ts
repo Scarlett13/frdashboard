@@ -2,7 +2,7 @@ import { buildPaginatedTableURL } from "./table";
 
 const baseURL = "http://192.168.10.31:5000";
 const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5Mzk4NjM5MywianRpIjoiYzFhN2VhZGItZTkzOS00YTNjLWE1NDItNTQyMDdmM2IzNjNhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTM5ODYzOTMsImV4cCI6MTY5NDE1OTE5M30.ZpulVsu9YlfQjSX4lANJS0QKYomzVG0M-UxSn12SLm4";
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NDE2Mzg4NCwianRpIjoiMjE3NGRiMGQtYTQ1NS00OTIxLWI0OTctZWZhN2ZkOWI1ZmU2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTQxNjM4ODQsImV4cCI6MTY5NDMzNjY4NH0.aFTjoFbzBDH3BWGWfdwW92OlQzdSPUTZ3mJ8H1E3Vro";
 
 type RequestOptionsProps = {
   path: string;
@@ -36,8 +36,6 @@ export function provideRequestOptions({
   if (body) {
     options.body = body;
   }
-
-  console.log(options);
 
   // const Test = "yudha"
   // const tests = "visi"

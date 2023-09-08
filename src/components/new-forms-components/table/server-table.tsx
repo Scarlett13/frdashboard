@@ -41,6 +41,7 @@ type ServerTableProps<T extends object> = {
   setTableState: SetServerTableState;
   omitSort?: boolean;
   withFilter?: boolean;
+  withEntries?: boolean;
 } & React.ComponentPropsWithoutRef<"div">;
 
 export default function ServerTable<T extends object>({
@@ -54,6 +55,7 @@ export default function ServerTable<T extends object>({
   setTableState,
   omitSort = false,
   withFilter = false,
+  withEntries = true,
   ...rest
 }: ServerTableProps<T>) {
   const table = useReactTable({
@@ -85,22 +87,24 @@ export default function ServerTable<T extends object>({
         )}
       >
         {withFilter && <Filter table={table} />}
-        <div className="flex items-center gap-3">
-          {Header}
-          <TOption
-            icon={<FiList />}
-            value={table.getState().pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[5, 10, 25, 100].map((page) => (
-              <option key={page} value={page}>
-                {page} Entries
-              </option>
-            ))}
-          </TOption>
-        </div>
+        {withEntries && (
+          <div className="flex items-center gap-3">
+            {Header}
+            <TOption
+              icon={<FiList />}
+              value={table.getState().pagination.pageSize}
+              onChange={(e) => {
+                table.setPageSize(Number(e.target.value));
+              }}
+            >
+              {[5, 10, 25, 100].map((page) => (
+                <option key={page} value={page}>
+                  {page} Entries
+                </option>
+              ))}
+            </TOption>
+          </div>
+        )}
       </div>
       <div className="-my-2 -mx-4 mt-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">

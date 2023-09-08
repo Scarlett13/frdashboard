@@ -60,39 +60,36 @@ export default function Layout({ children, showSideBar }: layoutProps) {
     }
   }, []);
   return (
-    <Navbar>
-      <div
-        className={clsxm({
-          "grid min-h-screen": true,
-          "grid-cols-sidebar": !collapsed,
-          "grid-cols-sidebar-collapsed": collapsed,
-          "transition-[grid-template-columns] duration-300 ease-in-out": true,
-        })}
-      >
-        {showSideBar ? (
-          <div className="bg-gray-800 text-white">
-            <div>
-              <button onClick={() => setCollapsed((prev) => !prev)}>
-                <VscThreeBars className="w-8 h-8 mt-20" />
-              </button>
-              {!collapsed && (
-                <div>
-                  <SideBar listdevices={data}>
-                    <div className="m-14">
-                      <ModalAddDevice />
-                    </div>
-                  </SideBar>
+    <div>
+      <Navbar>{}</Navbar>
+      {showSideBar ? (
+        <>
+          <div
+            className={clsxm({
+              "grid min-h-screen": true,
+              "grid-cols-sidebar": !collapsed,
+              "grid-cols-sidebar-collapsed": collapsed,
+              "transition-[grid-template-columns] duration-300 ease-in-out":
+                true,
+            })}
+          >
+            <div className="bg-gray-800 text-white">
+              <SideBar
+                listdevices={data}
+                collapsed={collapsed}
+                setCollapsed={setCollapsed}
+              >
+                <div className="m-14">
+                  <ModalAddDevice />
                 </div>
-              )}
+              </SideBar>
             </div>
+            <main className={`mt-20 h-screen`}>{children}</main>
           </div>
-        ) : (
-          <></>
-        )}
-        <main className={`mt-20 h-screen${showSideBar ? "ms-72" : "ms-2"}`}>
-          {children}
-        </main>
-      </div>
-    </Navbar>
+        </>
+      ) : (
+        <main className={`mt-20 h-screen`}>{children}</main>
+      )}
+    </div>
   );
 }

@@ -4,6 +4,8 @@ import { Dispatch, Fragment, SetStateAction } from "react";
 import ButtonDelete from "./modaldelete";
 import Modal from "./modal";
 import { Staff } from "@/type/staff";
+import UnstyledLink from "./new-forms-components/unstyled-links";
+import ModalAddStaff from "./modaladdstaff";
 
 interface popoverStaffProps {
   popoverStaff: Staff;
@@ -35,10 +37,20 @@ export default function PopOverStaff({
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute top-5 -right-5">
+              <Popover.Panel className="absolute top-5 -right-5 min-w-[150px]">
                 <div className="w-full bg-slate-400">
-                  <div className="gap-1 divide-y-2 divide-solid flex flex-col justify-center items-center rounded-lg p-2">
-                    <Modal staff={popoverStaff} setSuccess={setSuccess} />
+                  <div className="gap-2 divide-y-2 divide-solid flex flex-col justify-between items-center rounded-lg p-2">
+                    {!popoverStaff.FaceFeatures && (
+                      <UnstyledLink
+                        href={`/staff/facefeatures/${popoverStaff.id}`}
+                        className="inline-flex w-full justify-between gap-4 cursor-pointer hover:underline px-2"
+                      >
+                        Register face
+                      </UnstyledLink>
+                    )}
+
+                    {/* <Modal staff={popoverStaff} setSuccess={setSuccess} /> */}
+                    <ModalAddStaff isEdit={true} staffId={popoverStaff.id} />
                     <ButtonDelete path={""} />
                   </div>
                 </div>

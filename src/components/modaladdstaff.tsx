@@ -14,6 +14,91 @@ import Image from "next/image";
 import { provideRequestOptions } from "@/libs/api";
 import { Role } from "@/type/role";
 import { BsCloudUploadFill } from "react-icons/bs";
+import { Staff } from "@/type/staff";
+import { url } from "inspector";
+import { LiaUserEditSolid } from "react-icons/lia";
+
+async function submitData(data: any) {
+  let fd = new FormData();
+  fd.append(
+    "image",
+    data.staff_image[0],
+    "/C:/Users/visi2/Downloads/yudha.png"
+  );
+
+  //provide request options for upload data
+  const uploadFileRequest = provideRequestOptions({
+    path: "/file/image",
+    method: "POST",
+    isUpload: true,
+    body: fd,
+  });
+
+  //trycatch upload data
+  try {
+    const uploadDataResponse = await fetch(uploadFileRequest);
+
+    if (uploadDataResponse.ok) {
+      const uploadData = await uploadDataResponse.json();
+      const bodyData = {
+        StaffName: data.name,
+        IsActive: data.staff_status === "true" ? true : false,
+        StaffDepartment: data.staff_department,
+        StaffImage: uploadData.Path,
+        StaffSound: "",
+      };
+
+      const createNewStaff = provideRequestOptions({
+        path: "/staff",
+        method: "POST",
+        body: JSON.stringify(bodyData),
+      });
+
+      const createStaffResponse = await fetch(createNewStaff);
+
+      if (createStaffResponse.ok) {
+        return 1;
+      } else {
+        return 0;
+      }
+    }
+  } catch (error) {
+    return 0;
+    console.log("error");
+    console.log(error);
+  }
+
+  return;
+}
+
+async function editData(data: any, staffId: number) {
+  try {
+    const bodyData = {
+      StaffName: data.name,
+      IsActive: data.staff_status === "true" ? true : false,
+      StaffDepartment: data.staff_department,
+      StaffRole: {
+        Update: data.staff_role.map((role: string) => parseInt(role, 10)),
+      },
+    };
+
+    const createNewStaff = provideRequestOptions({
+      path: `/staff/${staffId}`,
+      method: "PUT",
+      body: JSON.stringify(bodyData),
+    });
+
+    const createStaffResponse = await fetch(createNewStaff);
+
+    if (createStaffResponse.ok) {
+      return 1;
+    } else {
+      return 0;
+    }
+  } catch (error) {
+    return 0;
+  }
+}
 
 const defaultRole = [
   {
@@ -30,7 +115,12 @@ const defaultRole = [
   },
 ];
 
-export default function ModalAddStaff() {
+interface IModalAddStaff {
+  isEdit: boolean;
+  staffId?: number;
+}
+
+export default function ModalAddStaff({ isEdit, staffId }: IModalAddStaff) {
   const [open, setOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
@@ -43,7 +133,8 @@ export default function ModalAddStaff() {
     setOpen(false);
     reset({
       name: "",
-      staff_role: "",
+      staff_department: "",
+      staff_roles: [],
       staff_status: "",
       staff_image: "",
     });
@@ -58,14 +149,14 @@ export default function ModalAddStaff() {
       try {
         const response = await fetch(request);
         const rolesData = await response.json();
+        console.log("wubba", rolesData);
         if (rolesData.serialized_items) {
           setRoles(rolesData.serialized_items);
-
-          if (response.ok) {
-            setRoles(defaultRole);
-          } else {
-            setRoles(defaultRole);
-          }
+          // if (response.ok) {
+          //   setRoles(defaultRole);
+          // }
+        } else {
+          setRoles(defaultRole);
         }
       } catch (error) {
         setRoles(defaultRole);
@@ -80,7 +171,7 @@ export default function ModalAddStaff() {
   const methods = useForm({
     mode: "onTouched",
   });
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, setValue } = methods;
   //#endregion  //*======== Form ===========
 
   //#region  //*=========== Form Submit ===========
@@ -89,55 +180,89 @@ export default function ModalAddStaff() {
     // eslint-disable-next-line no-console
     // console.log({ data });
 
-    // setIsLoading(true);
+    setIsLoading(true);
+    let status: number | undefined = 0;
+
+    if (isEdit) {
+      status = await editData(data, staffId as number);
+    } else {
+      status = await submitData(data);
+    }
+
+    setIsLoading(false);
+
+    if (status) {
+      closeModal();
+    }
 
     //prepare for upload image
     /* TODO: update filename ngikutin sanitised fullname ditambah .png*/
-    let fd = new FormData();
-    fd.append(
-      "image",
-      data.staff_image[0],
-      "/C:/Users/visi2/Downloads/yudha.png"
-    );
-
-    //provide request options for upload data
-    const uploadFileRequest = provideRequestOptions({
-      path: "/file/image",
-      method: "post",
-      isUpload: true,
-      body: fd,
-    });
-
-    //trycatch upload data
-    try {
-      console.log(uploadFileRequest.body);
-      const uploadDataResponse = await fetch(uploadFileRequest);
-      const uploadData = await uploadDataResponse.json();
-
-      console.log(uploadData);
-    } catch (error) {
-      console.log("error");
-      console.log(error);
-    }
-
-    const bodyData = {
-      StaffName: data.name,
-      IsActive: data.staff_status === "true" ? true : false,
-      Roles: parseInt(data.staff_role) ?? 0,
-    };
-
-    console.log({ bodyData });
-    /** BUKA DISINI BUAT CLOSE MODAL */
-    // closeModal();
-    return;
   };
   //#endregion  //*======== Form Submit ===========
 
+  useEffect(() => {
+    console.log(`${staffId} - ${isEdit}`);
+    if (!isEdit || !staffId) {
+      return;
+    }
+
+    async function getStaff(
+      url: string,
+      method: string,
+      params?: string,
+      body?: string
+    ) {
+      const request = provideRequestOptions({ path: url, method });
+
+      try {
+        fetch(request)
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error(`Fetch error: ${res.status} - ${res.statusText}`);
+            }
+            return res.json();
+          })
+          .then((data: Staff) => {
+            // Handle the successful response here
+            // You can set the state or perform other actions with the data
+            setValue("name", data.StaffName || "");
+            setValue("staff_department", data.StaffDepartment || "");
+            setValue(
+              "staff_role",
+              data.Roles.map((number) => number.toString()) || []
+            );
+            setValue("staff_image", "" || "");
+            setValue("staff_status", data.IsActive.toString() || "");
+            console.log(data);
+          })
+          .catch((error) => {
+            // Handle the error here
+            console.error(error);
+          });
+      } catch (error) {
+        // Handle any synchronous errors that occur before the fetch
+        console.error(error);
+      }
+    }
+
+    getStaff(`/staff/${staffId || "0"}`, "GET");
+  });
+
   return (
-    <div>
-      <Button buttonname="" onClick={() => setOpen(true)} style="">
-        {open ? "" : <PiUserPlusBold style={{ fontSize: "24px" }} />}
-      </Button>
+    <div className={`${isEdit && "w-full flex justify-between items-center"}`}>
+      {isEdit ? (
+        <div
+          className="inline-flex px-2 w-full justify-between gap-9 items-center cursor-pointer text-black hover:underline mt-2"
+          onClick={() => setOpen(true)}
+        >
+          <p>Edit</p>
+          <LiaUserEditSolid />
+        </div>
+      ) : (
+        <Button buttonname="" onClick={() => setOpen(true)} style="">
+          {open ? "" : <PiUserPlusBold style={{ fontSize: "24px" }} />}
+        </Button>
+      )}
 
       <Transition.Root show={open} as={Fragment}>
         <Dialog
@@ -193,19 +318,37 @@ export default function ModalAddStaff() {
                               />
                               <div className="min-w-[220px] mt-4">
                                 <SelectInput
-                                  id="staff_role"
-                                  label="Staff role"
-                                  placeholder="Select staff role"
+                                  id="staff_department"
+                                  label="Staff department"
+                                  placeholder="Select staff department"
                                   validation={{
-                                    required: "Staff role must be filled",
+                                    required: "Staff department must be filled",
                                   }}
                                   options={roles.map((role) => ({
-                                    value: role.id.toString(),
+                                    value: role.RoleName,
                                     label: role.RoleName,
                                   }))}
                                   disabled={isLoading}
                                 />
                               </div>
+                              {isEdit && (
+                                <div className="min-w-[220px] mt-4">
+                                  <SelectInput
+                                    id="staff_role"
+                                    label="Staff role"
+                                    placeholder="Select staff role"
+                                    isMulti={true}
+                                    validation={{
+                                      required: "Staff role must be filled",
+                                    }}
+                                    options={roles.map((role) => ({
+                                      value: role.id.toString(),
+                                      label: role.RoleName,
+                                    }))}
+                                    disabled={isLoading}
+                                  />
+                                </div>
+                              )}
                               <div className="mt-4">
                                 <SelectInput
                                   id="staff_status"
@@ -225,24 +368,26 @@ export default function ModalAddStaff() {
                                 />
                               </div>
 
-                              <div className="mt-4">
-                                {isLoading ? (
-                                  "Uploading..."
-                                ) : (
-                                  <DropzoneInput
-                                    id="staff_image"
-                                    label="Staff Image"
-                                    setImageSource={setImageSrc}
-                                    validation={{
-                                      required: "Photo must be filled",
-                                    }}
-                                    accept={{
-                                      "image/*": [".png", ".jpg", ".jpeg"],
-                                    }}
-                                    helperText="You can upload file with .png, .jpg, atau .jpeg extension."
-                                  />
-                                )}
-                              </div>
+                              {!isEdit && (
+                                <div className="mt-4">
+                                  {isLoading ? (
+                                    "Uploading..."
+                                  ) : (
+                                    <DropzoneInput
+                                      id="staff_image"
+                                      label="Staff Image"
+                                      setImageSource={setImageSrc}
+                                      validation={{
+                                        required: "Photo must be filled",
+                                      }}
+                                      accept={{
+                                        "image/*": [".png", ".jpg", ".jpeg"],
+                                      }}
+                                      helperText="You can upload file with .png, .jpg, atau .jpeg extension."
+                                    />
+                                  )}
+                                </div>
+                              )}
                             </div>
                           </div>
                           <div className="mt-10 mx-4 text-gray-900 max-w-[220px]">
@@ -267,7 +412,11 @@ export default function ModalAddStaff() {
                           className="disabled:cursor-not-allowed disabled:bg-blue-300 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
                           // onClick={() => setOpen(false)}
                         >
-                          {isLoading ? "Mohon Tunggu" : "Tambahkan"}
+                          {isLoading
+                            ? "Mohon Tunggu"
+                            : isEdit
+                            ? "Update"
+                            : "Tambahkan"}
                         </button>
                         <button
                           type="button"
