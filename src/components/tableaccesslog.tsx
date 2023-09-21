@@ -142,7 +142,7 @@ function TableLogAccess() {
           // isLoading={isLoading}
           tableState={tableState}
           setTableState={setTableState}
-          className="mt-8"
+          className="mt-8 max-h-[800px]"
           withFilter={true}
         />
       </div>

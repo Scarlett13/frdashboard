@@ -49,20 +49,26 @@ export default function Login() {
       };
 
       fetch("http://192.168.10.31:5000/auth/login", requestOptions)
-        .then((response) => response.text())
+        .then((response) => {
+          if (!response.ok) {
+            return;
+          }
+          return response.text();
+        })
         .then((result) => {
           console.log(result);
 
-          if (result.includes("wrong email or password")) {
+          if (!result) {
             setUsernameError(true);
             setPasswordError(true);
             setLoginError("Wrong email or password. Please try again.");
-          } else {
-            setUsernameError(false);
-            setPasswordError(false);
-            setLoginError("");
-            router.push("/device");
+            return;
           }
+
+          setUsernameError(false);
+          setPasswordError(false);
+          setLoginError("");
+          router.push("/device");
         })
         .catch((error) => {
           console.log("error", error);
@@ -104,6 +110,7 @@ export default function Login() {
             type={"password"}
             onChange={handleInputChange}
           />
+          {loginError && <p className="text-red-500">{loginError}</p>}
           <Button
             buttonname={"Login"}
             style={"w-full"}

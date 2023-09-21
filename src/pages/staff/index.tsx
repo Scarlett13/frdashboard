@@ -44,12 +44,12 @@ export default function Staff() {
 
   return (
     <Navbar>
-      <div className="h-screen">
-        <div className="mx-4 md:mx-9 p-4 md:p-8 mt-20">
+      <div className="h-screen overflow-y-hidden">
+        <div className="w-full mt-20">
           <div className="ms-9 flex flex-col gap-4">
-            <h1 className="text-2xl font-bold py-4">Staff List</h1>
+            <h1 className="text-2xl font-bold py-4 mb-4">Staff List</h1>
           </div>
-          <div className="grid grid-cols-4 w-full gap-4 max-h-[35rem] overflow-x-hidden">
+          <div className="grid grid-cols-1 xl:grid-cols-4 2xl:grid-cols-5 w-full gap-4 xl:max-h-[39rem] 2xl:max-h-[45rem] overflow-x-hidden">
             {listStaff?.map((staff: Staff) => (
               <Card key={staff.id} style="bg-white hover:bg-slate-50">
                 <div className="w-full mt-4 flex flex-row justify-between px-6 items-center">
@@ -61,6 +61,7 @@ export default function Staff() {
                     <img
                       src={`http://192.168.10.31:5000/file/image/${staff.StaffImage}`}
                       alt={`${staff.StaffName}'s image`}
+                      className="w-20 h-20 rounded-full object-cover"
                     />
                   </div>
                   <div>
@@ -74,7 +75,7 @@ export default function Staff() {
                 </div>
               </Card>
             ))}
-            <div className="mt-9 ml-20">
+            <div className="mt-20 ml-20">
               <ModalAddStaff />
             </div>
           </div>
