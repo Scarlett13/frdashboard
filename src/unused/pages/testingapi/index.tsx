@@ -12,7 +12,11 @@ export default function TestingApi() {
     params?: string,
     body?: string
   ) {
-    const request = provideRequestOptions({ path: url, method });
+    const request = await provideRequestOptions({ path: url, method });
+
+    if (!request) {
+      return;
+    }
 
     try {
       fetch(request)
@@ -59,6 +63,7 @@ export default function TestingApi() {
         {/* {`${JSON.stringify(data)}`} */}
         {data &&
           data.map(
+            //@ts-ignore
             ({ StaffDepartment, StaffImage, StaffName, StaffSound, id }) => (
               <Card key={id}>
                 {/* <div className="w-full flex flex-row justify-between px-6 items-center bg-gray-200">

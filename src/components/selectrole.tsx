@@ -15,7 +15,11 @@ export default function SideBarRole() {
     params?: string,
     body?: string
   ) {
-    const request = provideRequestOptions({ path: url, method });
+    const request = await provideRequestOptions({ path: url, method });
+
+    if (!request) {
+      return;
+    }
 
     try {
       const response = await fetch(request);
@@ -28,7 +32,7 @@ export default function SideBarRole() {
   }
 
   useEffect(() => {
-    getRoles("/role", "GET");
+    getRoles("/role?PerPage=100&Page=1", "GET");
   }, []);
 
   useEffect(() => {

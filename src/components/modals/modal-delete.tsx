@@ -7,57 +7,44 @@ import { LiaTrashAltSolid } from "react-icons/lia";
 type ButtonDeleteProps = {
   children?: React.ReactNode;
   path: string;
-  imagepath: string;
-  staffname: string;
 };
 
-export default function ButtonAddFaceFeatures({
-  children,
-  path,
-  imagepath,
-  staffname,
-}: ButtonDeleteProps) {
+export default function ButtonDelete({ children, path }: ButtonDeleteProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const cancelButtonRef = useRef(null);
 
-  async function AddFaceFeatures() {
-    const body = JSON.stringify({
-      StaffFace: imagepath,
-    });
-
-    const request = provideRequestOptions({ path, method: "POST", body });
-
+  async function Delete() {
+    const request = await provideRequestOptions({ path, method: "DELETE" });
+    if (!request) {
+      return;
+    }
     try {
       fetch(request)
         .then((res) => {
           if (!res.ok) {
-            throw new Error(`Fetch error: ${res.status} - ${res.statusText}`);
+            return;
           }
           return res.json();
         })
-        .then((data) => {
-          // Handle the successful response here
-          // You can set the state or perform other actions with the data
-          router.push("/staff");
-        })
-        .catch((error) => {
-          // Handle the error here
-          console.error(error);
+        .then((deleteresult) => {
+          console.log(deleteresult);
+          if (deleteresult) {
+            router.reload();
+          }
         });
     } catch (error) {
-      // Handle any synchronous errors that occur before the fetch
-      console.error(error);
+      console.log(error);
     }
   }
   return (
     <div className="w-full flex justify-between items-center">
       <div
-        className="inline-flex justify-between gap-4 cursor-pointer px-2 hover:text-red-600 hover:bg-slate-700 hover:underline mt-2 bg-slate-300 p-2 rounded-md"
+        className="inline-flex w-full justify-between gap-4 cursor-pointer px-2 text-red-500 hover:text-red-600 hover:underline mt-2"
         onClick={() => setOpen(true)}
       >
-        <p>Register This Face</p>
-        {/* <LiaTrashAltSolid /> */}
+        <p>Delete</p>
+        <LiaTrashAltSolid />
       </div>
 
       <Transition.Root show={open} as={Fragment}>
@@ -98,7 +85,7 @@ export default function ButtonAddFaceFeatures({
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900 items-center"
                         >
-                          Tambah face features ini untuk {staffname}?
+                          Apakah anda ingin menghapus data ini?
                         </Dialog.Title>
                       </div>
                     </div>
@@ -109,10 +96,10 @@ export default function ButtonAddFaceFeatures({
                       className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                       onClick={() => {
                         setOpen(false);
-                        AddFaceFeatures();
+                        Delete();
                       }}
                     >
-                      Register
+                      Delete
                     </button>
                     <button
                       type="button"

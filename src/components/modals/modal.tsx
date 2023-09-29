@@ -1,17 +1,62 @@
-import { Fragment, useRef, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import Button from "./button";
-import Toggle from "./toggleswitch";
-import CheckBoxLog from "./checkboxlog";
+import { LiaUserEditSolid } from "react-icons/lia";
+import Input from "../input";
+import SideBarRole from "../selectrole";
+import { Staff } from "@/type/staff";
+import { provideRequestOptions } from "@/libs/api";
+import { useRouter } from "next/router";
+import Toggle from "@/unused/components/toggleswitch";
 
-export default function ModalLog() {
+interface staffModalProps {
+  staff: Staff;
+  setSuccess: Dispatch<SetStateAction<boolean>>;
+}
+export default function Modal({ staff, setSuccess }: staffModalProps) {
+  const refName = useRef(staff.StaffName);
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const cancelButtonRef = useRef(null);
 
+  async function submitData() {
+    console.log(refName.current);
+    const url = `/staff/${staff.id}`;
+    const method = "PUT";
+    const body = {
+      StaffName: refName.current,
+    };
+    const request = await provideRequestOptions({
+      path: url,
+      method,
+      body: JSON.stringify(body),
+    });
+
+    if (!request) {
+      return;
+    }
+
+    try {
+      fetch(request).then((res) => {
+        {
+          res.json();
+          setSuccess(res.ok);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
-    <div>
-      <Button buttonname="View Detail" onClick={() => setOpen(true)} style="" />
+    <div className="w-full flex justify-between items-center">
+      <div
+        className="inline-flex px-2 w-full justify-between gap-9 items-center cursor-pointer text-black hover:underline mt-2"
+        onClick={() => setOpen(true)}
+      >
+        <p>Edit</p>
+        <LiaUserEditSolid />
+      </div>
+
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
@@ -43,31 +88,35 @@ export default function ModalLog() {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 w-full">
+                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                     <div className="sm:flex sm:items-start">
-                      <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                      <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                         <Dialog.Title
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Detail Log Access
+                          Perubahan data staff
                         </Dialog.Title>
-                        <div className="mt-2 flex flex-row">
-                          <div className="me-5 w-1/3">
-                            <div className="">
-                              <label>Is Correct</label>
-                              <Toggle props1={"True"} props2={"False"} />
-                            </div>
-                            <div className="">
-                              <label>Is Clear</label>
-                              <Toggle props1={"True"} props2={"False"} />
-                            </div>
+                        <div className="mt-2">
+                          <Input
+                            title="Nama Staff"
+                            placeholder=""
+                            value={staff.StaffName}
+                            valueRef={refName}
+                            type="text"
+                          />
+                          <div className="">
+                            <SideBarRole />
                           </div>
-                          <div className="grid grid-cols-2 w-full items-center py-9">
-                            <CheckBoxLog checkboxName={"Success"} />
-                            <CheckBoxLog checkboxName={"Unrecognized"} />
+                          <div className="mt-3">
+                            <Toggle props1={"Active"} props2={"Deactive"} />
                           </div>
                         </div>
+                      </div>
+                      <div className="mt-10 mx-auto justify-center">
+                        {/* <img src={"./images/logo.png"} /> */}
+                        {/* <UploadImage /> */}
+                        harusnya uploadimage
                       </div>
                     </div>
                   </div>
@@ -75,7 +124,10 @@ export default function ModalLog() {
                     <button
                       type="button"
                       className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                      onClick={() => setOpen(false)}
+                      onClick={() => {
+                        setOpen(false);
+                        submitData();
+                      }}
                     >
                       Save
                     </button>

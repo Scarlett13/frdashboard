@@ -17,10 +17,9 @@ import IconButton from "@/components/new-forms-components/icon-button";
 import PopupFilter, {
   PopupFilterProps,
 } from "@/components/new-forms-components/table/popup-filter";
-import Layout from "@/components/layout";
 import Typography from "@/components/new-forms-components/typography";
 import ServerTable from "@/components/new-forms-components/table/server-table";
-import { User } from "../api/mock/users";
+import { User } from "@/type/user";
 
 type UserFilter = {
   country: string[];
@@ -127,6 +126,7 @@ export default function TablePage() {
           <pre>{JSON.stringify({ tableState, url, filterQuery }, null, 2)}</pre>
 
           <ServerTable
+            //@ts-ignore
             columns={columns}
             data={queryData?.serialized_items ?? []}
             totalPage={queryData?.total_page}

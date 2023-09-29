@@ -1,5 +1,5 @@
 import { Device } from "@/type/device";
-import PopOverDevice from "./popoverdevice";
+import PopOverDevice from "../popover/popover-device";
 import { useEffect, useState } from "react";
 import { VscThreeBars } from "react-icons/vsc";
 

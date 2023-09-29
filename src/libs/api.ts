@@ -1,8 +1,6 @@
 import { buildPaginatedTableURL } from "./table";
 
 const baseURL = "http://192.168.10.31:5000";
-const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NDE2Mzg4NCwianRpIjoiMjE3NGRiMGQtYTQ1NS00OTIxLWI0OTctZWZhN2ZkOWI1ZmU2IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTQxNjM4ODQsImV4cCI6MTY5NDMzNjY4NH0.aFTjoFbzBDH3BWGWfdwW92OlQzdSPUTZ3mJ8H1E3Vro";
 
 type RequestOptionsProps = {
   path: string;
@@ -12,7 +10,7 @@ type RequestOptionsProps = {
   tableState?: any;
 };
 
-export function provideRequestOptions({
+export async function provideRequestOptions({
   path,
   method,
   body,
@@ -20,8 +18,15 @@ export function provideRequestOptions({
 }: RequestOptionsProps) {
   const myHeaders = new Headers();
   const options: any = {};
+  const token = await getTokenCookie();
 
-  myHeaders.append("Authorization", token);
+  console.log("tokennya pak eko:", token);
+
+  if (!token) {
+    return null;
+  }
+
+  myHeaders.append("Authorization", `Bearer ${token}`);
 
   if (isUpload) {
     // myHeaders.append("Content-Type", "multipart/form-data");
@@ -37,17 +42,12 @@ export function provideRequestOptions({
     options.body = body;
   }
 
-  // const Test = "yudha"
-  // const tests = "visi"
-  // const plus1 = Test+ "/" +tests
-  // const plus2 = `Test/${tests}`
-
   const request = new Request(`${baseURL}${path}`, options);
 
   return request;
 }
 
-export function providePaginatedOptions({
+export async function providePaginatedOptions({
   path,
   tableState,
 }: RequestOptionsProps) {
@@ -57,7 +57,13 @@ export function providePaginatedOptions({
   const myHeaders = new Headers();
   const options: any = {};
 
-  myHeaders.append("Authorization", token);
+  const token = await getTokenCookie();
+
+  if (!token) {
+    return null;
+  }
+
+  myHeaders.append("Authorization", `Bearer ${token}`);
 
   options.method = "GET";
   options.headers = myHeaders;
@@ -71,3 +77,52 @@ export function providePaginatedOptions({
 
   return request;
 }
+
+export function provideLoginRequest(body: any) {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const options: any = {};
+
+  options.redirect = "follow";
+  options.method = "POST";
+  options.headers = myHeaders;
+  options.body = JSON.stringify(body);
+
+  const request = new Request(`${baseURL}${"/auth/login"}`, options);
+
+  return request;
+}
+
+export async function setTokenCookie(
+  accessToken: string,
+  refreshToken: string
+) {
+  return fetch("/api/login", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ accessToken, refreshToken }),
+  });
+}
+
+export const getTokenCookie = async () => {
+  const tokenresponse = await fetch("/api/access", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!tokenresponse.ok) {
+    return null;
+  }
+
+  const tokenbody = await tokenresponse.json();
+  if (!tokenbody.token || !tokenbody.success) {
+    return null;
+  }
+
+  return tokenbody.token;
+};

@@ -1,11 +1,11 @@
 import { Device } from "@/type/device";
-import Navbar from "./navbar";
-import SideBar from "./sidebar";
 import { useEffect, useState } from "react";
 import { provideRequestOptions } from "@/libs/api";
-import ModalAddDevice from "./modaladddevice";
 import clsxm from "@/libs/clsxm";
 import { VscThreeBars } from "react-icons/vsc";
+import Navbar from "../navigations/navbar";
+import SideBar from "../navigations/sidebar";
+import ModalAddDevice from "../modals/modal-add-device";
 
 type layoutProps = {
   children: React.ReactNode;
@@ -40,25 +40,37 @@ export default function Layout({ children, showSideBar }: layoutProps) {
     console.log(collapsed);
   }, [collapsed]);
 
-  const request = provideRequestOptions({ path: "/device", method: "GET" });
-
   useEffect(() => {
     setLoading(true);
-    try {
-      fetch(request)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.serialized_items) {
-            setData(data.serialized_items);
-          }
+    async function getdata() {
+      const request = await provideRequestOptions({
+        path: "/device",
+        method: "GET",
+      });
 
-          setLoading(false);
-          console.log(data);
-        });
-    } catch (error) {
-      console.log(error);
+      if (!request) {
+        return;
+      }
+
+      try {
+        fetch(request)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.serialized_items) {
+              setData(data.serialized_items);
+            }
+
+            setLoading(false);
+            console.log(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
     }
+
+    getdata();
   }, []);
+
   return (
     <div>
       <Navbar>{}</Navbar>

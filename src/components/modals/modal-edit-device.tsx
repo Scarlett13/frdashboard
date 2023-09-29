@@ -1,40 +1,25 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { provideRequestOptions } from "@/libs/api";
-import { useRouter } from "next/router";
-import { LiaTrashAltSolid } from "react-icons/lia";
+import { BiEdit } from "react-icons/bi";
+import Input from "../input";
 
-type ButtonDeleteProps = {
-  children?: React.ReactNode;
-  path: string;
-};
-
-export default function ButtonDelete({ children, path }: ButtonDeleteProps) {
+export default function ModalEditDevice() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+
+  const test = () => {
+    console.log("test");
+  };
+
   const cancelButtonRef = useRef(null);
 
-  async function Delete() {
-    const request = provideRequestOptions({ path, method: "DELETE" });
-    try {
-      fetch(request)
-        .then((res) => res.json())
-        .then((deviceApi) => {
-          console.log(deviceApi);
-        });
-      router.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  }
   return (
-    <div className="w-full flex justify-between items-center">
+    <div>
       <div
-        className="inline-flex w-full justify-between gap-4 cursor-pointer px-2 text-red-500 hover:text-red-600 hover:underline mt-2"
+        className="flex flex-row justify-between gap-9 items-center cursor-pointer text-black hover:text-black hover:underline"
         onClick={() => setOpen(true)}
       >
-        <p>Delete</p>
-        <LiaTrashAltSolid />
+        <p>Edit</p>
+        <BiEdit />
       </div>
 
       <Transition.Root show={open} as={Fragment}>
@@ -42,7 +27,7 @@ export default function ButtonDelete({ children, path }: ButtonDeleteProps) {
           as="div"
           className="relative z-10"
           initialFocus={cancelButtonRef}
-          onClose={setOpen}
+          onClose={() => setOpen(false)}
         >
           <Transition.Child
             as={Fragment}
@@ -68,28 +53,34 @@ export default function ButtonDelete({ children, path }: ButtonDeleteProps) {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 w-full">
                     <div className="sm:flex sm:items-start">
-                      <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                      <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
                         <Dialog.Title
                           as="h3"
-                          className="text-base font-semibold leading-6 text-gray-900 items-center"
+                          className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Apakah anda ingin menghapus data ini?
+                          Edit Device
                         </Dialog.Title>
+                        <div className="mt-2 flex flex-row">
+                          <div className="me-5 w-full">
+                            <Input
+                              title="New Device Name"
+                              placeholder=""
+                              type="text"
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <button
                       type="button"
-                      className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
-                      onClick={() => {
-                        setOpen(false);
-                        Delete();
-                      }}
+                      className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                      onClick={() => setOpen(false)}
                     >
-                      Delete
+                      Save
                     </button>
                     <button
                       type="button"
@@ -106,7 +97,6 @@ export default function ButtonDelete({ children, path }: ButtonDeleteProps) {
           </div>
         </Dialog>
       </Transition.Root>
-      {children}
     </div>
   );
 }

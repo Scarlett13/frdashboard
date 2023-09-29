@@ -5,6 +5,7 @@ import { Log } from "@/type/log";
 import { useState } from "react";
 
 export default function testingLogApi() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [listLog, setListLog] = useState<any>();
 
   async function Log(
@@ -13,8 +14,10 @@ export default function testingLogApi() {
     params?: string,
     body?: string
   ) {
-    const request = provideRequestOptions({ path: url, method });
-
+    const request = await provideRequestOptions({ path: url, method });
+    if (!request) {
+      return;
+    }
     try {
       fetch(request)
         .then((res) => res.json())
@@ -35,7 +38,7 @@ export default function testingLogApi() {
       <div>
         {listLog &&
           listLog.map((isiLog: Log, index: number) => (
-            <Card key={isiLog.Id}>
+            <Card key={isiLog.id}>
               <div>
                 <div>
                   <p>Index</p>
@@ -46,7 +49,7 @@ export default function testingLogApi() {
                 </div>
                 <div>
                   <p>: {index}</p>
-                  <p>: {isiLog.Id}</p>
+                  <p>: {isiLog.id}</p>
                   <p>: {isiLog.IdDevice}</p>
                   <p>: {isiLog.LogImage}</p>
                   <p>: {isiLog.LogMessage}</p>

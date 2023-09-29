@@ -1,4 +1,4 @@
-import Navbar from "./navbar";
+import Navbar from "../navigations/navbar";
 
 type LayoutLogProps = {
   children: React.ReactNode;

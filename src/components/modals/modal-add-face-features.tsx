@@ -1,57 +1,67 @@
-import { Dispatch, Fragment, SetStateAction, useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { LiaUserEditSolid } from "react-icons/lia";
-import Input from "./input";
-import Toggle from "./toggleswitch";
-import SideBarRole from "./selectrole";
-import { Staff } from "@/type/staff";
 import { provideRequestOptions } from "@/libs/api";
 import { useRouter } from "next/router";
-import UploadImage from "./uploadimage";
+import { LiaTrashAltSolid } from "react-icons/lia";
 
-interface staffModalProps {
-  staff: Staff;
-  setSuccess: Dispatch<SetStateAction<boolean>>;
-}
-export default function Modal({ staff, setSuccess }: staffModalProps) {
-  const refName = useRef(staff.StaffName);
+type ButtonDeleteProps = {
+  children?: React.ReactNode;
+  path: string;
+  imagepath: string;
+  staffname: string;
+};
+
+export default function ButtonAddFaceFeatures({
+  children,
+  path,
+  imagepath,
+  staffname,
+}: ButtonDeleteProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-
   const cancelButtonRef = useRef(null);
 
-  async function submitData() {
-    console.log(refName.current);
-    const url = `/staff/${staff.id}`;
-    const method = "PUT";
-    const body = {
-      StaffName: refName.current,
-    };
-    const request = provideRequestOptions({
-      path: url,
-      method,
-      body: JSON.stringify(body),
+  async function AddFaceFeatures() {
+    const body = JSON.stringify({
+      StaffFace: imagepath,
     });
 
+    const request = await provideRequestOptions({ path, method: "POST", body });
+
+    if (!request) {
+      return;
+    }
+
     try {
-      fetch(request).then((res) => {
-        {
-          res.json();
-          setSuccess(res.ok);
-        }
-      });
+      fetch(request)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`Fetch error: ${res.status} - ${res.statusText}`);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          // Handle the successful response here
+          // You can set the state or perform other actions with the data
+          router.push("/staff");
+        })
+        .catch((error) => {
+          // Handle the error here
+          console.error(error);
+        });
     } catch (error) {
-      console.log(error);
+      // Handle any synchronous errors that occur before the fetch
+      console.error(error);
     }
   }
   return (
     <div className="w-full flex justify-between items-center">
       <div
-        className="inline-flex px-2 w-full justify-between gap-9 items-center cursor-pointer text-black hover:underline mt-2"
+        className="inline-flex justify-between gap-4 cursor-pointer px-2 hover:text-red-600 hover:bg-slate-700 hover:underline mt-2 bg-slate-300 p-2 rounded-md"
         onClick={() => setOpen(true)}
       >
-        <p>Edit</p>
-        <LiaUserEditSolid />
+        <p>Register This Face</p>
+        {/* <LiaTrashAltSolid /> */}
       </div>
 
       <Transition.Root show={open} as={Fragment}>
@@ -90,42 +100,23 @@ export default function Modal({ staff, setSuccess }: staffModalProps) {
                       <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                         <Dialog.Title
                           as="h3"
-                          className="text-base font-semibold leading-6 text-gray-900"
+                          className="text-base font-semibold leading-6 text-gray-900 items-center"
                         >
-                          Perubahan data staff
+                          Tambah face features ini untuk {staffname}?
                         </Dialog.Title>
-                        <div className="mt-2">
-                          <Input
-                            title="Nama Staff"
-                            placeholder=""
-                            value={staff.StaffName}
-                            valueRef={refName}
-                            type="text"
-                          />
-                          <div className="">
-                            <SideBarRole />
-                          </div>
-                          <div className="mt-3">
-                            <Toggle props1={"Active"} props2={"Deactive"} />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-10 mx-auto justify-center">
-                        {/* <img src={"./images/logo.png"} /> */}
-                        <UploadImage />
                       </div>
                     </div>
                   </div>
                   <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <button
                       type="button"
-                      className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                      className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                       onClick={() => {
                         setOpen(false);
-                        submitData();
+                        AddFaceFeatures();
                       }}
                     >
-                      Save
+                      Register
                     </button>
                     <button
                       type="button"
@@ -142,6 +133,7 @@ export default function Modal({ staff, setSuccess }: staffModalProps) {
           </div>
         </Dialog>
       </Transition.Root>
+      {children}
     </div>
   );
 }

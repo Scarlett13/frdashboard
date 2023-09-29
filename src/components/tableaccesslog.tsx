@@ -9,6 +9,7 @@ import IconButton from "./new-forms-components/icon-button";
 import { FiEye } from "react-icons/fi";
 import ServerTable from "./new-forms-components/table/server-table";
 import Typography from "./new-forms-components/typography";
+import ShowImageTable from "./new-forms-components/showimageattable";
 
 function TableLogAccess() {
   const [queryData, setQueryData] = useState<PaginatedApiResponse<Log>>();
@@ -47,7 +48,14 @@ function TableLogAccess() {
     {
       accessorKey: "LogImage",
       header: "Log Image",
-      size: 200,
+      cell: (props) => (
+        <ShowImageTable
+          path={`http://192.168.10.31:5000/file/image${props.cell?.row?.original?.LogImage.replace(
+            "/App/Files/Image/",
+            "/"
+          )}`}
+        />
+      ),
     },
     {
       accessorKey: "LogMessage",
@@ -58,26 +66,29 @@ function TableLogAccess() {
       header: "Timestamp",
       size: 250,
     },
-    {
-      id: "actions",
-      header: "Action",
-      cell: (props) => (
-        <IconButton
-          onClick={() => {
-            console.log("clicked, ", props.cell.row.original);
-          }}
-          variant="outline"
-          icon={FiEye}
-        />
-      ),
-    },
+    // {
+    //   id: "actions",
+    //   header: "Action",
+    //   cell: (props) => (
+    //     <IconButton
+    //       onClick={() => {
+    //         console.log("clicked, ", props.cell.row.original);
+    //       }}
+    //       variant="outline"
+    //       icon={FiEye}
+    //     />
+    //   ),
+    // },
   ];
   //#endregion  //*======== Table Definition ===========
 
   //#region  //*=========== Fetch Data ===========
   React.useEffect(() => {
     async function fetchApiData() {
-      const url = providePaginatedOptions({ path: "/access_log", tableState });
+      const url = await providePaginatedOptions({
+        path: "/access_log",
+        tableState,
+      });
 
       if (!url) {
         return;
@@ -85,7 +96,8 @@ function TableLogAccess() {
 
       const response = await fetch(url); // Replace with your API URL
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        // throw new Error("Network response was not ok");
+        return;
       }
       const test = await response.json();
 

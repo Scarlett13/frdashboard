@@ -2,7 +2,7 @@ import { Device } from "@/type/device";
 import { useEffect, useState } from "react";
 import { VscThreeBars } from "react-icons/vsc";
 import clsxm from "@/libs/clsxm";
-import PopOverDevice from "./popoverdevice";
+import PopOverDevice from "@/components/popover/popover-device";
 
 type DeviceProps = {
   listdevices?: Device[] | null;

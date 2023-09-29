@@ -1,32 +1,40 @@
-import Layout from "@/components/layout";
 import { Staff } from "@/type/staff";
 import { useEffect, useState } from "react";
 import { providePaginatedOptions, provideRequestOptions } from "@/libs/api";
-import ModalAddStaff from "@/components/modaladdstaff";
-import PopOverStaff from "@/components/popoverstaff";
-import Image from "next/image";
-import Card from "@/components/new-forms-components/card";
 import UnstyledLink from "@/components/new-forms-components/unstyled-links";
 import { useRouter } from "next/router";
 import useServerTable from "@/hooks/useServerTable";
 import { Log } from "@/type/log";
 import { PaginatedApiResponse } from "@/type/api-type";
 import { ColumnDef } from "@tanstack/react-table";
-import IconButton from "@/components/new-forms-components/icon-button";
-import { FiEye } from "react-icons/fi";
 import React from "react";
 import Typography from "@/components/new-forms-components/typography";
 import ShowImageTable from "@/components/new-forms-components/showimageattable";
 import ServerTable from "@/components/new-forms-components/table/server-table";
-import ButtonAddFaceFeatures from "@/components/modaladdfacefeatures";
+import { useAuth } from "@/contexts/auth-context";
+import ButtonAddFaceFeatures from "@/components/modals/modal-add-face-features";
+import Layout from "@/components/layouts/layout";
 
 export default function StaffDetail() {
   const router = useRouter();
   const { staffid } = router.query;
   const [staff, setStaff] = useState<Staff | null>(null);
 
+  const { imagelog } = router.query;
+
   const [queryData, setQueryData] = useState<PaginatedApiResponse<Log>>();
   const [filteredData, setFiltredData] = useState<Log[] | null>(null);
+
+  const { token, authLoading } = useAuth();
+
+  useEffect(() => {
+    if (authLoading === undefined) {
+      return;
+    }
+    if (!authLoading && !token) {
+      router.push("/");
+    }
+  }, [token, authLoading]);
 
   //#region  //*=========== Table Definition ===========
   const { tableState, setTableState } = useServerTable<Log>();
@@ -79,7 +87,7 @@ export default function StaffDetail() {
           path={`/staff/${staffid}`}
           staffname={staff?.StaffName as string}
           imagepath={props.cell?.row?.original?.LogImage.replace(
-            "/App/Files/Image/",
+            "/App/Files/Image",
             ""
           )}
         />
@@ -91,7 +99,10 @@ export default function StaffDetail() {
   //#region  //*=========== Fetch Data ===========
   React.useEffect(() => {
     async function fetchApiData() {
-      const url = providePaginatedOptions({ path: "/access_log", tableState });
+      const url = await providePaginatedOptions({
+        path: "/access_log",
+        tableState,
+      });
 
       if (!url) {
         return;
@@ -103,9 +114,9 @@ export default function StaffDetail() {
       }
       const test = await response.json();
 
-      test.serialized_items = test.serialized_items.filter(
-        (item: Log) => item.LogMessage !== "Success"
-      );
+      // test.serialized_items = test.serialized_items.filter(
+      //   (item: Log) => item.LogMessage !== "Success"
+      // );
 
       setQueryData(test);
     }
@@ -157,7 +168,11 @@ export default function StaffDetail() {
     params?: string,
     body?: string
   ) {
-    const request = provideRequestOptions({ path: url, method });
+    const request = await provideRequestOptions({ path: url, method });
+
+    if (!request) {
+      return;
+    }
 
     try {
       fetch(request)
@@ -185,11 +200,11 @@ export default function StaffDetail() {
     }
   }
 
-  useEffect(() => {
-    if (staff && staff.id < 1) {
-      router.push("/staff");
-    }
-  }, [router, staff]);
+  // useEffect(() => {
+  //   if (!staff || staff.id < 1) {
+  //     router.push("/staff");
+  //   }
+  // }, [router, staff]);
 
   useEffect(() => {
     getStaff(`/staff/${staffid}`, "GET");
@@ -207,6 +222,13 @@ export default function StaffDetail() {
           <Typography variant="j2">
             Add Face Features to {staff?.StaffName}
           </Typography>
+          {imagelog && (
+            <ButtonAddFaceFeatures
+              path={`/staff/${staffid}`}
+              staffname={staff?.StaffName as string}
+              imagepath={`${imagelog as string}`}
+            />
+          )}
           <ServerTable
             //@ts-ignore
             columns={columns}

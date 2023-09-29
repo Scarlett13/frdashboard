@@ -1,11 +1,10 @@
 import { Popover, Transition } from "@headlessui/react";
 import { BsThreeDots } from "react-icons/bs";
 import { Dispatch, Fragment, SetStateAction } from "react";
-import ButtonDelete from "./modaldelete";
-import Modal from "./modal";
 import { Staff } from "@/type/staff";
-import UnstyledLink from "./new-forms-components/unstyled-links";
-import ModalAddStaff from "./modaladdstaff";
+import UnstyledLink from "../new-forms-components/unstyled-links";
+import ModalAddStaff from "../modals/modal-add-staff";
+import ButtonDelete from "../modals/modal-delete";
 
 interface popoverStaffProps {
   popoverStaff: Staff;
@@ -50,8 +49,12 @@ export default function PopOverStaff({
                     )}
 
                     {/* <Modal staff={popoverStaff} setSuccess={setSuccess} /> */}
-                    <ModalAddStaff isEdit={true} staffId={popoverStaff.id} />
-                    <ButtonDelete path={""} />
+                    <ModalAddStaff
+                      isEdit={true}
+                      staffId={popoverStaff.id}
+                      setSuccess={setSuccess}
+                    />
+                    <ButtonDelete path={`/staff/${popoverStaff.id}`} />
                   </div>
                 </div>
               </Popover.Panel>

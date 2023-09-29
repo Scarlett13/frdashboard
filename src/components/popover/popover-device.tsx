@@ -1,9 +1,9 @@
 import { Popover, Transition } from "@headlessui/react";
 import { BsThreeDots } from "react-icons/bs";
 import { Fragment, useState } from "react";
-import ButtonDelete from "./modaldelete";
-import ModalEditDevice from "./modaleditdevice";
 import { Device } from "@/type/device";
+import ModalEditDevice from "../modals/modal-edit-device";
+import ButtonDelete from "../modals/modal-delete";
 
 type PopOverDeviceProps = {
   deviceid: string;

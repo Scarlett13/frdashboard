@@ -1,6 +1,7 @@
 import ButtonDevice from "@/components/buttondevice";
 import Card from "@/components/card";
-import Layout from "@/components/layout";
+import Layout from "@/components/layouts/layout";
+import { useAuth } from "@/contexts/auth-context";
 import { provideRequestOptions } from "@/libs/api";
 import { Device } from "@/type/device";
 import { useRouter } from "next/router";
@@ -14,15 +15,29 @@ export default function Device() {
   const [data, setData] = useState<Device>();
   const [isLoading, setLoading] = useState(false);
 
-  useEffect(() => {
-    console.log(query);
-    setLoading(true);
+  const { token, authLoading } = useAuth();
 
-    if (query.deviceid) {
-      const request = provideRequestOptions({
+  useEffect(() => {
+    if (!authLoading && !token) {
+      router.push("/");
+    }
+  }, [token, authLoading]);
+
+  useEffect(() => {
+    async function listdevices() {
+      setLoading(true);
+
+      if (!query.deviceid) {
+        return;
+      }
+      const request = await provideRequestOptions({
         path: `/device/${deviceid}`,
         method: "GET",
       });
+
+      if (!request) {
+        return;
+      }
 
       try {
         fetch(request)
@@ -36,6 +51,10 @@ export default function Device() {
         console.log(error);
         setLoading(false);
       }
+    }
+
+    if (!isLoading) {
+      listdevices();
     }
   }, [query]);
   return (

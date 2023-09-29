@@ -1,15 +1,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import Button from "./button";
-import Input from "./input";
-import Toggle from "./toggleswitch";
-import SideBarRole from "./selectrole";
 import { PiUserPlusBold } from "react-icons/pi";
-import UploadImage from "./uploadimage";
 import { FormProvider, useForm } from "react-hook-form";
-import NewInput from "./new-forms-components/new-input";
-import DropzoneInput from "./new-forms-components/dropzoneinput";
-import SelectInput from "./new-forms-components/select-input";
 import Image from "next/image";
 import { provideRequestOptions } from "@/libs/api";
 import { Role } from "@/type/role";
@@ -17,6 +9,11 @@ import { BsCloudUploadFill } from "react-icons/bs";
 import { Staff } from "@/type/staff";
 import { url } from "inspector";
 import { LiaUserEditSolid } from "react-icons/lia";
+import { useRouter } from "next/router";
+import Button from "../button";
+import NewInput from "../new-forms-components/new-input";
+import SelectInput from "../new-forms-components/select-input";
+import DropzoneInput from "../new-forms-components/dropzoneinput";
 
 async function submitData(data: any) {
   let fd = new FormData();
@@ -27,12 +24,16 @@ async function submitData(data: any) {
   );
 
   //provide request options for upload data
-  const uploadFileRequest = provideRequestOptions({
+  const uploadFileRequest = await provideRequestOptions({
     path: "/file/image",
     method: "POST",
     isUpload: true,
     body: fd,
   });
+
+  if (!uploadFileRequest) {
+    return;
+  }
 
   //trycatch upload data
   try {
@@ -48,11 +49,15 @@ async function submitData(data: any) {
         StaffSound: "",
       };
 
-      const createNewStaff = provideRequestOptions({
+      const createNewStaff = await provideRequestOptions({
         path: "/staff",
         method: "POST",
         body: JSON.stringify(bodyData),
       });
+
+      if (!createNewStaff) {
+        return;
+      }
 
       const createStaffResponse = await fetch(createNewStaff);
 
@@ -82,11 +87,15 @@ async function editData(data: any, staffId: number) {
       },
     };
 
-    const createNewStaff = provideRequestOptions({
+    const createNewStaff = await provideRequestOptions({
       path: `/staff/${staffId}`,
       method: "PUT",
       body: JSON.stringify(bodyData),
     });
+
+    if (!createNewStaff) {
+      return;
+    }
 
     const createStaffResponse = await fetch(createNewStaff);
 
@@ -118,13 +127,20 @@ const defaultRole = [
 interface IModalAddStaff {
   isEdit: boolean;
   staffId?: number;
+  setSuccess: any;
 }
 
-export default function ModalAddStaff({ isEdit, staffId }: IModalAddStaff) {
+export default function ModalAddStaff({
+  isEdit,
+  staffId,
+  setSuccess,
+}: IModalAddStaff) {
   const [open, setOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const cancelButtonRef = useRef(null);
 
@@ -139,13 +155,16 @@ export default function ModalAddStaff({ isEdit, staffId }: IModalAddStaff) {
       staff_image: "",
     });
     setImageSrc("");
+    setSuccess(true);
   }
 
   //useeffect hook untuk dapatkan staff roles, kalau lagi error untuk fetch, pakai variable default staff role diatas
   useEffect(() => {
     async function getRoles(url: string, method: string) {
-      const request = provideRequestOptions({ path: url, method });
-
+      const request = await provideRequestOptions({ path: url, method });
+      if (!request) {
+        return;
+      }
       try {
         const response = await fetch(request);
         const rolesData = await response.json();
@@ -164,7 +183,7 @@ export default function ModalAddStaff({ isEdit, staffId }: IModalAddStaff) {
       }
     }
 
-    getRoles("/role", "GET");
+    getRoles("/role?PerPage=100&Page=1", "GET");
   }, []);
 
   //#region  //*=========== Form ===========
@@ -212,8 +231,10 @@ export default function ModalAddStaff({ isEdit, staffId }: IModalAddStaff) {
       params?: string,
       body?: string
     ) {
-      const request = provideRequestOptions({ path: url, method });
-
+      const request = await provideRequestOptions({ path: url, method });
+      if (!request) {
+        return;
+      }
       try {
         fetch(request)
           .then((res) => {
@@ -296,7 +317,7 @@ export default function ModalAddStaff({ isEdit, staffId }: IModalAddStaff) {
                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                <Dialog.Panel className="flex overflow-scroll transform rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                   <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(onSubmit)}>
                       <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
@@ -317,17 +338,13 @@ export default function ModalAddStaff({ isEdit, staffId }: IModalAddStaff) {
                                 disabled={isLoading}
                               />
                               <div className="min-w-[220px] mt-4">
-                                <SelectInput
+                                <NewInput
                                   id="staff_department"
                                   label="Staff department"
                                   placeholder="Select staff department"
                                   validation={{
                                     required: "Staff department must be filled",
                                   }}
-                                  options={roles.map((role) => ({
-                                    value: role.RoleName,
-                                    label: role.RoleName,
-                                  }))}
                                   disabled={isLoading}
                                 />
                               </div>

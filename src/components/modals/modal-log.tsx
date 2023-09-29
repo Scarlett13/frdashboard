@@ -1,33 +1,22 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { BiEdit } from "react-icons/bi";
-import Input from "./input";
+import Toggle from "@/unused/components/toggleswitch";
+import Button from "../button";
 
-export default function ModalEditDevice() {
+export default function ModalLog() {
   const [open, setOpen] = useState(false);
-
-  const test = () => {
-    console.log("test");
-  };
 
   const cancelButtonRef = useRef(null);
 
   return (
     <div>
-      <div
-        className="flex flex-row justify-between gap-9 items-center cursor-pointer text-black hover:text-black hover:underline"
-        onClick={() => setOpen(true)}
-      >
-        <p>Edit</p>
-        <BiEdit />
-      </div>
-
+      <Button buttonname="View Detail" onClick={() => setOpen(true)} style="" />
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-10"
           initialFocus={cancelButtonRef}
-          onClose={() => setOpen(false)}
+          onClose={setOpen}
         >
           <Transition.Child
             as={Fragment}
@@ -60,15 +49,23 @@ export default function ModalEditDevice() {
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Edit Device
+                          Detail Log Access
                         </Dialog.Title>
                         <div className="mt-2 flex flex-row">
-                          <div className="me-5 w-full">
-                            <Input
-                              title="New Device Name"
-                              placeholder=""
-                              type="text"
-                            />
+                          <div className="me-5 w-1/3">
+                            <div className="">
+                              <label>Is Correct</label>
+                              <Toggle props1={"True"} props2={"False"} />
+                            </div>
+                            <div className="">
+                              <label>Is Clear</label>
+                              <Toggle props1={"True"} props2={"False"} />
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 w-full items-center py-9">
+                            harusnya checkboxlog
+                            {/* <CheckBoxLog checkboxName={"Success"} />
+                            <CheckBoxLog checkboxName={"Unrecognized"} /> */}
                           </div>
                         </div>
                       </div>

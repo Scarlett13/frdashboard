@@ -18,7 +18,7 @@ export default function THead<T extends RowData>({
   return (
     <thead
       className={clsxm(
-        "border-b border-gray-200 bg-gray-50 font-averta",
+        "border-b border-gray-200 bg-gray-50 font-averta sticky",
         className
       )}
       {...rest}
