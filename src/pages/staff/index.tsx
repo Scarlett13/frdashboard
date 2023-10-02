@@ -65,57 +65,59 @@ export default function Staff() {
 
   return (
     <Layout showSideBar={false}>
-      <div className="ms-9 flex flex-col gap-4">
-        <h1 className="text-2xl font-bold py-4">Staff List</h1>
-      </div>
-      <div className="container p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full gap-4 max-h-[35rem] overflow-x-hidden">
-          {listStaff?.map((staff: Staff) => (
-            <Card
-              className={`${staff.IsActive ? "bg-green-100" : "bg-red-100"}`}
-              key={staff.id}
-              title={`${staff.id}. ${staff.StaffName}`}
-            >
-              <Card.Section>
-                <div className="">
-                  <div className="w-full mt-4 flex flex-row justify-between px items-center">
-                    <div className="flex flex-row">
-                      <div>
-                        <p>Tim</p>
+      <div className="pt-24 h-screen">
+        <div className="ms-9 flex flex-col gap-4">
+          <h1 className="text-2xl font-bold py-4">Staff List</h1>
+        </div>
+        <div className="p-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 w-full gap-4 max-h-[49rem] overflow-x-hidden">
+            {listStaff?.map((staff: Staff) => (
+              <Card
+                className={`${staff.IsActive ? "bg-green-100" : "bg-red-100"}`}
+                key={staff.id}
+                title={`${staff.id}. ${staff.StaffName}`}
+              >
+                <Card.Section>
+                  <div className="">
+                    <div className="w-full mt-4 flex flex-row justify-between px items-center">
+                      <div className="flex flex-row">
+                        <div>
+                          <p>Tim</p>
+                        </div>
+                        <div>
+                          <p>: {staff.StaffDepartment}</p>
+                        </div>
                       </div>
-                      <div>
-                        <p>: {staff.StaffDepartment}</p>
-                      </div>
+                      <PopOverStaff
+                        popoverStaff={staff}
+                        setSuccess={setSuccess}
+                      />
                     </div>
-                    <PopOverStaff
-                      popoverStaff={staff}
-                      setSuccess={setSuccess}
-                    />
-                  </div>
 
-                  <div className="w-full flex items-center justify-center my-4">
-                    <Image
-                      src={`http://192.168.10.31:5000/file/image/${staff.StaffImage}`}
-                      alt={`${staff.StaffName}'s image`}
-                      width={32}
-                      height={32}
-                      className="h-16 w-16 rounded-full"
-                      fill={false}
-                    />
+                    <div className="w-full flex items-center justify-center my-4">
+                      <Image
+                        src={`http://192.168.10.31:5000/file/image/${staff.StaffImage}`}
+                        alt={`${staff.StaffName}'s image`}
+                        width={32}
+                        height={32}
+                        className="h-16 w-16 rounded-full"
+                        fill={false}
+                      />
+                    </div>
                   </div>
-                </div>
-              </Card.Section>
-              <Card.Section>
-                <div className="w-full">
-                  <Typography variant="b2">{`Face features ${
-                    staff.FaceFeatures ? "Registered" : "Not Registered"
-                  }`}</Typography>
-                </div>
-              </Card.Section>
-            </Card>
-          ))}
-          <div className="mt-9 ml-20">
-            <ModalAddStaff isEdit={false} setSuccess={setSuccess} />
+                </Card.Section>
+                <Card.Section>
+                  <div className="w-full">
+                    <Typography variant="b2">{`Face features ${
+                      staff.FaceFeatures ? "Registered" : "Not Registered"
+                    }`}</Typography>
+                  </div>
+                </Card.Section>
+              </Card>
+            ))}
+            <div className="mt-32 ml-52">
+              <ModalAddStaff isEdit={false} setSuccess={setSuccess} />
+            </div>
           </div>
         </div>
       </div>

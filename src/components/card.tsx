@@ -5,7 +5,7 @@ type CardProps = {
 
 export default function Card({ children, style }: CardProps) {
   return (
-    <div className={`bg-black w-full ${style}`}>
+    <div className={`w-full bg-slate-50 ${style}`}>
       <div>{children}</div>
     </div>
   );

@@ -96,11 +96,11 @@ export default function Layout({ children, showSideBar }: layoutProps) {
                 </div>
               </SideBar>
             </div>
-            <main className={`mt-20 h-screen`}>{children}</main>
+            <main className={`h-screen`}>{children}</main>
           </div>
         </>
       ) : (
-        <main className={`mt-20 h-screen`}>{children}</main>
+        <main className={`h-screen`}>{children}</main>
       )}
     </div>
   );

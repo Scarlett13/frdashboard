@@ -18,6 +18,9 @@ export default function Device() {
   const { token, authLoading } = useAuth();
 
   useEffect(() => {
+    if (authLoading === undefined) {
+      return;
+    }
     if (!authLoading && !token) {
       router.push("/");
     }
@@ -59,7 +62,7 @@ export default function Device() {
   }, [query]);
   return (
     <Layout showSideBar={true}>
-      <div className="me-9 pt-6 text">
+      <div className="me-9 ms-9 pt-40 text">
         {data ? (
           <Card style="p-8 border border-gray-300">
             <div className="ms-9 flex flex-col items-start">

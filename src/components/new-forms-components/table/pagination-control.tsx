@@ -35,7 +35,7 @@ export default function PaginationControl<T extends RowData>({
   return (
     <div
       className={clsxm(
-        "flex items-center justify-between gap-x-2  md:justify-end",
+        "flex items-center justify-between gap-x-2  md:justify-end bg-stone-200",
         className
       )}
       {...rest}
@@ -47,6 +47,7 @@ export default function PaginationControl<T extends RowData>({
           leftIcon={HiChevronLeft}
           disabled={!table.getCanPreviousPage()}
           onClick={() => table.previousPage()}
+          className="hover:bg-stone-400"
         >
           Prev
         </Button>
@@ -56,8 +57,9 @@ export default function PaginationControl<T extends RowData>({
             variant="ghost"
             size="sm"
             className={clsxm(
-              currentPage === page && "bg-primary-400",
-              "min-w-[2rem]"
+              currentPage === page && "bg-stone-500 text-white",
+              "min-w-[2rem]",
+              "hover:bg-stone-400"
             )}
             onClick={() => handlePageControlClick(page)}
           >
@@ -73,6 +75,7 @@ export default function PaginationControl<T extends RowData>({
             data.length < table.getState().pagination.pageSize
           }
           onClick={() => table.nextPage()}
+          className="hover:bg-stone-400"
         >
           Next
         </Button>
