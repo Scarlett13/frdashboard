@@ -1,0 +1,7 @@
+FROM 
+WORKDIR /the/workdir/path
+
+COPY . .
+RUN npm install --production
+RUN npm run build
+CMD [ "npm", "run" ]

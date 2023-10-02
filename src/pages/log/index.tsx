@@ -5,11 +5,7 @@ import { TableLogAccess } from "@/components/tableaccesslog";
 export default function Log() {
   return (
     <LogLayout>
-      <div className="pt-24 text bg-white">
-        <Card>
-          <div className="mx-9 h-screen">{<TableLogAccess />}</div>
-        </Card>
-      </div>
+      <div className="pt-24 text bg-white">{<TableLogAccess />}</div>
     </LogLayout>
   );
 }
