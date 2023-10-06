@@ -126,7 +126,7 @@ function TableLogAccess() {
 
   //#endregion  //*======== Fetch Data ===========
   return (
-    <div className="gap-4 w-full justify-center text-gray-900">
+    <div className="w-full justify-center text-gray-900">
       <h1 className="text-2xl font-bold py-0 ms-8">Log</h1>
       <div className="overflow-x-hidden mt-0 text-gray-900">
         <ServerTable
@@ -142,7 +142,7 @@ function TableLogAccess() {
           // isLoading={isLoading}
           tableState={tableState}
           setTableState={setTableState}
-          className="mt-8 max-h-[800px]"
+          className="mt-4 xl:max-h-[82vh] 2xl:max-h-[85vh]"
           withFilter={true}
         />
       </div>
