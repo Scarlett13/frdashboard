@@ -218,7 +218,7 @@ export default function StaffDetail() {
         </UnstyledLink>
       </div>
       <div className="p-6">
-        <div className="grid grid-cols-1 gap-4 w-full justify-center h-full text-gray-900">
+        <div className="grid grid-cols-1 gap-4 w-full justify-center h-screen text-gray-900">
           <Typography variant="j2">
             Add Face Features to {staff?.StaffName}
           </Typography>

@@ -24,10 +24,10 @@ export default function SideBar({
   return (
     <div className="fixed mt-20 text-white h-screen flex flex-col">
       <button
-        className="ms-4"
+        className="ms-4 w-0"
         onClick={() => setCollapsed((prev: boolean) => !prev)}
       >
-        <VscThreeBars className="w-8 h-8 mt-20" />
+        <VscThreeBars className="w-8 h-8 mt-20 hover:scale-110" />
       </button>
       {!collapsed && (
         <>
