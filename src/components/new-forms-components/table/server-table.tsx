@@ -110,7 +110,7 @@ export default function ServerTable<T extends object>({
         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div className="shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
             <table className="min-w-full divide-y divide-gray-300">
-              <THead table={table} omitSort={omitSort} />
+              <THead table={table} omitSort={omitSort} className="bg-red-500" />
               <TBody table={table} isLoading={isLoading} />
             </table>
           </div>
