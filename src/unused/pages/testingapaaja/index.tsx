@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 // import Card from "@/components/card";
 // import Layout from "@/components/layout";
 // import { TableLogAccess } from "@/components/tableaccesslog";
 
-import TestingLayoutSideBar from "@/components/testingcomponents";
 import { provideRequestOptions } from "@/libs/api";
 import { useEffect, useState } from "react";
 
@@ -32,11 +32,18 @@ import { useEffect, useState } from "react";
 //   );
 // }
 
-export default function testingLayoutSideBar() {
+export default async function testingLayoutSideBar() {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
-  const request = provideRequestOptions({ path: "/device", method: "GET" });
+  const request = await provideRequestOptions({
+    path: "/device",
+    method: "GET",
+  });
+
+  if (!request) {
+    return;
+  }
 
   useEffect(() => {
     setLoading(true);
@@ -54,7 +61,7 @@ export default function testingLayoutSideBar() {
   }, []);
   return (
     <div className="h-screen">
-      <TestingLayoutSideBar listdevices={data}>{""}</TestingLayoutSideBar>
+      {/* <TestingLayoutSideBar listdevices={data}>{""}</TestingLayoutSideBar> */}
     </div>
   );
 }

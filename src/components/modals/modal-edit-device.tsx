@@ -1,57 +1,25 @@
-import { Dispatch, Fragment, SetStateAction, useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { LiaUserEditSolid } from "react-icons/lia";
-import Input from "./input";
-import Toggle from "./toggleswitch";
-import SideBarRole from "./selectrole";
-import { Staff } from "@/type/staff";
-import { provideRequestOptions } from "@/libs/api";
-import { useRouter } from "next/router";
-import UploadImage from "./uploadimage";
+import { BiEdit } from "react-icons/bi";
+import Input from "../input";
 
-interface staffModalProps {
-  staff: Staff;
-  setSuccess: Dispatch<SetStateAction<boolean>>;
-}
-export default function Modal({ staff, setSuccess }: staffModalProps) {
-  const refName = useRef(staff.StaffName);
+export default function ModalEditDevice() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+
+  const test = () => {
+    console.log("test");
+  };
 
   const cancelButtonRef = useRef(null);
 
-  async function submitData() {
-    console.log(refName.current);
-    const url = `/staff/${staff.id}`;
-    const method = "PUT";
-    const body = {
-      StaffName: refName.current,
-    };
-    const request = provideRequestOptions({
-      path: url,
-      method,
-      body: JSON.stringify(body),
-    });
-
-    try {
-      fetch(request).then((res) => {
-        {
-          res.json();
-          setSuccess(res.ok);
-        }
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
   return (
     <div>
       <div
-        className="inline-flex justify-between gap-9 items-center cursor-pointer text-black hover:underline"
+        className="flex flex-row justify-between gap-9 items-center cursor-pointer text-black hover:text-black hover:underline"
         onClick={() => setOpen(true)}
       >
         <p>Edit</p>
-        <LiaUserEditSolid />
+        <BiEdit />
       </div>
 
       <Transition.Root show={open} as={Fragment}>
@@ -59,7 +27,7 @@ export default function Modal({ staff, setSuccess }: staffModalProps) {
           as="div"
           className="relative z-10"
           initialFocus={cancelButtonRef}
-          onClose={setOpen}
+          onClose={() => setOpen(false)}
         >
           <Transition.Child
             as={Fragment}
@@ -85,34 +53,24 @@ export default function Modal({ staff, setSuccess }: staffModalProps) {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 w-full">
                     <div className="sm:flex sm:items-start">
-                      <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                      <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
                         <Dialog.Title
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Perubahan data staff
+                          Edit Device
                         </Dialog.Title>
-                        <div className="mt-2">
-                          <Input
-                            title="Nama Staff"
-                            placeholder=""
-                            value={staff.StaffName}
-                            valueRef={refName}
-                            type="text"
-                          />
-                          <div className="">
-                            <SideBarRole />
-                          </div>
-                          <div className="mt-3">
-                            <Toggle props1={"Active"} props2={"Deactive"} />
+                        <div className="mt-2 flex flex-row">
+                          <div className="me-5 w-full">
+                            <Input
+                              title="New Device Name"
+                              placeholder=""
+                              type="text"
+                            />
                           </div>
                         </div>
-                      </div>
-                      <div className="mt-10 mx-auto justify-center">
-                        {/* <img src={"./images/logo.png"} /> */}
-                        <UploadImage />
                       </div>
                     </div>
                   </div>
@@ -120,10 +78,7 @@ export default function Modal({ staff, setSuccess }: staffModalProps) {
                     <button
                       type="button"
                       className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                      onClick={() => {
-                        setOpen(false);
-                        submitData();
-                      }}
+                      onClick={() => setOpen(false)}
                     >
                       Save
                     </button>

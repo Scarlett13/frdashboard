@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Device } from "@/type/device";
 
 export default function testingDeviceApi() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [listDevice, setListDevice] = useState<any>();
 
   async function Device(
@@ -13,7 +14,11 @@ export default function testingDeviceApi() {
     params?: string,
     body?: string
   ) {
-    const request = provideRequestOptions({ path: url, method });
+    const request = await provideRequestOptions({ path: url, method });
+
+    if (!request) {
+      return;
+    }
 
     try {
       fetch(request)

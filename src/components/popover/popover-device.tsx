@@ -1,25 +1,22 @@
 import { Popover, Transition } from "@headlessui/react";
 import { BsThreeDots } from "react-icons/bs";
-import { Dispatch, Fragment, SetStateAction } from "react";
-import ButtonDelete from "./modaldelete";
-import Modal from "./modal";
-import { Staff } from "@/type/staff";
+import { Fragment, useState } from "react";
+import { Device } from "@/type/device";
+import ModalEditDevice from "../modals/modal-edit-device";
+import ButtonDelete from "../modals/modal-delete";
 
-interface popoverStaffProps {
-  popoverStaff: Staff;
-  setSuccess: Dispatch<SetStateAction<boolean>>;
-}
-export default function PopOverStaff({
-  popoverStaff,
-  setSuccess,
-}: popoverStaffProps) {
+type PopOverDeviceProps = {
+  deviceid: string;
+};
+
+export default function PopOverDevice({ deviceid }: PopOverDeviceProps) {
   return (
     <div className="">
       <Popover className="relative">
         {({ open }) => (
           <>
             <Popover.Button
-              className="hover:bg-slate-200 active:bg-white focus:outline-none focus:ring focus:ring-black"
+              className="mt-1active:bg-white focus:outline-none focus:ring focus:ring-white"
               onClick={() => {
                 console.log(open);
               }}
@@ -35,11 +32,11 @@ export default function PopOverStaff({
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute top-5 -right-5">
-                <div className="w-full bg-slate-400">
+              <Popover.Panel className="absolute top-0 left-5">
+                <div className="w-full bg-white">
                   <div className="gap-1 divide-y-2 divide-solid flex flex-col justify-center items-center rounded-lg p-2">
-                    <Modal staff={popoverStaff} setSuccess={setSuccess} />
-                    <ButtonDelete path={""} />
+                    <ModalEditDevice />
+                    <ButtonDelete path={`/device/${deviceid}`} />
                   </div>
                 </div>
               </Popover.Panel>

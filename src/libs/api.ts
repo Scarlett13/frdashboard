@@ -1,8 +1,6 @@
 import { buildPaginatedTableURL } from "./table";
 
 const baseURL = "http://192.168.10.31:5000";
-const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY5NjIxNDQ2NSwianRpIjoiNjk2ZjYyYWQtNjI0MC00MDVlLTljOGEtYjJmZTc2ZGRhMmQzIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlZpc2kiLCJuYmYiOjE2OTYyMTQ0NjUsImV4cCI6MTY5NjM4NzI2NX0.2yUCrJW4l11UYO4f8I9-q8QRiCz02CxT6ZYwDJNkfmA";
 
 type RequestOptionsProps = {
   path: string;
@@ -12,7 +10,7 @@ type RequestOptionsProps = {
   tableState?: any;
 };
 
-export function provideRequestOptions({
+export async function provideRequestOptions({
   path,
   method,
   body,
@@ -20,8 +18,15 @@ export function provideRequestOptions({
 }: RequestOptionsProps) {
   const myHeaders = new Headers();
   const options: any = {};
+  const token = await getTokenCookie();
 
-  myHeaders.append("Authorization", token);
+  console.log("tokennya pak eko:", token);
+
+  if (!token) {
+    return null;
+  }
+
+  myHeaders.append("Authorization", `Bearer ${token}`);
 
   if (isUpload) {
     // myHeaders.append("Content-Type", "multipart/form-data");
@@ -37,19 +42,12 @@ export function provideRequestOptions({
     options.body = body;
   }
 
-  console.log(options);
-
-  // const Test = "yudha"
-  // const tests = "visi"
-  // const plus1 = Test+ "/" +tests
-  // const plus2 = `Test/${tests}`
-
   const request = new Request(`${baseURL}${path}`, options);
 
   return request;
 }
 
-export function providePaginatedOptions({
+export async function providePaginatedOptions({
   path,
   tableState,
 }: RequestOptionsProps) {
@@ -59,7 +57,13 @@ export function providePaginatedOptions({
   const myHeaders = new Headers();
   const options: any = {};
 
-  myHeaders.append("Authorization", token);
+  const token = await getTokenCookie();
+
+  if (!token) {
+    return null;
+  }
+
+  myHeaders.append("Authorization", `Bearer ${token}`);
 
   options.method = "GET";
   options.headers = myHeaders;
@@ -73,3 +77,52 @@ export function providePaginatedOptions({
 
   return request;
 }
+
+export function provideLoginRequest(body: any) {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const options: any = {};
+
+  options.redirect = "follow";
+  options.method = "POST";
+  options.headers = myHeaders;
+  options.body = JSON.stringify(body);
+
+  const request = new Request(`${baseURL}${"/auth/login"}`, options);
+
+  return request;
+}
+
+export async function setTokenCookie(
+  accessToken: string,
+  refreshToken: string
+) {
+  return fetch("/api/login", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ accessToken, refreshToken }),
+  });
+}
+
+export const getTokenCookie = async () => {
+  const tokenresponse = await fetch("/api/access", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!tokenresponse.ok) {
+    return null;
+  }
+
+  const tokenbody = await tokenresponse.json();
+  if (!tokenbody.token || !tokenbody.success) {
+    return null;
+  }
+
+  return tokenbody.token;
+};

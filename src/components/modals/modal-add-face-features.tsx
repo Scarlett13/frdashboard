@@ -1,17 +1,69 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import Button from "./button";
-import Toggle from "./toggleswitch";
-import CheckBoxLog from "./checkboxlog";
+import { provideRequestOptions } from "@/libs/api";
+import { useRouter } from "next/router";
+import { LiaTrashAltSolid } from "react-icons/lia";
 
-export default function ModalLog() {
+type ButtonDeleteProps = {
+  children?: React.ReactNode;
+  path: string;
+  imagepath: string;
+  staffname: string;
+};
+
+export default function ButtonAddFaceFeatures({
+  children,
+  path,
+  imagepath,
+  staffname,
+}: ButtonDeleteProps) {
   const [open, setOpen] = useState(false);
-
+  const router = useRouter();
   const cancelButtonRef = useRef(null);
 
+  async function AddFaceFeatures() {
+    const body = JSON.stringify({
+      StaffFace: imagepath,
+    });
+
+    const request = await provideRequestOptions({ path, method: "POST", body });
+
+    if (!request) {
+      return;
+    }
+
+    try {
+      fetch(request)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error(`Fetch error: ${res.status} - ${res.statusText}`);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          // Handle the successful response here
+          // You can set the state or perform other actions with the data
+          router.push("/staff");
+        })
+        .catch((error) => {
+          // Handle the error here
+          console.error(error);
+        });
+    } catch (error) {
+      // Handle any synchronous errors that occur before the fetch
+      console.error(error);
+    }
+  }
   return (
-    <div>
-      <Button buttonname="View Detail" onClick={() => setOpen(true)} style="" />
+    <div className="w-full flex justify-between items-center">
+      <div
+        className="inline-flex justify-between gap-4 cursor-pointer px-2 hover:text-red-600 hover:bg-slate-700 hover:underline mt-2 bg-slate-300 p-2 rounded-md"
+        onClick={() => setOpen(true)}
+      >
+        <p>Register This Face</p>
+        {/* <LiaTrashAltSolid /> */}
+      </div>
+
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
@@ -43,41 +95,28 @@ export default function ModalLog() {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 w-full">
+                  <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                     <div className="sm:flex sm:items-start">
-                      <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                      <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                         <Dialog.Title
                           as="h3"
-                          className="text-base font-semibold leading-6 text-gray-900"
+                          className="text-base font-semibold leading-6 text-gray-900 items-center"
                         >
-                          Detail Log Access
+                          Tambah face features ini untuk {staffname}?
                         </Dialog.Title>
-                        <div className="mt-2 flex flex-row">
-                          <div className="me-5 w-1/3">
-                            <div className="">
-                              <label>Is Correct</label>
-                              <Toggle props1={"True"} props2={"False"} />
-                            </div>
-                            <div className="">
-                              <label>Is Clear</label>
-                              <Toggle props1={"True"} props2={"False"} />
-                            </div>
-                          </div>
-                          <div className="grid grid-cols-2 w-full items-center py-9">
-                            <CheckBoxLog checkboxName={"Success"} />
-                            <CheckBoxLog checkboxName={"Unrecognized"} />
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
                   <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <button
                       type="button"
-                      className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                      onClick={() => setOpen(false)}
+                      className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                      onClick={() => {
+                        setOpen(false);
+                        AddFaceFeatures();
+                      }}
                     >
-                      Save
+                      Register
                     </button>
                     <button
                       type="button"
@@ -94,6 +133,7 @@ export default function ModalLog() {
           </div>
         </Dialog>
       </Transition.Root>
+      {children}
     </div>
   );
 }

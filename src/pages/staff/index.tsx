@@ -1,15 +1,32 @@
-import Card from "@/components/card";
-import Layout from "@/components/layout";
 import { Staff } from "@/type/staff";
 import { useEffect, useState } from "react";
 import { provideRequestOptions } from "@/libs/api";
-import ModalAddStaff from "@/components/modaladdstaff";
-import PopOverStaff from "@/components/popoverstaff";
-import Navbar from "@/components/navbar";
+import Image from "next/image";
+import Typography from "@/components/new-forms-components/typography";
+import Card from "@/components/new-forms-components/card";
+import Layout from "@/components/layouts/layout";
+import ModalAddStaff from "@/components/modals/modal-add-staff";
+import PopOverStaff from "@/components/popover/popover-staff";
+import { useRouter } from "next/router";
+import { useAuth } from "@/contexts/auth-context";
+import Navbar from "@/components/navigations/navbar";
 
 export default function Staff() {
   const [listStaff, setListStaff] = useState<any>();
   const [success, setSuccess] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  const { token, authLoading } = useAuth();
+
+  useEffect(() => {
+    if (authLoading === undefined) {
+      return;
+    }
+    if (!authLoading && !token) {
+      router.push("/");
+    }
+  }, [token, authLoading]);
 
   async function getStaff(
     url: string,
@@ -17,15 +34,20 @@ export default function Staff() {
     params?: string,
     body?: string
   ) {
-    const request = provideRequestOptions({ path: url, method });
+    const request = await provideRequestOptions({ path: url, method });
 
+    setSuccess(false);
+    if (!request) {
+      return;
+    }
     try {
       fetch(request)
         .then((res) => res.json())
         .then((staff) => {
-          setListStaff(staff.serialized_items);
-          setSuccess(false);
-          console.log(staff);
+          const sorted = staff.serialized_items.sort(
+            (a: Staff, b: Staff) => a.id - b.id
+          );
+          setListStaff(sorted);
         });
     } catch (error) {
       console.log(error);
@@ -33,12 +55,12 @@ export default function Staff() {
   }
 
   useEffect(() => {
-    getStaff("/staff", "GET");
+    getStaff("/staff?PerPage=100&Page=1", "GET");
   }, []);
 
   useEffect(() => {
     if (success) {
-      getStaff("/staff", "GET");
+      getStaff("/staff?PerPage=100&Page=1", "GET");
     }
   }, [success]);
 
@@ -76,7 +98,7 @@ export default function Staff() {
               </Card>
             ))}
             <div className="mt-20 ml-20">
-              <ModalAddStaff />
+              <ModalAddStaff isEdit={false} setSuccess={undefined} />
             </div>
           </div>
         </div>

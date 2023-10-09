@@ -1,12 +1,11 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import Button from "./button";
-import Input from "./input";
 import { FormProvider, useForm } from "react-hook-form";
 import { provideRequestOptions } from "@/libs/api";
-import NewInput from "./new-forms-components/new-input";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/router";
+import Button from "../button";
+import NewInput from "../new-forms-components/new-input";
 
 export default function ModalAddDevice() {
   const [open, setOpen] = useState(false);
@@ -28,11 +27,15 @@ export default function ModalAddDevice() {
       DeviceName: data.device_name,
     };
     //provide request options for upload data
-    const uploadFileRequest = provideRequestOptions({
+    const uploadFileRequest = await provideRequestOptions({
       path: "/device",
       method: "post",
       body: JSON.stringify(bodyData),
     });
+
+    if (!uploadFileRequest) {
+      return;
+    }
 
     //trycatch upload data
     try {

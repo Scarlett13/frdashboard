@@ -6,6 +6,7 @@ import { Role } from "@/type/role";
 import { useState } from "react";
 
 export default function apiRoleTest() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [listRole, setListRole] = useState<any>();
 
   async function Role(
@@ -14,7 +15,11 @@ export default function apiRoleTest() {
     params?: string,
     body?: string
   ) {
-    const request = provideRequestOptions({ path: url, method });
+    const request = await provideRequestOptions({ path: url, method });
+
+    if (!request) {
+      return;
+    }
 
     try {
       fetch(request)
@@ -31,8 +36,14 @@ export default function apiRoleTest() {
   return (
     <div>
       <div>
-        <Button buttonname={"GET"} onClick={() => Role("/role", "GET")} />
-        <Button buttonname={"LIST"} onClick={() => Role("/role", "GET")} />
+        <Button
+          buttonname={"GET"}
+          onClick={() => Role("/role?PerPage=100&Page=1", "GET")}
+        />
+        <Button
+          buttonname={"LIST"}
+          onClick={() => Role("/role?PerPage=100&Page=1", "GET")}
+        />
       </div>
       <div>
         {listRole &&

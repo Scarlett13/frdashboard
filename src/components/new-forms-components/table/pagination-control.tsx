@@ -36,6 +36,7 @@ export default function PaginationControl<T extends RowData>({
     <div
       className={clsxm(
         "flex items-center justify-between gap-x-2 md:justify-end bg-stone-200 pb-2",
+
         className
       )}
       {...rest}
