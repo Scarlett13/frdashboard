@@ -17,11 +17,6 @@ import DropzoneInput from "../new-forms-components/dropzoneinput";
 
 async function submitData(data: any) {
   let fd = new FormData();
-  fd.append(
-    "image",
-    data.staff_image[0],
-    "/C:/Users/visi2/Downloads/yudha.png"
-  );
 
   //provide request options for upload data
   const uploadFileRequest = await provideRequestOptions({
@@ -155,7 +150,7 @@ export default function ModalAddStaff({
       staff_image: "",
     });
     setImageSrc("");
-    setSuccess(true);
+    if (setSuccess) setSuccess(true);
   }
 
   //useeffect hook untuk dapatkan staff roles, kalau lagi error untuk fetch, pakai variable default staff role diatas

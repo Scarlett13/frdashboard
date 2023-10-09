@@ -107,6 +107,15 @@ export async function setTokenCookie(
   });
 }
 
+export async function logout() {
+  return fetch("/api/logout", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
 export const getTokenCookie = async () => {
   const tokenresponse = await fetch("/api/access", {
     method: "post",

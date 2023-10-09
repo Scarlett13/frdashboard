@@ -10,10 +10,11 @@ export default function Log() {
   const { token, authLoading } = useAuth();
 
   useEffect(() => {
+    console.log(token);
     if (authLoading === undefined) {
       return;
     }
-    if (!authLoading && !token) {
+    if (!authLoading || !token) {
       router.push("/");
     }
   }, [token, authLoading]);
