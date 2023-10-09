@@ -4,6 +4,7 @@ import Layout from "@/components/layouts/layout";
 import { useAuth } from "@/contexts/auth-context";
 import { provideRequestOptions } from "@/libs/api";
 import { Device } from "@/type/device";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -69,9 +70,9 @@ export default function Device() {
               <p>Divisi:</p>
               <p>Jumlah: {data.Users.length}</p>
               <div className=" text-right">
-                <a href="/staff">
+                <Link href="/staff">
                   <ButtonDevice buttonname={"View Staff"}></ButtonDevice>
-                </a>
+                </Link>
               </div>
             </div>
           </Card>
@@ -84,9 +85,9 @@ export default function Device() {
               <p>Divisi: -</p>
               <p>Jumlah: -</p>
               <div className=" text-right">
-                <a href="/staff">
+                <Link href="/staff">
                   <ButtonDevice buttonname={"View Staff"}></ButtonDevice>
-                </a>
+                </Link>
               </div>
             </div>
           </Card>

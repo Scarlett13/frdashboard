@@ -50,6 +50,7 @@ export default function Login() {
     const { TokenRefresh, TokenAccess } = loginBody;
     console.log(TokenAccess);
     await setTokenCookie(TokenAccess, TokenRefresh);
+    router.push("/device");
     // try {
     // 	fetch(loginRequest)
     // 		.then((res) => {

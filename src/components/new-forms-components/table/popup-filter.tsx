@@ -10,7 +10,7 @@ import {
   PopoverClose,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/new-forms-components/popover/Popover";
+} from "@/components/new-forms-components/popover/popover";
 import Typography from "@/components/new-forms-components/typography";
 
 export type PopupFilterProps<T extends Record<string, string[]>> = {
