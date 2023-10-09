@@ -72,8 +72,13 @@ export default function Layout({ children, showSideBar }: layoutProps) {
         {showSideBar ? (
           <div className="bg-gray-800 text-white">
             <div>
-              <button onClick={() => setCollapsed((prev) => !prev)}>
-                <VscThreeBars className="w-8 h-8 mt-20" />
+              <button
+                className="me-4"
+                onClick={() => setCollapsed((prev) => !prev)}
+              >
+                <div className="relative">
+                  <VscThreeBars className="inset-0 w-8 h-8 mt-24 hover:scale-110 ml-4" />
+                </div>
               </button>
               {!collapsed && (
                 <div>
