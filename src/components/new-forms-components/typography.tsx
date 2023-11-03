@@ -25,11 +25,13 @@ const TypographyVariant = [
 ] as const;
 
 const TypographyColor = [
+  "theme",
   "primary",
   "secondary",
   "tertiary",
   "danger",
-  "white",
+  "custom_white",
+  "custom_success",
 ] as const;
 const TypographyFont = ["averta", "inter"] as const;
 
@@ -59,30 +61,30 @@ type TypographyProps<T extends React.ElementType> = {
    * | c1      | text-xs    | 12px      | 400         |
    * | c2      | -          | 11px      | 400         |
    */
-  variant?: (typeof TypographyVariant)[number];
+  variant: (typeof TypographyVariant)[number];
   font?: (typeof TypographyFont)[number];
   children: React.ReactNode;
 } & React.ComponentPropsWithoutRef<T>;
 
 /** @see https://www.benmvp.com/blog/forwarding-refs-polymorphic-react-component-typescript/ */
-type TypographyComponent = <T extends React.ElementType = "p">(
+type TypographyComponent = <T extends React.ElementType = "div">(
   props: TypographyProps<T>
 ) => React.ReactElement | null;
 
-const Typography: TypographyComponent = React.forwardRef(
-  <T extends React.ElementType = "p">(
+const Typography = React.forwardRef(
+  <T extends React.ElementType = "div">(
     {
       as,
       children,
       className,
-      color = "primary",
-      variant = "b2",
+      color = "theme",
+      variant,
       font,
       ...rest
     }: TypographyProps<T>,
     ref?: React.ComponentPropsWithRef<T>["ref"]
   ) => {
-    const Component = as || "p";
+    const Component = as || "div";
     return (
       <Component
         ref={ref}
@@ -110,11 +112,13 @@ const Typography: TypographyComponent = React.forwardRef(
           //#endregion  //*======== Variants ===========
           //#region  //*=========== Color ===========
           [
+            color === "theme" && ["text-foreground"],
             color === "primary" && ["text-black"],
             color === "secondary" && ["text-gray-700"],
             color === "tertiary" && ["text-gray-500"],
             color === "danger" && ["text-red-500"],
-            color === "white" && ["text-white"],
+            color === "custom_white" && ["text-white"],
+            color === "custom_success" && ["text-green-400"],
           ],
           //#endregion  //*======== Color ===========
           //#region  //*=========== Font ===========

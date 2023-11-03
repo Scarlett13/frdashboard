@@ -1,8 +1,10 @@
 import ButtonDevice from "@/components/buttondevice";
 import Card from "@/components/card";
-import Layout from "@/components/layout";
+import Layout from "@/components/layouts/layout";
+import { useAuth } from "@/contexts/auth-context";
 import { provideRequestOptions } from "@/libs/api";
 import { Device } from "@/type/device";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -14,15 +16,32 @@ export default function Device() {
   const [data, setData] = useState<Device>();
   const [isLoading, setLoading] = useState(false);
 
-  useEffect(() => {
-    console.log(query);
-    setLoading(true);
+  const { token, authLoading } = useAuth();
 
-    if (query.deviceid) {
-      const request = provideRequestOptions({
+  useEffect(() => {
+    if (authLoading === undefined) {
+      return;
+    }
+    if (!authLoading && !token) {
+      router.push("/");
+    }
+  }, [token, authLoading]);
+
+  useEffect(() => {
+    async function listdevices() {
+      setLoading(true);
+
+      if (!query.deviceid) {
+        return;
+      }
+      const request = await provideRequestOptions({
         path: `/device/${deviceid}`,
         method: "GET",
       });
+
+      if (!request) {
+        return;
+      }
 
       try {
         fetch(request)
@@ -37,6 +56,10 @@ export default function Device() {
         setLoading(false);
       }
     }
+
+    if (!isLoading) {
+      listdevices();
+    }
   }, [query]);
   return (
     <Layout showSideBar={true}>
@@ -50,9 +73,9 @@ export default function Device() {
               <p>Divisi:</p>
               <p>Jumlah: {data.Users.length}</p>
               <div className=" text-right">
-                <a href="/staff">
+                <Link href="/staff">
                   <ButtonDevice buttonname={"View Staff"}></ButtonDevice>
-                </a>
+                </Link>
               </div>
             </div>
           </Card>
@@ -65,9 +88,9 @@ export default function Device() {
               <p>Divisi: -</p>
               <p>Jumlah: -</p>
               <div className=" text-right">
-                <a href="/staff">
+                <Link href="/staff">
                   <ButtonDevice buttonname={"View Staff"}></ButtonDevice>
-                </a>
+                </Link>
               </div>
             </div>
           </Card>

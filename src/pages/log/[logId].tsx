@@ -1,5 +1,5 @@
-import LogLayout from "@/components/layoutlog";
-import ModalLog from "@/components/modallog";
+import LogLayout from "@/components/layouts/layoutlog";
+import ModalLog from "@/components/modals/modal-log";
 import { provideRequestOptions } from "@/libs/api";
 import { Log } from "@/type/log";
 import { useEffect, useState } from "react";
@@ -14,7 +14,11 @@ export default function Log() {
     params?: string,
     body?: string
   ) {
-    const request = provideRequestOptions({ path: url, method });
+    const request = await provideRequestOptions({ path: url, method });
+
+    if (!request) {
+      return;
+    }
 
     try {
       fetch(request)

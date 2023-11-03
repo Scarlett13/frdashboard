@@ -1,11 +1,10 @@
 import { Device } from "@/type/device";
-import Navbar from "./navbar";
 import SideBar from "./sidebar";
 import { useEffect, useState } from "react";
 import { provideRequestOptions } from "@/libs/api";
-import ModalAddDevice from "./modaladddevice";
 import clsxm from "@/libs/clsxm";
 import { VscThreeBars } from "react-icons/vsc";
+import Navbar from "./navigations/navbar";
 
 type layoutProps = {
   children?: React.ReactNode;

@@ -18,7 +18,7 @@ export type SearchableSelectInputProps = {
   readOnly?: boolean;
   hideError?: boolean;
   validation?: RegisterOptions;
-  options: { value: string; label: string }[];
+  options: { value: string | number; label: string }[];
   containerClassName?: string;
 } & React.ComponentPropsWithoutRef<"select"> &
   ExtractProps<Select>;
