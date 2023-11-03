@@ -24,7 +24,7 @@ export default function handler(
       // secure: process.env.NODE_ENV !== "development",
       // maxAge: expiresIn,
       sameSite: "strict",
-      path: "/",
+      path: "*",
     })
   );
   res.status(200).json({ success: cookieObj });
