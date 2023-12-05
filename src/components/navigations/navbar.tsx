@@ -25,8 +25,8 @@ export default function Navbar({ children }: NavBarProps) {
           <Link href="/device" className="hover:underline">
             Device
           </Link>
-          <Link href="/staff" className="hover:underline">
-            Staff
+          <Link href="/person" className="hover:underline">
+            Person
           </Link>
           <Link href="/log" className="hover:underline">
             Log

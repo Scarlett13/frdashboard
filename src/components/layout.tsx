@@ -30,7 +30,7 @@ type layoutProps = {
 //   },
 // ];
 
-export default function Layout({ children, showSideBar }: layoutProps) {
+export default async function Layout({ children, showSideBar }: layoutProps) {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -39,12 +39,15 @@ export default function Layout({ children, showSideBar }: layoutProps) {
     console.log(collapsed);
   }, [collapsed]);
 
-  const request = provideRequestOptions({ path: "/device", method: "GET" });
+  const request = await provideRequestOptions({
+    path: "/device",
+    method: "GET",
+  });
 
   useEffect(() => {
     setLoading(true);
     try {
-      fetch(request)
+      fetch(request ?? "")
         .then((res) => res.json())
         .then((data) => {
           if (data.serialized_items) {

@@ -1,6 +1,6 @@
 import { provideRequestOptions } from "@/libs/api";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
-import { Staff } from "@/type/staff";
+import { Person } from "@/type/person";
 
 export default function UploadImage() {
   const [imageSrc, setImageSrc] = useState("/path-to-default-image.jpg");

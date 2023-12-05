@@ -1,19 +1,19 @@
 import { Popover, Transition } from "@headlessui/react";
 import { BsThreeDots } from "react-icons/bs";
 import { Dispatch, Fragment, SetStateAction } from "react";
-import { Staff } from "@/type/staff";
+import { Person } from "@/type/person";
 import UnstyledLink from "../new-forms-components/unstyled-links";
 import ModalAddStaff from "../modals/modal-add-staff";
 import ButtonDelete from "../modals/modal-delete";
 
-interface popoverStaffProps {
-  popoverStaff: Staff;
+interface popoverPersonProps {
+  popoverPerson: Person;
   setSuccess: Dispatch<SetStateAction<boolean>>;
 }
-export default function PopOverStaff({
-  popoverStaff,
+export default function PopOverPerson({
+  popoverPerson,
   setSuccess,
-}: popoverStaffProps) {
+}: popoverPersonProps) {
   return (
     <div className="">
       <Popover className="relative">
@@ -39,9 +39,9 @@ export default function PopOverStaff({
               <Popover.Panel className="absolute top-5 -right-5 min-w-[150px]">
                 <div className="w-full bg-slate-400">
                   <div className="gap-2 divide-y-2 divide-solid flex flex-col justify-between items-center rounded-lg p-2">
-                    {!popoverStaff.FaceFeatures && (
+                    {!popoverPerson.FaceFeatures && (
                       <UnstyledLink
-                        href={`/staff/facefeatures/${popoverStaff.id}`}
+                        href={`/staff/facefeatures/${popoverPerson.id}`}
                         className="inline-flex w-full justify-between gap-4 cursor-pointer hover:underline px-2"
                       >
                         Register face
@@ -51,10 +51,10 @@ export default function PopOverStaff({
                     {/* <Modal staff={popoverStaff} setSuccess={setSuccess} /> */}
                     <ModalAddStaff
                       isEdit={true}
-                      staffId={popoverStaff.id}
+                      personId={popoverPerson.id}
                       setSuccess={setSuccess}
                     />
-                    <ButtonDelete path={`/staff/${popoverStaff.id}`} />
+                    <ButtonDelete path={`/person/${popoverPerson.id}`} />
                   </div>
                 </div>
               </Popover.Panel>

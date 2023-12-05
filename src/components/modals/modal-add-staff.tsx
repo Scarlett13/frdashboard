@@ -6,7 +6,7 @@ import Image from "next/image";
 import { provideRequestOptions } from "@/libs/api";
 import { Role } from "@/type/role";
 import { BsCloudUploadFill } from "react-icons/bs";
-import { Staff } from "@/type/staff";
+import { Person } from "@/type/person";
 import { url } from "inspector";
 import { LiaUserEditSolid } from "react-icons/lia";
 import { useRouter } from "next/router";
@@ -37,26 +37,26 @@ async function submitData(data: any) {
     if (uploadDataResponse.ok) {
       const uploadData = await uploadDataResponse.json();
       const bodyData = {
-        StaffName: data.name,
-        IsActive: data.staff_status === "true" ? true : false,
-        StaffDepartment: data.staff_department,
-        StaffImage: uploadData.Path,
-        StaffSound: "",
+        PersonName: data.name,
+        IsActive: data.person_status === "true" ? true : false,
+        PersonDepartment: data.person_department,
+        PersonImage: uploadData.Path,
+        PersonSound: "",
       };
 
-      const createNewStaff = await provideRequestOptions({
-        path: "/staff",
+      const createNewPerson = await provideRequestOptions({
+        path: "/person",
         method: "POST",
         body: JSON.stringify(bodyData),
       });
 
-      if (!createNewStaff) {
+      if (!createNewPerson) {
         return;
       }
 
-      const createStaffResponse = await fetch(createNewStaff);
+      const createPersonResponse = await fetch(createNewPerson);
 
-      if (createStaffResponse.ok) {
+      if (createPersonResponse.ok) {
         return 1;
       } else {
         return 0;
@@ -71,30 +71,30 @@ async function submitData(data: any) {
   return;
 }
 
-async function editData(data: any, staffId: number) {
+async function editData(data: any, personId: number) {
   try {
     const bodyData = {
-      StaffName: data.name,
-      IsActive: data.staff_status === "true" ? true : false,
-      StaffDepartment: data.staff_department,
-      StaffRole: {
-        Update: data.staff_role.map((role: string) => parseInt(role, 10)),
+      PersonName: data.name,
+      IsActive: data.person_status === "true" ? true : false,
+      PersonDepartment: data.person_department,
+      PersonRole: {
+        Update: data.person_role.map((role: string) => parseInt(role, 10)),
       },
     };
 
-    const createNewStaff = await provideRequestOptions({
-      path: `/staff/${staffId}`,
+    const createNewPerson = await provideRequestOptions({
+      path: `/person/${personId}`,
       method: "PUT",
       body: JSON.stringify(bodyData),
     });
 
-    if (!createNewStaff) {
+    if (!createNewPerson) {
       return;
     }
 
-    const createStaffResponse = await fetch(createNewStaff);
+    const createPersonResponse = await fetch(createNewPerson);
 
-    if (createStaffResponse.ok) {
+    if (createPersonResponse.ok) {
       return 1;
     } else {
       return 0;
@@ -117,19 +117,23 @@ const defaultRole = [
     id: 3,
     RoleName: "Developer",
   },
+  {
+    id: 4,
+    RoleName: "Guest",
+  },
 ];
 
-interface IModalAddStaff {
+interface IModalAddPerson {
   isEdit: boolean;
-  staffId?: number;
+  personId?: number;
   setSuccess: any;
 }
 
-export default function ModalAddStaff({
+export default function ModalAddPerson({
   isEdit,
-  staffId,
+  personId,
   setSuccess,
-}: IModalAddStaff) {
+}: IModalAddPerson) {
   const [open, setOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
@@ -139,21 +143,21 @@ export default function ModalAddStaff({
 
   const cancelButtonRef = useRef(null);
 
-  //function close modal untuk clear form dan tutup modal add staff
+  //function close modal untuk clear form dan tutup modal add person
   function closeModal() {
     setOpen(false);
     reset({
       name: "",
-      staff_department: "",
-      staff_roles: [],
-      staff_status: "",
-      staff_image: "",
+      person_department: "",
+      person_roles: [],
+      person_status: "",
+      person_image: "",
     });
     setImageSrc("");
     if (setSuccess) setSuccess(true);
   }
 
-  //useeffect hook untuk dapatkan staff roles, kalau lagi error untuk fetch, pakai variable default staff role diatas
+  //useeffect hook untuk dapatkan person roles, kalau lagi error untuk fetch, pakai variable default person role diatas
   useEffect(() => {
     async function getRoles(url: string, method: string) {
       const request = await provideRequestOptions({ path: url, method });
@@ -198,7 +202,7 @@ export default function ModalAddStaff({
     let status: number | undefined = 0;
 
     if (isEdit) {
-      status = await editData(data, staffId as number);
+      status = await editData(data, personId as number);
     } else {
       status = await submitData(data);
     }
@@ -215,12 +219,12 @@ export default function ModalAddStaff({
   //#endregion  //*======== Form Submit ===========
 
   useEffect(() => {
-    console.log(`${staffId} - ${isEdit}`);
-    if (!isEdit || !staffId) {
+    console.log(`${personId} - ${isEdit}`);
+    if (!isEdit || !personId) {
       return;
     }
 
-    async function getStaff(
+    async function getPerson(
       url: string,
       method: string,
       params?: string,
@@ -238,17 +242,17 @@ export default function ModalAddStaff({
             }
             return res.json();
           })
-          .then((data: Staff) => {
+          .then((data: Person) => {
             // Handle the successful response here
             // You can set the state or perform other actions with the data
-            setValue("name", data.StaffName || "");
-            setValue("staff_department", data.StaffDepartment || "");
+            setValue("name", data.PersonName || "");
+            setValue("person_department", data.PersonDepartment || "");
             setValue(
-              "staff_role",
+              "person_role",
               data.Roles.map((number) => number.toString()) || []
             );
-            setValue("staff_image", "" || "");
-            setValue("staff_status", data.IsActive.toString() || "");
+            setValue("person_image", "" || "");
+            setValue("person_status", data.IsActive.toString() || "");
             console.log(data);
           })
           .catch((error) => {
@@ -261,7 +265,7 @@ export default function ModalAddStaff({
       }
     }
 
-    getStaff(`/staff/${staffId || "0"}`, "GET");
+    getPerson(`/person/${personId || "0"}`, "GET");
   });
 
   return (
@@ -322,23 +326,24 @@ export default function ModalAddStaff({
                               as="h3"
                               className="text-base font-semibold leading-6 text-gray-900"
                             >
-                              Penambahan Staff
+                              Penambahan Orang
                             </Dialog.Title>
                             <div className="mt-2 text-gray-900">
                               <NewInput
                                 id="name"
                                 label="Name"
                                 validation={{ required: "Name must be filled" }}
-                                placeholder="Enter staff name"
+                                placeholder="Enter person name"
                                 disabled={isLoading}
                               />
                               <div className="min-w-[220px] mt-4">
                                 <NewInput
-                                  id="staff_department"
-                                  label="Staff department"
-                                  placeholder="Select staff department"
+                                  id="person_department"
+                                  label="Person department"
+                                  placeholder="Select person department"
                                   validation={{
-                                    required: "Staff department must be filled",
+                                    required:
+                                      "Person department must be filled",
                                   }}
                                   disabled={isLoading}
                                 />
@@ -346,12 +351,12 @@ export default function ModalAddStaff({
                               {isEdit && (
                                 <div className="min-w-[220px] mt-4">
                                   <SelectInput
-                                    id="staff_role"
-                                    label="Staff role"
-                                    placeholder="Select staff role"
+                                    id="person_role"
+                                    label="Person role"
+                                    placeholder="Select person role"
                                     isMulti={true}
                                     validation={{
-                                      required: "Staff role must be filled",
+                                      required: "Person role must be filled",
                                     }}
                                     options={roles.map((role) => ({
                                       value: role.id.toString(),
@@ -363,11 +368,11 @@ export default function ModalAddStaff({
                               )}
                               <div className="mt-4">
                                 <SelectInput
-                                  id="staff_status"
-                                  label="Staff status"
-                                  placeholder="Select staff status"
+                                  id="person_status"
+                                  label="Person status"
+                                  placeholder="Select person status"
                                   validation={{
-                                    required: "Staff status must be filled",
+                                    required: "Person status must be filled",
                                   }}
                                   options={[
                                     { value: "true", label: "Active" },
@@ -386,8 +391,8 @@ export default function ModalAddStaff({
                                     "Uploading..."
                                   ) : (
                                     <DropzoneInput
-                                      id="staff_image"
-                                      label="Staff Image"
+                                      id="person_image"
+                                      label="Person Image"
                                       setImageSource={setImageSrc}
                                       validation={{
                                         required: "Photo must be filled",

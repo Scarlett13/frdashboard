@@ -1,6 +1,6 @@
 import Card from "@/components/card";
 import Layout from "@/components/layout";
-import { Staff } from "@/type/staff";
+import { Person } from "@/type/person";
 import { useEffect, useState } from "react";
 import { provideRequestOptions } from "@/libs/api";
 import Navbar from "@/components/navigations/navbar";
@@ -9,9 +9,10 @@ import ModalAddStaff from "@/components/modals/modal-add-staff";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useAuth } from "@/contexts/auth-context";
+import ModalAddPerson from "@/components/modals/modal-add-staff";
 
-export default function StaffPage() {
-  const [listStaff, setListStaff] = useState<any>();
+export default function PersonPage() {
+  const [listPerson, setListPerson] = useState<any>();
   const [success, setSuccess] = useState<boolean>(false);
 
   const { token, authLoading } = useAuth();
@@ -26,7 +27,7 @@ export default function StaffPage() {
     }
   }, [token, authLoading]);
 
-  async function getStaff(
+  async function getPerson(
     url: string,
     method: string,
     params?: string,
@@ -41,13 +42,13 @@ export default function StaffPage() {
     try {
       fetch(request)
         .then((res) => res.json())
-        .then((staff) => {
-          const sortedData = staff.serialized_items.sort(
-            (a: Staff, b: Staff) => a.id - b.id
+        .then((person) => {
+          const sortedData = person.serialized_items.sort(
+            (a: Person, b: Person) => a.id - b.id
           );
-          setListStaff(sortedData);
+          setListPerson(sortedData);
           setSuccess(false);
-          console.log(staff);
+          console.log(person);
         });
     } catch (error) {
       console.log(error);
@@ -55,12 +56,12 @@ export default function StaffPage() {
   }
 
   useEffect(() => {
-    getStaff("/staff?PerPage=100&Page=1", "GET");
+    getPerson("/person?PerPage=100&Page=1", "GET");
   }, []);
 
   useEffect(() => {
     if (success) {
-      getStaff("/staff?PerPage=100&Page=1", "GET");
+      getPerson("/person?PerPage=100&Page=1", "GET");
     }
   }, [success]);
 
@@ -69,20 +70,23 @@ export default function StaffPage() {
       <div className="h-screen overflow-y-hidden">
         <div className="w-full mt-20">
           <div className="ms-9 flex flex-col gap-4">
-            <h1 className="text-2xl font-bold py-4 mb-4">Staff List</h1>
+            <h1 className="text-2xl font-bold py-4 mb-4">Person List</h1>
           </div>
           <div className="grid grid-cols-1 xl:grid-cols-4 2xl:grid-cols-5 w-full gap-4 xl:max-h-[39rem] 2xl:max-h-[45rem] overflow-x-hidden">
-            {listStaff?.map((staff: Staff, counter: number) => (
-              <Card key={staff.id} style="bg-white hover:bg-slate-50">
+            {listPerson?.map((person: Person, counter: number) => (
+              <Card key={person.id} style="bg-white hover:bg-slate-50">
                 <div className="w-full mt-4 flex flex-row justify-between px-6 items-center">
                   <h4 className="">{counter + 1}</h4>
-                  <PopOverStaff popoverStaff={staff} setSuccess={setSuccess} />
+                  <PopOverStaff
+                    popoverPerson={person}
+                    setSuccess={setSuccess}
+                  />
                 </div>
                 <div className="flex flex-row mt-4 px-6 items-center">
                   <div className="mr-4">
                     <Image
-                      src={`http://192.168.10.31:5000/file/image/${staff.StaffImage}`}
-                      alt={`${staff.StaffName}'s image`}
+                      src={`http://192.168.10.31:5000/file/image/${person.PersonImage}`}
+                      alt={`${person.PersonName}'s image`}
                       className="w-20 h-20 rounded-full object-cover"
                       width={80}
                       height={80}
@@ -93,14 +97,14 @@ export default function StaffPage() {
                     <p>Staff Department</p>
                   </div> */}
                   <div>
-                    <p>{staff.StaffName}</p>
-                    <p>{staff.StaffDepartment}</p>
+                    <p>{person.PersonName}</p>
+                    <p>{person.PersonDepartment}</p>
                   </div>
                 </div>
               </Card>
             ))}
             <div className="mt-20 ml-20">
-              <ModalAddStaff isEdit={false} setSuccess={undefined} />
+              <ModalAddPerson isEdit={false} setSuccess={undefined} />
             </div>
           </div>
         </div>

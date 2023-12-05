@@ -42,8 +42,8 @@ function TableLogAccess() {
       header: "Device Name",
     },
     {
-      accessorKey: "StaffName",
-      header: "Staff Name",
+      accessorKey: "PersonName",
+      header: "Person Name",
     },
     {
       accessorKey: "LogImage",
@@ -151,7 +151,7 @@ function TableLogAccess() {
   return (
     <div className="w-full justify-center text-gray-900">
       <h1 className="text-2xl font-bold py-0 ms-8">Log</h1>
-      <div className="overflow-x-hidden mt-0 text-gray-900">
+      <div className="overflow-x-hidden mt-0 text-gray-900 md:max-h-[70vh] lg:max-h-[82vh] xl:max-h-[82vh] 2xl:max-h-[85vh] 1366:max-h-[70vh]">
         <ServerTable
           //@ts-ignore
           columns={columns}
@@ -166,7 +166,7 @@ function TableLogAccess() {
           // isLoading={isLoading}
           tableState={tableState}
           setTableState={setTableState}
-          className="mt-4 xl:max-h-[82vh] 2xl:max-h-[85vh]"
+          className="mt-4"
           withFilter={true}
         />
       </div>
