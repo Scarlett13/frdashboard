@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table';
 import cookie from 'cookie';
-import type { GetServerSideProps } from 'next';
+import type { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useEffect, useState } from 'react';
 import React from 'react';
 import { useSWRConfig } from 'swr';
@@ -29,10 +29,12 @@ import { Log } from '@/types/log';
 
 type VisitorFilter = {
   PersonType: string[];
-  'Device Name': string[];
+  Device: string[];
 };
 
-export default function VisitorPage() {
+export default function VisitorPage({
+  repo,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   // const [queryData, setQueryData] = useState<PaginatedApiResponse<Log>>();
   const [filteredData, setFiltredData] = useState<Log[] | null>(null);
 
@@ -120,11 +122,18 @@ export default function VisitorPage() {
 
   const [filterQuery, setFilterQuery] = React.useState<VisitorFilter>({
     PersonType: [],
-    'Device Name': [],
+    Device: [],
   });
 
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const deviceFilterOptions: any = [];
+
+  repo.map((device: Device) => {
+    deviceFilterOptions.push({ id: device.id, name: device.DeviceName });
+  });
 
   const filterOption: PopupFilterProps<VisitorFilter>['filterOption'] =
     React.useMemo(
@@ -138,14 +147,12 @@ export default function VisitorPage() {
           ],
         },
         {
-          id: 'Device Name',
-          name: 'Device Name',
-          options: [
-            { id: 'Ruang Developer', name: 'Ruang Developer' },
-            { id: 'Ruang Admin', name: 'Ruang Admin' },
-          ],
+          id: 'Device',
+          name: 'Device',
+          options: deviceFilterOptions,
         },
       ],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       []
     );
 
@@ -153,7 +160,7 @@ export default function VisitorPage() {
     baseUrl: '/access_log',
     tableState,
     additionalParam: {
-      'Device Name': filterQuery['Device Name'],
+      Device: filterQuery.Device,
       PersonType: filterQuery.PersonType,
       TimeStart: formatDateToString(startDate, 'dd-MM-yyyy HH:mm', true),
       TimeEnd: formatDateToString(endDate, 'dd-MM-yyyy HH:mm', true),
