@@ -12,8 +12,8 @@ export type NavItem = {
 export type MainNavItem = NavItem;
 
 export type CustomSidebarNavItem = {
-  category: string;
-  catdesc: string;
+  category?: string;
+  catdesc?: string;
   items: SidebarNavItem[];
 };
 

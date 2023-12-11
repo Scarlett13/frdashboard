@@ -1,3 +1,4 @@
+import { LucideIcon } from 'lucide-react';
 import * as React from 'react';
 import { IconType } from 'react-icons';
 
@@ -22,8 +23,8 @@ type TagProps = {
   children: React.ReactNode;
   size?: TagSize;
   color?: TagColor;
-  leftIcon?: IconType;
-  rightIcon?: IconType;
+  leftIcon?: IconType | LucideIcon;
+  rightIcon?: IconType | LucideIcon;
   leftIconClassName?: string;
   rightIconClassName?: string;
 } & React.ComponentPropsWithoutRef<'div'>;

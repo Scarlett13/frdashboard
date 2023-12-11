@@ -1,5 +1,5 @@
+import { LucideIcon } from 'lucide-react';
 import * as React from 'react';
-import { IconType } from 'react-icons';
 
 import clsxm from '@/lib/clsxm';
 
@@ -16,7 +16,7 @@ const statisticsCardVariant = [
 type StatisticsCardVariant = (typeof statisticsCardVariant)[number];
 
 type StatisticsCardProps = {
-  icon?: IconType;
+  icon?: LucideIcon;
   iconClassName?: string;
   isLoading?: boolean;
   label: string;

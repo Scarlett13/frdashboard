@@ -20,7 +20,7 @@ import Skeleton from '@/components/Skeleton';
 
 import UnauthPage from '../zzzsandbox/boilerplate/unauth.page';
 
-import { Staff } from '@/types/staff';
+import { Person } from '@/types/person';
 
 const fetcher = (url: string, token: string) =>
   fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then((res) =>
@@ -31,8 +31,8 @@ export default function StaffPage({
   accessToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   /** ---------- BEGIN FORM REGION --------- */
-  const [staffs, setStaffs] = useState<Staff[]>([]);
-  const [filteredStaffs, setFilteredStaffs] = useState<Staff[]>([]);
+  const [persons, setPersons] = useState<Person[]>([]);
+  const [filteredPersons, setFilteredPersons] = useState<Person[]>([]);
   const [filterString, setFilterString] = useState<string>('');
 
   const methods = useForm({
@@ -53,7 +53,7 @@ export default function StaffPage({
   const page = (query.page as string) ?? '1';
   const perPage = (query.perPage as string) ?? '10';
 
-  const url = `http://192.168.10.31:5000/staff?PerPage=${perPage}&Page=${page}`;
+  const url = `http://192.168.10.31:5000/person?PerPage=${perPage}&Page=${page}`;
 
   // Line 32:  use the useFetch hook to get the products
   const { data, error, isLoading } = useSWR(url, (url) =>
@@ -66,18 +66,18 @@ export default function StaffPage({
 
   useEffect(() => {
     if (data && data.serialized_items) {
-      setStaffs(data.serialized_items);
+      setPersons(data.serialized_items);
     }
     logger(data);
   }, [data, error]);
 
   useEffect(() => {
     if (!filterString) {
-      setFilteredStaffs(staffs);
+      setFilteredPersons(persons);
     } else {
-      const filteredArray: Staff[] = [];
+      const filteredArray: Person[] = [];
 
-      data?.serialized_items?.forEach((item: Staff) => {
+      data?.serialized_items?.forEach((item: Person) => {
         let found = false; // Flag to track if the search keyword is found in any key
         // Iterate through the keys of each object
         Object.keys(item).forEach((key) => {
@@ -98,9 +98,9 @@ export default function StaffPage({
         }
       });
 
-      setFilteredStaffs(filteredArray);
+      setFilteredPersons(filteredArray);
     }
-  }, [data?.serialized_items, filterString, staffs]);
+  }, [data?.serialized_items, filterString, persons]);
 
   /** ---------- END USE EFFECT REGION --------- */
 
@@ -150,16 +150,16 @@ export default function StaffPage({
               </div>
 
               <div className='grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-                {filteredStaffs && filteredStaffs.length > 0 ? (
-                  filteredStaffs.map((item) => {
+                {filteredPersons && filteredPersons.length > 0 ? (
+                  filteredPersons.map((item) => {
                     return (
                       <StaffCard
                         key={item.id}
                         staffId={`${item.id}`}
-                        imageSource={item.StaffImage}
-                        imageAlt={`${item.StaffName}'s image`}
-                        staffName={item.StaffName}
-                        staffDepartment={item.StaffDepartment}
+                        imageSource={item.PersonImage}
+                        imageAlt={`${item.PersonName}'s image`}
+                        staffName={item.PersonName}
+                        staffDepartment={item.PersonDepartment}
                         faceFeaturesRegistered={item.FaceFeatures}
                         isActive={item.IsActive}
                       />

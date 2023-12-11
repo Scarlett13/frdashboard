@@ -70,3 +70,37 @@ export default function handler(
 
   res.status(200).json({ success: true, token: parsedCookies.accessToken });
 }
+
+export function getTokenOnly(req: NextApiRequest) {
+  // const headersList = headers();
+  const cookies = cookie.parse(req.headers?.cookie ?? '');
+  const appCookie = cookies?.['uss_sess'] ?? '';
+  const parsedCookies = appCookie ? JSON.parse(appCookie) : {};
+  const accessToken = parsedCookies?.accessToken ?? null;
+  logger(req.headers.cookie);
+
+  if (!accessToken) {
+    return false;
+  }
+
+  const { exp } = jwt_decode(accessToken) as JwtPayload;
+  if (!exp) {
+    return false;
+  }
+  const isAccessTokenExpired = Date.now() / 1000 > exp;
+
+  // const refreshToken = parsedCookies?.refreshToken;
+
+  /**
+   * Fetch new access token if it expires
+   */
+  if (isAccessTokenExpired) {
+    return false;
+  }
+
+  if (!parsedCookies || !parsedCookies.accessToken) {
+    return false;
+  }
+
+  return parsedCookies.accessToken;
+}

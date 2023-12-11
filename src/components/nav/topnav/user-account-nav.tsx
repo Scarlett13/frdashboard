@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/dropdown-menu';
+import Typography from '@/components/typography/Typography';
 import { UserAvatar } from '@/components/user-avatar';
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -24,10 +25,13 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <UserAvatar
-          user={{ name: user.name || null, image: user.image || null }}
-          className='h-10 w-10'
-        />
+        <div className='flex flex-row items-center gap-4'>
+          <UserAvatar
+            user={{ name: user.name || null, image: user.image || null }}
+            className='h-10 w-10'
+          />
+          <Typography variant='b1'>Visi Global Teknologi</Typography>
+        </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end'>
         <div className='z-40 flex items-center justify-start gap-2 p-2'>

@@ -52,7 +52,15 @@ export default function Table<T extends object>({
 
   return (
     <div className={clsxm('flex flex-col', className)} {...rest}>
-      {withFilter && <Filter table={table} />}
+      {withFilter && (
+        <Filter
+          table={table}
+          startDate={null}
+          endDate={null}
+          setStartDate={null}
+          setEndDate={null}
+        />
+      )}
       <div className='-my-2 -mx-4 mt-2 overflow-x-auto sm:-mx-6 lg:-mx-8'>
         <div className='inline-block min-w-full py-2 align-middle md:px-6 lg:px-8'>
           <div className='overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg'>

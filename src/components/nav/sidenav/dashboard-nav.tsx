@@ -7,8 +7,9 @@ import { useEffect, useState } from 'react';
 // import { useForm } from 'react-hook-form';
 import clsxm from '@/lib/clsxm';
 
-// import logger from '@/lib/logger';
 import { Icons } from '@/components/default-icons';
+// import logger from '@/lib/logger';
+// import { Icons } from '@/components/default-icons';
 import {
   Tooltip,
   TooltipContent,
@@ -41,32 +42,11 @@ export function DashboardNav({ items }: DashboardNavProps) {
 
   return (
     <nav className='fixed z-10 grid w-[250px] items-start gap-2 overflow-auto'>
-      <div className='mb-4'>
-        <Icons.menu className='ml-2 h-8 w-8' />
-        {/* <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <DatePicker
-              id='datequery'
-              name='datequery'
-              placeholder='Select date'
-              label='Search diary based on date..'
-              withPortal
-              defaultValue={new Date().toISOString()}
-              todayButton='Today'
-              customState={setDateQueryState}
-              rightNode={
-                <button
-                  onClick={() => {
-                    datequerystate && new Date();
-                    setValue('datequery', new Date());
-                  }}
-                >
-                  <Icons.today className='h-4 w-4' />
-                </button>
-              }
-            />
-          </form>
-        </FormProvider> */}
+      <div className='mb-4 flex flex-row items-center justify-center gap-4'>
+        {/* <Icons.menu className='ml-2 h-8 w-8' /> */}
+        <Typography variant='h2' className='text-5xl'>
+          VMS
+        </Typography>
       </div>
       <div>
         {items.map((item, index) => {
@@ -116,7 +96,7 @@ export function DashboardSideNavItems({ items }: DashboardNavItemsProps) {
       {items.map((item, index) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        // const Icon = Icons[item.icon || 'arrowRight'];
+        const Icon = Icons[item.icon || 'arrowRight'];
         return (
           item.href && (
             <div
@@ -126,11 +106,15 @@ export function DashboardSideNavItems({ items }: DashboardNavItemsProps) {
               <Link className='w-full' href={item.disabled ? '/' : item.href}>
                 <span
                   className={clsxm(
-                    'hover:text-accent-foreground group flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium hover:bg-white',
-                    path === item.href ? 'bg-white' : 'transparent',
+                    'hover:text-accent-foreground justify-left group flex w-full items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-white',
+                    path === item.href
+                      ? 'bg-primary-500 text-white hover:bg-primary-800 hover:text-gray-200'
+                      : 'transparent',
                     item.disabled && 'cursor-not-allowed opacity-80'
                   )}
                 >
+                  <Icon className='mr-2 h-5 w-5' />
+                  {/* <Icons[item.icon || 'arrowRight']/> */}
                   <span>{item.title}</span>
                 </span>
               </Link>

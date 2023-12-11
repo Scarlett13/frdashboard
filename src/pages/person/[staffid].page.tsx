@@ -15,7 +15,7 @@ import ModalAddStaff from '@/components/modal/modal-add-staff';
 import Seo from '@/components/Seo';
 import Typography from '@/components/typography/Typography';
 
-import { Staff } from '@/types/staff';
+import { Person } from '@/types/person';
 
 const fetcher = (url: string, token: string) =>
   fetch(url, { headers: { Authorization: `Bearer ${token}` } }).then((res) =>
@@ -25,7 +25,7 @@ const fetcher = (url: string, token: string) =>
 export default function StaffDetailPage({
   accessToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [staff, setStaff] = useState<Staff | null>(null);
+  const [staff, setStaff] = useState<Person | null>(null);
 
   const router = useRouter();
   const { staffid } = router.query;
@@ -43,7 +43,7 @@ export default function StaffDetailPage({
 
   return (
     <Layout>
-      <Seo templateTitle={`${staff?.StaffName}`} />
+      <Seo templateTitle={`${staff?.PersonName}`} />
 
       <AuthLayout navitem={null}>
         <div className='container mx-auto max-w-full p-10'>
@@ -61,12 +61,12 @@ export default function StaffDetailPage({
                         className='my-4'
                         width={150}
                         height={150}
-                        src={`http://192.168.10.31:5000/file/image/${staff.StaffImage}`}
-                        alt={`${staff.StaffName}'s image`}
+                        src={`http://192.168.10.31:5000/file/image/${staff.PersonImage}`}
+                        alt={`${staff.PersonName}'s image`}
                       />
                     </div>
                     <Typography variant='h2' color='primary'>
-                      {staff.StaffName} - {staff.StaffDepartment}
+                      {staff.PersonName} - {staff.PersonDepartment}
                     </Typography>
                     <Typography
                       variant='h3'
@@ -96,7 +96,7 @@ export default function StaffDetailPage({
                     isEdit={true}
                     setSuccess={undefined}
                     staffId={staffid ? Number(staffid) : 0}
-                    imagesource={staff?.StaffImage}
+                    imagesource={staff?.PersonImage}
                   />
                 </div>
               </Card.Section>

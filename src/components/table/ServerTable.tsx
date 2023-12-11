@@ -43,6 +43,10 @@ type ServerTableProps<T extends object> = {
   omitSort?: boolean;
   withFilter?: boolean;
   withEntries?: boolean;
+  startDate?: Date | null;
+  endDate?: Date | null;
+  setStartDate?: React.Dispatch<React.SetStateAction<Date | null>>;
+  setEndDate?: React.Dispatch<React.SetStateAction<Date | null>>;
 } & React.ComponentPropsWithoutRef<'div'>;
 
 export default function ServerTable<T extends object>({
@@ -56,6 +60,10 @@ export default function ServerTable<T extends object>({
   setTableState,
   omitSort = false,
   withFilter = false,
+  startDate,
+  endDate,
+  setStartDate,
+  setEndDate,
   // withEntries = true,
   ...rest
 }: ServerTableProps<T>) {
@@ -77,6 +85,7 @@ export default function ServerTable<T extends object>({
     manualPagination: true,
     manualSorting: true,
   });
+
   return (
     <div className={clsxm('flex flex-col', className)} {...rest}>
       {/* <pre>{JSON.stringify({ isLoading }, null, 2)}</pre> */}
@@ -86,7 +95,16 @@ export default function ServerTable<T extends object>({
           withFilter ? 'sm:justify-between' : 'sm:justify-end'
         )}
       >
-        {withFilter && <Filter table={table} />}
+        {withFilter && (
+          <Filter
+            table={table}
+            startDate={startDate || null}
+            endDate={endDate || null}
+            setStartDate={setStartDate || null}
+            setEndDate={setEndDate || null}
+          />
+        )}
+
         <div className='flex items-center gap-3'>
           {Header}
           <TOption
