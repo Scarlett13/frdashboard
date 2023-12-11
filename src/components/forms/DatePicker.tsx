@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import clsx from 'clsx';
 import get from 'lodash.get';
 import ReactDatePicker, { ReactDatePickerProps } from 'react-datepicker';
@@ -23,6 +24,8 @@ type DatePickerProps = {
   /** Disable error style (not disabling error validation) */
   hideError?: boolean;
   containerClassName?: string;
+  customchange?: any;
+  showclearbutton?: boolean;
 } & Omit<ReactDatePickerProps, 'onChange'>;
 
 export default function DatePicker({
@@ -38,6 +41,8 @@ export default function DatePicker({
   hideError = false,
   disabled,
   containerClassName,
+  customchange,
+  showclearbutton,
   ...rest
 }: DatePickerProps) {
   const {
@@ -70,7 +75,7 @@ export default function DatePicker({
             <div className={clsx('relative', withLabel && 'mt-1')}>
               <ReactDatePicker
                 name={id}
-                onChange={onChange}
+                onChange={customchange || onChange}
                 onBlur={onBlur}
                 selected={value ? new Date(value) : undefined}
                 className={clsx(
@@ -93,7 +98,9 @@ export default function DatePicker({
                 disabled={disabled}
                 {...rest}
               />
-              <HiOutlineCalendar className='pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 transform text-lg text-typo-icons' />
+              {showclearbutton || (
+                <HiOutlineCalendar className='pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 transform text-lg text-typo-icons' />
+              )}
             </div>
             {helperText && (
               <Typography variant='c1' color='secondary' className='mt-1'>

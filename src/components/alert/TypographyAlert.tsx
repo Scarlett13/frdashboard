@@ -1,3 +1,4 @@
+import { LucideIcon } from 'lucide-react';
 import * as React from 'react';
 import { IconType } from 'react-icons';
 
@@ -14,7 +15,7 @@ type AlertVariant = (typeof alertVariant)[number];
 
 type TypographyAlertProps = {
   variant?: AlertVariant;
-  leftIcon?: IconType;
+  leftIcon?: IconType | LucideIcon;
   leftIconClassName?: string;
 } & React.ComponentPropsWithoutRef<'div'>;
 

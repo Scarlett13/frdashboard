@@ -12,8 +12,8 @@ import DropzoneInput from '../forms/DropzoneInput';
 import Input from '../forms/Input';
 import SearchableSelectInput from '../forms/SearchableSelectInput';
 
+import { Person } from '@/types/person';
 import { Role } from '@/types/role';
-import { Staff } from '@/types/staff';
 
 async function submitData(data: any) {
   const fd = new FormData();
@@ -233,14 +233,14 @@ export default function ModalAddStaff({
             }
             return res.json();
           })
-          .then((data: Staff) => {
+          .then((data: Person) => {
             // Handle the successful response here
             // You can set the state or perform other actions with the data
-            setValue('name', data.StaffName || '');
-            setValue('staff_department', data.StaffDepartment || '');
+            setValue('name', data.PersonName || '');
+            setValue('staff_department', data.PersonDepartment || '');
             setValue(
               'staff_role',
-              data.Roles.map((number) => number.toString()) || []
+              data.Roles.map((number: any) => number.toString()) || []
             );
             setValue('staff_image', '' || '');
             setValue('staff_status', data.IsActive.toString() || '');

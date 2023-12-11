@@ -1,17 +1,9 @@
-import Image from 'next/image';
-
 import clsxm from '@/lib/clsxm';
 
-import { DashboardNav } from '@/components/nav/sidenav/dashboard-nav';
-
-import { dashboardConfig } from '@/config/dashboard';
-
-import { MainNav } from '../nav/topnav/main-nav';
+import { DashboardNav } from '../nav/sidenav/dashboard-nav';
 import { UserAccountNav } from '../nav/topnav/user-account-nav';
 
 import { CustomSidebarNavItem } from '@/types';
-
-import logo from '~/images/logo.png';
 
 interface IAuthLayout {
   children: React.ReactNode;
@@ -24,14 +16,13 @@ export default function AuthLayout({
   mainClassName,
 }: IAuthLayout) {
   return (
-    <div className='min-w-screen flex min-h-screen flex-col items-center justify-between'>
-      <header className='border-border sticky top-0 z-40 min-w-full border-b bg-white shadow-md'>
-        <div className='mx-8 flex h-12 items-center justify-between py-4 md:mx-10 lg:mx-12'>
-          <div className='flex flex-row space-x-4'>
+    <div className='min-w-screen items-right flex max-h-screen min-h-screen flex-col justify-end'>
+      <header className={clsxm('sticky top-0 z-0 min-w-full bg-white')}>
+        <div className='mx-8 mt-4 flex h-12 items-center justify-end py-4 md:mx-10 lg:mx-12'>
+          {/* <div className='flex flex-row space-x-4'>
             <Image height={36} width={36} src={logo} alt='logo image' />
             <MainNav items={dashboardConfig.mainNav} />
-          </div>
-
+          </div> */}
           <UserAccountNav
             user={{
               name: 'Visi',
@@ -48,15 +39,9 @@ export default function AuthLayout({
         )}
       >
         {navitem && (
-          <aside className='border-border hidden w-[250px] flex-col border-r bg-gray-300 pr-2 md:flex'>
+          <aside className='border-border z-40 hidden w-[250px] flex-col border-r bg-gray-300 pr-2 md:flex'>
             <div className='mt-6'>
-              {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                //@ts-ignore
-                // prettier-ignore
-                // eslint-disable-next-line react/jsx-no-undef
-                <DashboardNav items={navitem}/>
-              }
+              <DashboardNav items={navitem} />
             </div>
           </aside>
         )}

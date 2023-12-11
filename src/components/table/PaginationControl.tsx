@@ -35,13 +35,13 @@ export default function PaginationControl<T extends RowData>({
   return (
     <div
       className={clsxm(
-        'flex items-center justify-between gap-x-2 bg-stone-200 pb-2 md:justify-end',
+        'flex items-center justify-between gap-x-2 pb-2 md:justify-end',
 
         className
       )}
       {...rest}
     >
-      <div className='flex gap-1'>
+      <div className='flex gap-2 lg:gap-4'>
         <Button
           variant='ghost'
           size='sm'

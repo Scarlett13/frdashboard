@@ -87,7 +87,15 @@ export default function PaginatedTable<T extends object>({
           withFilter ? 'sm:justify-between' : 'sm:justify-end'
         )}
       >
-        {withFilter && <Filter table={table} />}
+        {withFilter && (
+          <Filter
+            table={table}
+            startDate={null}
+            endDate={null}
+            setStartDate={null}
+            setEndDate={null}
+          />
+        )}
         <div className='flex gap-3'>
           <TOption
             icon={<FiList className='text-typo-secondary' />}

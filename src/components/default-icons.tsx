@@ -1,8 +1,9 @@
 import {
-  type Icon as LucideIcon,
+  type XIcon as LucideIcon,
   AlertTriangle,
   ArrowLeft,
   ArrowRight,
+  BookUser,
   Check,
   ChevronLeft,
   ChevronRight,
@@ -35,15 +36,19 @@ import {
   Twitter,
   User,
   UserCheck,
+  UserCircle,
+  UserCog,
   Users,
   UserX,
   VenetianMask,
   X,
 } from 'lucide-react';
 
-export type Icon = LucideIcon;
+export type XIcon = typeof LucideIcon;
 
 export const Icons = {
+  guest: BookUser,
+  employee: UserCircle,
   search: Search,
   close: X,
   spinner: Loader2,
@@ -70,6 +75,7 @@ export const Icons = {
   frown: Frown,
   footprint: Footprints,
   usercheck: UserCheck,
+  userCog: UserCog,
   userx: UserX,
   loading: CircleEllipsis,
   privatepost: FileLock2,

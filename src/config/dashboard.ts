@@ -40,29 +40,38 @@ export const dashboardConfig: DashboardConfig = {
   ],
   sidebarNav: [
     {
-      category: 'Pages',
-      catdesc:
-        'Manage your posts here by select each category or type of the pages.',
+      category: 'Navigation',
+      catdesc: 'Navigate your page here',
       items: [
         {
-          title: 'Public for everyone',
+          title: 'Dashboard',
           href: '/dashboard',
           icon: 'post',
         },
         {
-          title: 'Shared to you',
-          href: '/dashboard/shared',
-          icon: 'sharedfile',
+          title: 'Visitor',
+          href: '/visitor',
+          icon: 'users',
         },
         {
-          title: 'Private for you',
-          href: '/dashboard/private',
-          icon: 'privatepost',
+          title: 'Guest',
+          href: '/guest',
+          icon: 'guest',
         },
         {
-          title: 'Page requests',
-          href: '/dashboard/requests',
-          icon: 'notifications',
+          title: 'Employee',
+          href: '/employee',
+          icon: 'employee',
+        },
+        {
+          title: 'User management',
+          href: '/user-management',
+          icon: 'userCog',
+        },
+        {
+          title: 'Device management',
+          href: '/device-management',
+          icon: 'settings',
         },
       ],
     },
