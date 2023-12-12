@@ -103,7 +103,7 @@ export function DashboardSideNavItems({ items }: DashboardNavItemsProps) {
               key={index}
               className='flex w-full flex-row items-center justify-between px-2'
             >
-              <Link className='w-full' href={item.disabled ? '/' : item.href}>
+              <Link className='w-full' href={item.disabled ? '#' : item.href}>
                 <span
                   className={clsxm(
                     'hover:text-accent-foreground justify-left group flex w-full items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-white',
