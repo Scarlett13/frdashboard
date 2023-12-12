@@ -50,11 +50,15 @@ export function middleware(request: NextRequest) {
     logger('masuk middleware pak ekooo');
     return NextResponse.next();
   }
-  logger(pathname);
+  // logger(pathname);
 
-  return pathname === '/login' || pathname === '/'
-    ? NextResponse.redirect(new URL('/device', request.url))
+  return pathname !== '/visitor'
+    ? NextResponse.redirect(new URL('/visitor', request.url))
     : NextResponse.next();
+
+  // return pathname === '/login' || pathname === '/'
+  //   ? NextResponse.redirect(new URL('/visitor', request.url))
+  //   : NextResponse.next();
 }
 
 // See "Matching Paths" below to learn more

@@ -47,6 +47,7 @@ export const dashboardConfig: DashboardConfig = {
           title: 'Dashboard',
           href: '/dashboard',
           icon: 'post',
+          disabled: true,
         },
         {
           title: 'Visitor',
@@ -57,21 +58,25 @@ export const dashboardConfig: DashboardConfig = {
           title: 'Guest',
           href: '/guest',
           icon: 'guest',
+          disabled: true,
         },
         {
           title: 'Employee',
           href: '/employee',
           icon: 'employee',
+          disabled: true,
         },
         {
           title: 'User management',
           href: '/user-management',
           icon: 'userCog',
+          disabled: true,
         },
         {
           title: 'Device management',
           href: '/device-management',
           icon: 'settings',
+          disabled: true,
         },
       ],
     },
