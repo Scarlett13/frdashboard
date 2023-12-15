@@ -63,7 +63,7 @@ export default function Device() {
   }, [query]);
   return (
     <Layout showSideBar={true}>
-      <div className="me-9 ms-9 pt-40 text">
+      <div className="me-9 ms-9 pt-40">
         {data ? (
           <Card style="p-8 border border-gray-300">
             <div className="ms-9 flex flex-col items-start">
@@ -73,8 +73,8 @@ export default function Device() {
               <p>Divisi:</p>
               <p>Jumlah: {data.Users.length}</p>
               <div className=" text-right">
-                <Link href="/staff">
-                  <ButtonDevice buttonname={"View Staff"}></ButtonDevice>
+                <Link href="/person">
+                  <ButtonDevice buttonname={"View person"}></ButtonDevice>
                 </Link>
               </div>
             </div>
@@ -88,8 +88,8 @@ export default function Device() {
               <p>Divisi: -</p>
               <p>Jumlah: -</p>
               <div className=" text-right">
-                <Link href="/staff">
-                  <ButtonDevice buttonname={"View Staff"}></ButtonDevice>
+                <Link href="/person">
+                  <ButtonDevice buttonname={"View person"}></ButtonDevice>
                 </Link>
               </div>
             </div>

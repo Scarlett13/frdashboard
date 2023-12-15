@@ -26,7 +26,7 @@ export default function handler(
         // secure: process.env.NODE_ENV !== "development",
         // maxAge: expiresIn,
         sameSite: "strict",
-        path: "/",
+        path: "*",
       })
     );
 
@@ -50,7 +50,7 @@ export default function handler(
         // secure: process.env.NODE_ENV !== "development",
         // maxAge: expiresIn,
         sameSite: "strict",
-        path: "/",
+        path: "*",
       })
     );
     res.status(400).json({ success: false, message: "Session Expired!" });

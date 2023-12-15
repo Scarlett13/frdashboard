@@ -1,4 +1,4 @@
-import { MutableRefObject } from "react";
+import { MutableRefObject, ChangeEvent } from "react";
 
 type InputProps = {
   title: string;
@@ -6,6 +6,8 @@ type InputProps = {
   type: string;
   value?: string;
   valueRef?: MutableRefObject<string>;
+  name?: string;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function Input({
@@ -14,6 +16,8 @@ export default function Input({
   type,
   value,
   valueRef,
+  name,
+  onChange,
 }: InputProps) {
   return (
     <div className="pt-4">
@@ -21,6 +25,7 @@ export default function Input({
         {title}
       </label>
       <input
+        name={name}
         type={type}
         placeholder={placeholder}
         className="w-full p-2 border border-gray-300 rounded mt-1"
@@ -28,6 +33,9 @@ export default function Input({
         onChange={(e) => {
           if (valueRef) {
             valueRef.current = e.target.value;
+          }
+          if (onChange) {
+            onChange(e);
           }
         }}
       />

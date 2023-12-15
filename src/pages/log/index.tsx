@@ -10,21 +10,18 @@ export default function Log() {
   const { token, authLoading } = useAuth();
 
   useEffect(() => {
+    console.log(token);
     if (authLoading === undefined) {
       return;
     }
-    if (!authLoading && !token) {
+    if (!authLoading || !token) {
       router.push("/");
     }
   }, [token, authLoading]);
 
   return (
     <LogLayout>
-      <div className="pt-20 text bg-white">
-        <Card>
-          <div className="mx-9 h-screen">{<TableLogAccess />}</div>
-        </Card>
-      </div>
+      <div className="pt-24 text bg-white">{<TableLogAccess />}</div>
     </LogLayout>
   );
 }

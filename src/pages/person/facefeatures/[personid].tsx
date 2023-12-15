@@ -1,4 +1,4 @@
-import { Staff } from "@/type/staff";
+import { Person } from "@/type/person";
 import { useEffect, useState } from "react";
 import { providePaginatedOptions, provideRequestOptions } from "@/libs/api";
 import UnstyledLink from "@/components/new-forms-components/unstyled-links";
@@ -15,10 +15,10 @@ import { useAuth } from "@/contexts/auth-context";
 import ButtonAddFaceFeatures from "@/components/modals/modal-add-face-features";
 import Layout from "@/components/layouts/layout";
 
-export default function StaffDetail() {
+export default function PersonDetail() {
   const router = useRouter();
-  const { staffid } = router.query;
-  const [staff, setStaff] = useState<Staff | null>(null);
+  const { personid } = router.query;
+  const [person, setPerson] = useState<Person | null>(null);
 
   const { imagelog } = router.query;
 
@@ -84,8 +84,8 @@ export default function StaffDetail() {
       header: "Action",
       cell: (props) => (
         <ButtonAddFaceFeatures
-          path={`/staff/${staffid}`}
-          staffname={staff?.StaffName as string}
+          path={`/person/${personid}`}
+          personname={person?.PersonName as string}
           imagepath={props.cell?.row?.original?.LogImage.replace(
             "/App/Files/Image",
             ""
@@ -162,7 +162,7 @@ export default function StaffDetail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tableState.globalFilter]);
 
-  async function getStaff(
+  async function getPerson(
     url: string,
     method: string,
     params?: string,
@@ -178,7 +178,7 @@ export default function StaffDetail() {
       fetch(request)
         .then((res) => {
           if (!res.ok) {
-            setStaff({ id: -99 } as Staff);
+            setPerson({ id: -99 } as Person);
             throw new Error(`Fetch error: ${res.status} - ${res.statusText}`);
           }
           return res.json();
@@ -186,11 +186,11 @@ export default function StaffDetail() {
         .then((data) => {
           // Handle the successful response here
           // You can set the state or perform other actions with the data
-          setStaff(data);
+          setPerson(data);
           console.log(data);
         })
         .catch((error) => {
-          setStaff({ id: -99 } as Staff);
+          setPerson({ id: -99 } as Person);
           // Handle the error here
           console.error(error);
         });
@@ -201,31 +201,31 @@ export default function StaffDetail() {
   }
 
   // useEffect(() => {
-  //   if (!staff || staff.id < 1) {
-  //     router.push("/staff");
+  //   if (!person || person.id < 1) {
+  //     router.push("/person");
   //   }
-  // }, [router, staff]);
+  // }, [router, person]);
 
   useEffect(() => {
-    getStaff(`/staff/${staffid}`, "GET");
-  }, [staffid]);
+    getPerson(`/person/${personid}`, "GET");
+  }, [person]);
 
   return (
     <Layout showSideBar={false}>
       <div className="ms-9 flex flex-col gap-4">
-        <UnstyledLink href="/staff" className="text-lg py-4">
-          {"<- Back to list staff"}
+        <UnstyledLink href="/person" className="text-lg py-4">
+          {"<- Back to list person"}
         </UnstyledLink>
       </div>
       <div className="p-6">
         <div className="grid grid-cols-1 gap-4 w-full justify-center h-screen text-gray-900">
           <Typography variant="j2">
-            Add Face Features to {staff?.StaffName}
+            Add Face Features to {person?.PersonName}
           </Typography>
           {imagelog && (
             <ButtonAddFaceFeatures
-              path={`/staff/${staffid}`}
-              staffname={staff?.StaffName as string}
+              path={`/person/${personid}`}
+              personname={person?.PersonName as string}
               imagepath={`${imagelog as string}`}
             />
           )}

@@ -1,7 +1,6 @@
 import { buildPaginatedTableURL } from "./table";
 
 const baseURL = "http://192.168.10.31:5000";
-
 type RequestOptionsProps = {
   path: string;
   method?: string;
@@ -104,6 +103,15 @@ export async function setTokenCookie(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ accessToken, refreshToken }),
+  });
+}
+
+export async function logout() {
+  return fetch("/api/logout", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 }
 

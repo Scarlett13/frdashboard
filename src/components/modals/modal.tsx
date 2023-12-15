@@ -3,17 +3,17 @@ import { Dialog, Transition } from "@headlessui/react";
 import { LiaUserEditSolid } from "react-icons/lia";
 import Input from "../input";
 import SideBarRole from "../selectrole";
-import { Staff } from "@/type/staff";
+import { Person } from "@/type/person";
 import { provideRequestOptions } from "@/libs/api";
 import { useRouter } from "next/router";
 import Toggle from "@/unused/components/toggleswitch";
 
-interface staffModalProps {
-  staff: Staff;
+interface personModalProps {
+  person: Person;
   setSuccess: Dispatch<SetStateAction<boolean>>;
 }
-export default function Modal({ staff, setSuccess }: staffModalProps) {
-  const refName = useRef(staff.StaffName);
+export default function Modal({ person, setSuccess }: personModalProps) {
+  const refName = useRef(person.PersonName);
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -21,10 +21,10 @@ export default function Modal({ staff, setSuccess }: staffModalProps) {
 
   async function submitData() {
     console.log(refName.current);
-    const url = `/staff/${staff.id}`;
+    const url = `/person/${person.id}`;
     const method = "PUT";
     const body = {
-      StaffName: refName.current,
+      PersonName: refName.current,
     };
     const request = await provideRequestOptions({
       path: url,
@@ -95,13 +95,13 @@ export default function Modal({ staff, setSuccess }: staffModalProps) {
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900"
                         >
-                          Perubahan data staff
+                          Perubahan data orang
                         </Dialog.Title>
                         <div className="mt-2">
                           <Input
-                            title="Nama Staff"
+                            title="Input Nama"
                             placeholder=""
-                            value={staff.StaffName}
+                            value={person.PersonName}
                             valueRef={refName}
                             type="text"
                           />

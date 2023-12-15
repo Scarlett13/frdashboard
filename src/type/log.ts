@@ -2,7 +2,7 @@ export type Log = {
     AccuracyLog: any,
     // AccessLog: string,
     IdDevice: number,
-    IdStaff: number,
+    IdPerson: number,
     LogImage: string,
     LogMessage: string,
     LogTimeStamp: string,

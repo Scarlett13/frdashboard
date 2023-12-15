@@ -1,12 +1,19 @@
+import { logout } from "@/libs/api";
 import logo from "@Images/logo.png";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 type NavBarProps = {
   children?: React.ReactNode;
 };
 
 export default function Navbar({ children }: NavBarProps) {
+  const router = useRouter();
+  async function buttonLogout() {
+    await logout();
+    router.reload();
+  }
   return (
     <div className="flex flex-col">
       {children}
@@ -18,15 +25,15 @@ export default function Navbar({ children }: NavBarProps) {
           <Link href="/device" className="hover:underline">
             Device
           </Link>
-          <Link href="/staff" className="hover:underline">
-            Staff
+          <Link href="/person" className="hover:underline">
+            Person
           </Link>
           <Link href="/log" className="hover:underline">
             Log
           </Link>
-          <Link href="/" className="hover:underline">
+          <button onClick={buttonLogout} className="hover:underline">
             Log Out
-          </Link>
+          </button>
         </div>
       </div>
     </div>

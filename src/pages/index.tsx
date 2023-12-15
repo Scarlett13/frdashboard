@@ -12,7 +12,6 @@ import { useAuth } from "@/contexts/auth-context";
 
 export default function Login() {
   const router = useRouter();
-
   const { token, authLoading } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +49,7 @@ export default function Login() {
     const { TokenRefresh, TokenAccess } = loginBody;
     console.log(TokenAccess);
     await setTokenCookie(TokenAccess, TokenRefresh);
-    router.push("/device");
+    router.reload();
     // try {
     // 	fetch(loginRequest)
     // 		.then((res) => {

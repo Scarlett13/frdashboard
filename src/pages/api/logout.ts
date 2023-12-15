@@ -19,7 +19,7 @@ export default function handler(
 
   res.setHeader(
     "Set-Cookie",
-    cookie.serialize("uss_sess", JSON.stringify(cookieObj), {
+    cookie.serialize("uss_sess", "", {
       httpOnly: true,
       // secure: process.env.NODE_ENV !== "development",
       // maxAge: expiresIn,

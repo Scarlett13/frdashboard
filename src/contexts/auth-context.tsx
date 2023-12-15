@@ -11,7 +11,7 @@ import {
 
 interface IAuthContext {
   token: string | null;
-  setToken: Dispatch<SetStateAction<string | null>>;
+  setToken: Dispatch<SetStateAction<string>>;
   authLoading: boolean;
 }
 
@@ -25,7 +25,7 @@ export default function AuthContextFunction(
   this: any,
   { children }: AuthContextProps
 ): ReactElement {
-  const [token, setToken] = useState<string | null>(null);
+  const [token, setToken] = useState<string>("");
   const [authLoading, setAuthLoading] = useState<boolean>(true);
 
   async function checkToken() {

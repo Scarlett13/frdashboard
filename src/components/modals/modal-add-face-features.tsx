@@ -8,14 +8,14 @@ type ButtonDeleteProps = {
   children?: React.ReactNode;
   path: string;
   imagepath: string;
-  staffname: string;
+  personname: string;
 };
 
 export default function ButtonAddFaceFeatures({
   children,
   path,
   imagepath,
-  staffname,
+  personname,
 }: ButtonDeleteProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function ButtonAddFaceFeatures({
 
   async function AddFaceFeatures() {
     const body = JSON.stringify({
-      StaffFace: imagepath,
+      PersonFace: imagepath,
     });
 
     const request = await provideRequestOptions({ path, method: "POST", body });
@@ -43,7 +43,7 @@ export default function ButtonAddFaceFeatures({
         .then((data) => {
           // Handle the successful response here
           // You can set the state or perform other actions with the data
-          router.push("/staff");
+          router.push("/person");
         })
         .catch((error) => {
           // Handle the error here
@@ -102,7 +102,7 @@ export default function ButtonAddFaceFeatures({
                           as="h3"
                           className="text-base font-semibold leading-6 text-gray-900 items-center"
                         >
-                          Tambah face features ini untuk {staffname}?
+                          Tambah face features ini untuk {personname}?
                         </Dialog.Title>
                       </div>
                     </div>
