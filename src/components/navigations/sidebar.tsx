@@ -2,6 +2,7 @@ import { Device } from "@/type/device";
 import PopOverDevice from "../popover/popover-device";
 import { useEffect, useState } from "react";
 import { VscThreeBars } from "react-icons/vsc";
+import Link from "next/link";
 
 type DeviceProps = {
   listdevices?: Device[] | null;
@@ -42,12 +43,12 @@ export default function SideBar({
                   return (
                     <li className="py-2" key={device.id}>
                       <div className="grid grid-cols-2 justify-between">
-                        <a
+                        <Link
                           href={`/device/${device.DeviceID}`}
                           className="flex text-white hover:underline items-center"
                         >
                           {device.DeviceName || "Unknown"}
-                        </a>
+                        </Link>
                         <div className="mx-16">
                           {/* <ButtonDelete path={`/device/${device.id}`} /> */}
                           <PopOverDevice deviceid={device.id.toString()} />

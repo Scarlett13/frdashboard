@@ -73,8 +73,8 @@ export default function Device() {
               <p>Divisi:</p>
               <p>Jumlah: {data.Users.length}</p>
               <div className=" text-right">
-                <Link href="/staff">
-                  <ButtonDevice buttonname={"View Staff"}></ButtonDevice>
+                <Link href="/person">
+                  <ButtonDevice buttonname={"View person"}></ButtonDevice>
                 </Link>
               </div>
             </div>
@@ -88,8 +88,8 @@ export default function Device() {
               <p>Divisi: -</p>
               <p>Jumlah: -</p>
               <div className=" text-right">
-                <Link href="/staff">
-                  <ButtonDevice buttonname={"View Staff"}></ButtonDevice>
+                <Link href="/person">
+                  <ButtonDevice buttonname={"View person"}></ButtonDevice>
                 </Link>
               </div>
             </div>
