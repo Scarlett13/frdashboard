@@ -3,12 +3,17 @@
 import cookie from 'cookie';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import fetch from 'node-fetch';
+import stream from 'stream';
+import { promisify } from 'util';
 
 import logger from '@/lib/logger';
 
 import { isValidApiMethod, isValidUrlPath } from '@/utils/url-utils';
 
 import { getTokenOnly } from './access.api';
+
+const pipeline = promisify(stream.pipeline);
 
 export default async function POST(
   req: NextApiRequest,
@@ -70,14 +75,20 @@ export default async function POST(
     );
     // console.log(`${env.NEXT_PUBLIC_API_BASE_URL}/v1${path}`);
 
-    // logger(forwardedrequest);
+    // logger(await forwardedrequest.blob());
 
-    const bodyreturn = await forwardedrequest.json();
+    // const bodyreturn = await forwardedrequest.blob();
 
-    return res.status(200).json({
-      success: true,
-      body: bodyreturn,
-    });
+    if (!forwardedrequest.ok) {
+      return res.status(200).json({
+        success: false,
+        body: 'false',
+      });
+    }
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=dummy.pdf');
+    await pipeline(forwardedrequest?.body ?? '', res);
   } catch (error) {
     logger(error);
     return res.status(500).json({
@@ -86,61 +97,3 @@ export default async function POST(
     });
   }
 }
-
-// const cookies = cookie.parse(req.headers?.cookie ?? '');
-//     const appCookie = cookies?.['uss_sess'] ?? '';
-//     const parsedCookies = appCookie ? JSON.parse(appCookie) : {};
-//     const accessToken = parsedCookies?.accessToken ?? null;
-//     logger(req.headers.cookie);
-
-//     if (!accessToken) {
-//       return res
-//         .status(400)
-//         .json({ success: false, message: 'No token present!' });
-//     }
-
-//     const { exp } = jwt_decode(accessToken) as JwtPayload;
-//     if (!exp) {
-//       res.setHeader(
-//         'Set-Cookie',
-//         cookie.serialize('uss_sess', '', {
-//           httpOnly: true,
-//           // secure: process.env.NODE_ENV !== "development",
-//           // maxAge: expiresIn,
-//           sameSite: 'strict',
-//           path: '/',
-//         })
-//       );
-
-//       return res.status(400).json({
-//         success: false,
-//         message: 'Malformed token!',
-//       });
-//     }
-//     const isAccessTokenExpired = Date.now() / 1000 > exp;
-
-//     // const refreshToken = parsedCookies?.refreshToken;
-
-//     /**
-//      * Fetch new access token if it expires
-//      */
-//     if (isAccessTokenExpired) {
-//       res.setHeader(
-//         'Set-Cookie',
-//         cookie.serialize('uss_sess', '', {
-//           httpOnly: true,
-//           // secure: process.env.NODE_ENV !== "development",
-//           // maxAge: expiresIn,
-//           sameSite: 'strict',
-//           path: '/',
-//         })
-//       );
-//       res.status(400).json({ success: false, message: 'Session Expired!' });
-//     }
-
-//     if (!parsedCookies || !parsedCookies.accessToken) {
-//       return res.status(400).json({
-//         success: false,
-//         message: 'No active session!',
-//       });
-//     }
