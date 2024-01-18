@@ -6,17 +6,24 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import clsx from 'clsx';
+// import fs from 'fs';
 import * as React from 'react';
+import toast from 'react-hot-toast';
 import { FiList } from 'react-icons/fi';
 
 import clsxm from '@/lib/clsxm';
 
+// import logger from '@/lib/logger';
 // import logger from '@/lib/logger';
 import Filter from '@/components/table/Filter';
 import PaginationControl from '@/components/table/PaginationControl';
 import TBody from '@/components/table/TBody';
 import THead from '@/components/table/THead';
 import TOption from '@/components/table/TOption';
+
+import { formatDateToString, isDateTheSame } from '@/utils/date-utils';
+
+import Button from '../buttons/Button';
 
 // import { PaginatedApiResponse } from '@/types/api';
 
@@ -86,6 +93,43 @@ export default function ServerTable<T extends object>({
     manualSorting: true,
   });
 
+  async function downloadAbsensi() {
+    if (!startDate || !endDate) {
+      return toast.error(
+        'Silahkan set Start Date dan End Date terlebih dahulu!'
+      );
+    }
+
+    // const testdate = isDateTheSame(startDate, endDate);
+    if (!isDateTheSame(startDate, endDate)) {
+      return toast.error(
+        'Start Date dan End Date tidak boleh di hari yang berbeda!'
+      );
+    }
+
+    const parsedDate = formatDateToString(startDate, 'dd-MM-yyyy', false);
+
+    const gg = await fetch('/api/downloadfile', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        path: `/attendance/${parsedDate}`,
+        method: 'get',
+      }),
+    });
+
+    const fileBlob = await gg.blob();
+
+    // this works and prompts for download
+    const link = document.createElement('a'); // once we have the file buffer BLOB from the post request we simply need to send a GET request to retrieve the file data
+    link.href = window.URL.createObjectURL(fileBlob);
+    link.download = `Absensi Visi - ${parsedDate}.xlsx`;
+    link.click();
+    link.remove();
+  }
+
   return (
     <div className={clsxm('flex flex-col', className)} {...rest}>
       {/* <pre>{JSON.stringify({ isLoading }, null, 2)}</pre> */}
@@ -96,13 +140,16 @@ export default function ServerTable<T extends object>({
         )}
       >
         {withFilter && (
-          <Filter
-            table={table}
-            startDate={startDate || null}
-            endDate={endDate || null}
-            setStartDate={setStartDate || null}
-            setEndDate={setEndDate || null}
-          />
+          <>
+            <Filter
+              table={table}
+              startDate={startDate || null}
+              endDate={endDate || null}
+              setStartDate={setStartDate || null}
+              setEndDate={setEndDate || null}
+            />
+            <Button onClick={downloadAbsensi}>Download Absensi</Button>
+          </>
         )}
 
         <div className='flex items-center gap-3'>

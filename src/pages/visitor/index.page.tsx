@@ -6,7 +6,7 @@ import React from 'react';
 import { useSWRConfig } from 'swr';
 
 import { provideServerRequestOptions } from '@/lib/api';
-import logger from '@/lib/logger';
+// import logger from '@/lib/logger';
 import { buildPaginatedTableURL } from '@/lib/table';
 import { useTable } from '@/hooks/use-table';
 import useServerTable from '@/hooks/useServerTable';
@@ -210,7 +210,7 @@ export default function VisitorPage({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tableState.globalFilter]);
 
-  logger(url);
+  // logger(url);
 
   return (
     <Layout>
